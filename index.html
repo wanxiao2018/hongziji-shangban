@@ -10,558 +10,217 @@
 html{scroll-behavior:smooth}
 body{
   font-family:'Noto Sans SC','Inter',sans-serif;
-  overflow-x:hidden;
-  line-height:1.6;
+  overflow-x:hidden;line-height:1.6;
   background:linear-gradient(180deg,#fff8f0 0%,#fff0e0 20%,#ffe8d0 40%,#fff0e8 60%,#fff5eb 80%,#fff8f0 100%);
-  background-attachment:fixed;
-  color:#3a3030;
-}
-
-/* ===== Hero ===== */
-.hero{
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:40px 20px;
-  position:relative;
-}
-.hero::before{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;bottom:0;
-  background:
-    radial-gradient(ellipse at 20% 30%,rgba(255,180,120,0.2) 0%,transparent 50%),
-    radial-gradient(ellipse at 80% 70%,rgba(255,220,180,0.15) 0%,transparent 50%);
-  pointer-events:none;
-}
-.hero-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:10px 24px;
-  background:rgba(255,120,80,0.08);
-  border:2px solid rgba(255,120,80,0.2);
-  border-radius:999px;
-  font-size:15px;
-  color:#e87040;
-  font-weight:700;
-  margin-bottom:32px;
-  position:relative;
-  z-index:1;
-  animation:badgeBounce 2s ease-in-out infinite;
-}
-@keyframes badgeBounce{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-6px)}
-}
-.hero h1{
-  font-size:clamp(72px,14vw,160px);
-  font-weight:900;
-  line-height:1.05;
-  margin-bottom:24px;
-  position:relative;
-  z-index:1;
-  background:linear-gradient(135deg,#ff6b4a 0%,#ff9a5c 30%,#ffcc5c 60%,#ff6b4a 100%);
-  background-size:200% 200%;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-  animation:gradientShift 3s ease-in-out infinite;
-}
-@keyframes gradientShift{
-  0%,100%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-}
-.hero-sub{
-  font-size:clamp(18px,2.5vw,24px);
-  color:#9a8a7a;
-  max-width:500px;
-  margin:0 auto 40px;
-  position:relative;
-  z-index:1;
-}
-.hero-sub strong{color:#e87040;font-weight:700}
-.hero-emoji-row{
-  font-size:48px;
-  margin-bottom:40px;
-  position:relative;
-  z-index:1;
-  animation:shake 1.5s ease-in-out infinite;
-}
-@keyframes shake{
-  0%,100%{transform:rotate(0deg)}
-  25%{transform:rotate(-5deg)}
-  75%{transform:rotate(5deg)}
-}
-.scroll-hint{
-  position:absolute;
-  bottom:40px;
-  left:50%;
-  transform:translateX(-50%);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
-  color:#bbaa99;
-  font-size:14px;
-  font-weight:600;
-  z-index:1;
-}
-.scroll-arrow{
-  width:28px;height:28px;
-  border-right:3px solid #e8a070;
-  border-bottom:3px solid #e8a070;
-  transform:rotate(45deg);
-  animation:scrollBounce 1.5s ease-in-out infinite;
-}
-@keyframes scrollBounce{
-  0%,100%{transform:rotate(45deg) translateY(0)}
-  50%{transform:rotate(45deg) translateY(8px)}
+  background-attachment:fixed;color:#3a3030;
 }
 
 /* ===== 浮动emoji ===== */
-.float-emoji{
-  position:fixed;
-  font-size:28px;
-  pointer-events:none;
-  z-index:0;
-  opacity:0.5;
-  animation:floatE 8s ease-in-out infinite;
-}
-@keyframes floatE{
-  0%,100%{transform:translateY(0) rotate(0deg)}
-  33%{transform:translateY(-15px) rotate(5deg)}
-  66%{transform:translateY(10px) rotate(-3deg)}
-}
+.float-emoji{position:fixed;font-size:28px;pointer-events:none;z-index:0;opacity:0.5;animation:floatE 8s ease-in-out infinite}
+@keyframes floatE{0%,100%{transform:translateY(0) rotate(0deg)}33%{transform:translateY(-15px) rotate(5deg)}66%{transform:translateY(10px) rotate(-3deg)}}
+
+/* ===== Hero ===== */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;position:relative}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 30%,rgba(255,180,120,0.2) 0%,transparent 50%),radial-gradient(ellipse at 80% 70%,rgba(255,220,180,0.15) 0%,transparent 50%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:10px 24px;background:rgba(255,120,80,0.08);border:2px solid rgba(255,120,80,0.2);border-radius:999px;font-size:15px;color:#e87040;font-weight:700;margin-bottom:32px;position:relative;z-index:1;animation:badgeBounce 2s ease-in-out infinite}
+@keyframes badgeBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.hero h1{font-size:clamp(72px,14vw,160px);font-weight:900;line-height:1.05;margin-bottom:24px;position:relative;z-index:1;background:linear-gradient(135deg,#ff6b4a 0%,#ff9a5c 30%,#ffcc5c 60%,#ff6b4a 100%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradientShift 3s ease-in-out infinite}
+@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero-sub{font-size:clamp(18px,2.5vw,24px);color:#9a8a7a;max-width:500px;margin:0 auto 40px;position:relative;z-index:1}
+.hero-sub strong{color:#e87040;font-weight:700}
+.hero-emoji-row{font-size:48px;margin-bottom:40px;position:relative;z-index:1;animation:shake 1.5s ease-in-out infinite}
+@keyframes shake{0%,100%{transform:rotate(0deg)}25%{transform:rotate(-5deg)}75%{transform:rotate(5deg)}}
+.scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:#bbaa99;font-size:14px;font-weight:600;z-index:1}
+.scroll-arrow{width:28px;height:28px;border-right:3px solid #e8a070;border-bottom:3px solid #e8a070;transform:rotate(45deg);animation:scrollBounce 1.5s ease-in-out infinite}
+@keyframes scrollBounce{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(8px)}}
 
 /* ===== 通用区块 ===== */
-.block{
-  padding:80px 24px;
-  max-width:800px;
-  margin:0 auto;
-  position:relative;
-  z-index:1;
-}
-.block-title{
-  font-size:clamp(28px,4.5vw,44px);
-  font-weight:900;
-  text-align:center;
-  margin-bottom:10px;
-}
-.block-sub{
-  text-align:center;
-  color:#b0a090;
-  font-size:16px;
-  margin-bottom:48px;
-}
+.block{padding:80px 24px;max-width:800px;margin:0 auto;position:relative;z-index:1}
+.block-title{font-size:clamp(28px,4.5vw,44px);font-weight:900;text-align:center;margin-bottom:10px}
+.block-sub{text-align:center;color:#b0a090;font-size:16px;margin-bottom:48px}
 
 /* ===== 数据条 ===== */
-.stats-strip{
-  display:flex;
-  justify-content:center;
-  gap:40px;
-  flex-wrap:wrap;
-  padding:40px 24px;
-  position:relative;
-  z-index:1;
-  border-top:3px dashed rgba(255,180,140,0.3);
-  border-bottom:3px dashed rgba(255,180,140,0.3);
-}
+.stats-strip{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;padding:40px 24px;position:relative;z-index:1;border-top:3px dashed rgba(255,180,140,0.3);border-bottom:3px dashed rgba(255,180,140,0.3)}
 .stat{text-align:center}
-.stat-num{
-  font-size:clamp(26px,3.5vw,38px);
-  font-weight:900;
-  color:#e87040;
-}
+.stat-num{font-size:clamp(26px,3.5vw,38px);font-weight:900;color:#e87040}
 .stat-label{font-size:13px;color:#bbaa99;margin-top:2px}
 
+/* ===== 设置区 ===== */
+.settings-box{padding:40px 32px;border-radius:32px;background:rgba(255,220,200,0.15);border:2px solid rgba(255,180,140,0.2);display:flex;flex-wrap:wrap;justify-content:center;gap:20px;align-items:center}
+.setting-group{display:flex;align-items:center;gap:8px}
+.setting-group label{font-size:14px;color:#9a8a7a;font-weight:700;white-space:nowrap}
+
+/* 自定义时间选择器 */
+.time-picker{display:flex;align-items:center;gap:4px}
+.time-picker select{
+  background:rgba(255,240,225,0.7);border:2px solid rgba(255,180,140,0.25);
+  border-radius:10px;padding:10px 8px;
+  font-size:16px;font-weight:700;color:#e87040;
+  font-family:'Inter',monospace;outline:none;cursor:pointer;
+  text-align:center;text-align-last:center;
+  -webkit-appearance:none;appearance:none;
+  min-width:52px;
+}
+.time-picker select:focus{border-color:#e87040}
+.time-picker select option{background:#fff8f0;color:#3a3030;font-size:15px}
+.time-sep{font-size:18px;font-weight:900;color:#e87040;margin:0 2px}
+
+.setting-input{
+  background:rgba(255,240,225,0.6);border:2px solid rgba(255,180,140,0.25);
+  border-radius:12px;padding:10px 14px;
+  font-size:16px;font-weight:700;color:#e87040;
+  font-family:'Inter',monospace;outline:none;transition:border-color 0.2s;
+}
+.setting-input:focus{border-color:#e87040}
+.setting-input.salary{width:120px;text-align:center}
+.setting-select{
+  background:rgba(255,240,225,0.6);border:2px solid rgba(255,180,140,0.25);
+  border-radius:12px;padding:10px 14px;
+  font-size:14px;font-weight:700;color:#e87040;
+  font-family:inherit;outline:none;cursor:pointer;
+  -webkit-appearance:none;appearance:none;
+}
+.setting-select:focus{border-color:#e87040}
+.setting-select option{background:#fff8f0;color:#3a3030}
+
 /* ===== 哄你上班 ===== */
-.motivation-box{
-  text-align:center;
-  padding:48px 32px;
-  border-radius:32px;
-  background:rgba(255,220,200,0.15);
-  border:2px solid rgba(255,180,140,0.2);
-  position:relative;
-}
-.motivation-tag{
-  display:inline-block;
-  padding:5px 14px;
-  background:rgba(255,180,140,0.12);
-  border-radius:999px;
-  font-size:13px;
-  color:#d08050;
-  font-weight:700;
-  margin-bottom:20px;
-}
-.motivation-text{
-  font-size:clamp(20px,2.5vw,28px);
-  font-weight:800;
-  line-height:1.6;
-  color:#3a3030;
-  white-space:nowrap;
-}
-.motivation-footer{
-  margin-top:20px;
-  font-size:13px;
-  color:#ccaa88;
-}
-.btn-row{
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  margin-top:32px;
-  flex-wrap:wrap;
-}
-.btn{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:12px 28px;
-  border:none;
-  border-radius:999px;
-  font-size:15px;
-  font-weight:700;
-  cursor:pointer;
-  transition:all 0.2s;
-  font-family:inherit;
-}
+.motivation-box{text-align:center;padding:48px 32px;border-radius:32px;background:rgba(255,220,200,0.15);border:2px solid rgba(255,180,140,0.2);position:relative}
+.motivation-tag{display:inline-block;padding:5px 14px;background:rgba(255,180,140,0.12);border-radius:999px;font-size:13px;color:#d08050;font-weight:700;margin-bottom:20px}
+.motivation-text{font-size:clamp(20px,2.5vw,28px);font-weight:800;line-height:1.6;color:#3a3030;white-space:nowrap}
+.motivation-footer{margin-top:20px;font-size:13px;color:#ccaa88}
+.btn-row{display:flex;justify-content:center;gap:12px;margin-top:32px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:12px 28px;border:none;border-radius:999px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:inherit}
 .btn:active{transform:scale(0.96)}
-.btn-orange{
-  background:linear-gradient(135deg,#ff7b4a,#ff9a5c);
-  color:#fff;
-  box-shadow:0 4px 16px rgba(255,120,74,0.25);
-}
+.btn-orange{background:linear-gradient(135deg,#ff7b4a,#ff9a5c);color:#fff;box-shadow:0 4px 16px rgba(255,120,74,0.25)}
 .btn-orange:hover{box-shadow:0 6px 24px rgba(255,120,74,0.35);transform:translateY(-2px)}
-.btn-ghost{
-  background:rgba(255,200,170,0.2);
-  color:#e87040;
-  border:2px solid rgba(255,180,140,0.3);
-}
+.btn-ghost{background:rgba(255,200,170,0.2);color:#e87040;border:2px solid rgba(255,180,140,0.3)}
 .btn-ghost:hover{background:rgba(255,200,170,0.35)}
 
+/* ===== 倒计时 ===== */
+.countdown-row{display:flex;justify-content:center;gap:12px;margin-bottom:28px;flex-wrap:wrap}
+.countdown-box{background:rgba(255,220,200,0.15);border:2px solid rgba(255,180,140,0.15);border-radius:20px;padding:20px 16px;min-width:80px;text-align:center}
+.countdown-num{font-size:clamp(28px,5vw,44px);font-weight:900;font-family:'Inter',monospace;color:#e87040;line-height:1}
+.countdown-label{font-size:12px;color:#bbaa99;margin-top:4px;font-weight:600}
+.countdown-msg{font-size:18px;font-weight:700;color:#d08050;text-align:center}
+
 /* ===== 薪资 ===== */
-.salary-box{
-  text-align:center;
-  padding:48px 32px;
-  border-radius:32px;
-  background:rgba(255,220,200,0.12);
-  border:2px solid rgba(255,180,140,0.15);
-}
+.salary-box{text-align:center;padding:48px 32px;border-radius:32px;background:rgba(255,220,200,0.12);border:2px solid rgba(255,180,140,0.15)}
 .salary-label{font-size:14px;color:#bbaa99;margin-bottom:4px}
-.salary-amount{
-  font-size:clamp(48px,10vw,80px);
-  font-weight:900;
-  font-family:'Inter',monospace;
-  color:#e87040;
-  line-height:1.1;
-  margin-bottom:4px;
-}
-.salary-sub{
-  font-size:16px;
-  color:#d09060;
-  font-weight:600;
-  margin-bottom:28px;
-}
-.salary-input-row{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  margin-bottom:16px;
-}
-.salary-input-row label{
-  font-size:14px;
-  color:#9a8a7a;
-  font-weight:600;
-  white-space:nowrap;
-}
-.salary-input{
-  background:rgba(255,240,225,0.6);
-  border:2px solid rgba(255,180,140,0.25);
-  border-radius:14px;
-  padding:10px 16px;
-  font-size:20px;
-  font-weight:800;
-  color:#e87040;
-  width:140px;
-  text-align:center;
-  font-family:'Inter',monospace;
-  outline:none;
-  transition:border-color 0.2s;
-}
-.salary-input:focus{border-color:#e87040}
-.salary-tip{
-  font-size:14px;
-  color:#bbaa99;
-  line-height:1.6;
-}
-
-/* ===== 下班倒计时 ===== */
-.time-picker-row{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  margin-bottom:32px;
-}
-.time-picker-row label{font-size:14px;color:#9a8a7a;font-weight:600}
-.time-input{
-  background:rgba(255,240,225,0.6);
-  border:2px solid rgba(255,180,140,0.25);
-  border-radius:14px;
-  padding:10px 16px;
-  font-size:20px;
-  font-weight:800;
-  color:#e87040;
-  width:160px;
-  text-align:center;
-  font-family:'Inter',monospace;
-  outline:none;
-  transition:border-color 0.2s;
-}
-.time-input:focus{border-color:#e87040}
-
-/* 时间选择器弹出层配色 */
-.time-input::-webkit-calendar-picker-indicator{
-  filter:invert(0.4) sepia(1) saturate(3) hue-rotate(-10deg);
-  cursor:pointer;
-}
-@media(prefers-color-scheme:dark){
-  .time-input{color-scheme:light}
-}
-.countdown-row{
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  margin-bottom:28px;
-  flex-wrap:wrap;
-}
-.countdown-box{
-  background:rgba(255,220,200,0.15);
-  border:2px solid rgba(255,180,140,0.15);
-  border-radius:20px;
-  padding:20px 16px;
-  min-width:80px;
-  text-align:center;
-}
-.countdown-num{
-  font-size:clamp(28px,5vw,44px);
-  font-weight:900;
-  font-family:'Inter',monospace;
-  color:#e87040;
-  line-height:1;
-}
-.countdown-label{
-  font-size:12px;
-  color:#bbaa99;
-  margin-top:4px;
-  font-weight:600;
-}
-.countdown-msg{
-  font-size:18px;
-  font-weight:700;
-  color:#d08050;
-  text-align:center;
-}
+.salary-amount{font-size:clamp(48px,10vw,80px);font-weight:900;font-family:'Inter',monospace;color:#e87040;line-height:1.1;margin-bottom:4px}
+.salary-sub{font-size:16px;color:#d09060;font-weight:600;margin-bottom:20px}
+.salary-tip{font-size:14px;color:#bbaa99;line-height:1.6;margin-top:16px}
 
 /* ===== RPG ===== */
-.rpg-box{
-  text-align:center;
-  padding:48px 32px;
-  border-radius:32px;
-  background:rgba(255,220,200,0.12);
-  border:2px solid rgba(255,180,140,0.15);
-  position:relative;
-}
-.rpg-badge{
-  display:inline-block;
-  padding:5px 14px;
-  background:rgba(255,180,140,0.12);
-  border-radius:999px;
-  font-size:13px;
-  color:#d08050;
-  font-weight:700;
-  margin-bottom:16px;
-}
-.rpg-title{
-  font-size:clamp(22px,3vw,28px);
-  font-weight:900;
-  color:#3a3030;
-  margin-bottom:14px;
-}
-.rpg-task{
-  font-size:16px;
-  color:#7a6a5a;
-  line-height:1.8;
-  margin-bottom:20px;
-}
-.rpg-reward{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:10px 24px;
-  background:linear-gradient(135deg,#ff7b4a,#ff9a5c);
-  color:#fff;
-  border-radius:999px;
-  font-size:15px;
-  font-weight:700;
-  box-shadow:0 4px 16px rgba(255,120,74,0.2);
-}
+.rpg-box{text-align:center;padding:48px 32px;border-radius:32px;background:rgba(255,220,200,0.12);border:2px solid rgba(255,180,140,0.15)}
+.rpg-badge{display:inline-block;padding:5px 14px;background:rgba(255,180,140,0.12);border-radius:999px;font-size:13px;color:#d08050;font-weight:700;margin-bottom:16px}
+.rpg-title{font-size:clamp(22px,3vw,28px);font-weight:900;color:#3a3030;margin-bottom:14px}
+.rpg-task{font-size:16px;color:#7a6a5a;line-height:1.8;margin-bottom:20px}
+.rpg-reward{display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:linear-gradient(135deg,#ff7b4a,#ff9a5c);color:#fff;border-radius:999px;font-size:15px;font-weight:700;box-shadow:0 4px 16px rgba(255,120,74,0.2)}
 
 /* ===== 摸鱼奖励 ===== */
-.joy-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
-  max-width:600px;
-  margin:0 auto;
-}
+.joy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:600px;margin:0 auto}
 @media(max-width:600px){.joy-grid{grid-template-columns:repeat(2,1fr)}}
-.joy-item{
-  background:rgba(255,220,200,0.12);
-  border:2px solid rgba(255,180,140,0.15);
-  border-radius:20px;
-  padding:24px 14px;
-  text-align:center;
-  cursor:pointer;
-  transition:all 0.2s;
-  position:relative;
-}
-.joy-item:hover{
-  border-color:rgba(255,150,100,0.4);
-  background:rgba(255,220,200,0.25);
-  transform:translateY(-3px);
-}
+.joy-item{background:rgba(255,220,200,0.12);border:2px solid rgba(255,180,140,0.15);border-radius:20px;padding:24px 14px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative}
+.joy-item:hover{border-color:rgba(255,150,100,0.4);background:rgba(255,220,200,0.25);transform:translateY(-3px)}
 .joy-item:active{transform:scale(0.96)}
-.joy-item.unlocked{
-  border-color:#e87040;
-  background:rgba(255,200,170,0.2);
-}
-.joy-item.unlocked::after{
-  content:'✅ 已解锁';
-  position:absolute;
-  bottom:8px;left:50%;
-  transform:translateX(-50%);
-  font-size:11px;
-  color:#e87040;
-  font-weight:700;
-}
+.joy-item.unlocked{border-color:#e87040;background:rgba(255,200,170,0.2)}
+.joy-item.unlocked::after{content:'✅ 已解锁';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:11px;color:#e87040;font-weight:700}
 .joy-icon{font-size:32px;margin-bottom:6px}
 .joy-name{font-size:14px;font-weight:700;color:#3a3030}
 .joy-desc{font-size:11px;color:#bbaa99;margin-top:4px}
 
 /* ===== 结尾 ===== */
-.ending-box{
-  text-align:center;
-  padding:48px 32px;
-  border-radius:32px;
-  background:rgba(255,220,200,0.12);
-  border:2px solid rgba(255,180,140,0.15);
-}
-.ending-title{
-  font-size:clamp(22px,3.5vw,32px);
-  font-weight:900;
-  color:#3a3030;
-  margin-bottom:14px;
-}
-.ending-text{
-  font-size:16px;
-  color:#9a8a7a;
-  line-height:1.8;
-  margin-bottom:20px;
-}
-.ending-sign{
-  font-size:17px;
-  color:#e87040;
-  font-weight:700;
-}
+.ending-box{text-align:center;padding:48px 32px;border-radius:32px;background:rgba(255,220,200,0.12);border:2px solid rgba(255,180,140,0.15)}
+.ending-title{font-size:clamp(22px,3.5vw,32px);font-weight:900;color:#3a3030;margin-bottom:14px}
+.ending-text{font-size:16px;color:#9a8a7a;line-height:1.8;margin-bottom:20px}
+.ending-sign{font-size:17px;color:#e87040;font-weight:700}
 
-/* ===== Footer ===== */
-footer{
-  text-align:center;
-  padding:48px 24px;
-  border-top:3px dashed rgba(255,180,140,0.2);
-  color:#bbaa99;
-  font-size:13px;
-  position:relative;
-  z-index:1;
-}
-footer a{color:#e87040;text-decoration:none;font-weight:600}
+/* ===== Toast ===== */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);padding:14px 28px;background:rgba(60,50,40,0.9);color:#fff;border-radius:999px;font-size:15px;font-weight:700;z-index:99999;opacity:0;transition:all 0.3s;pointer-events:none;backdrop-filter:blur(10px)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(-10px)}
+
+/* ===== 彩蛋 ===== */
+.confetti{position:fixed;pointer-events:none;z-index:99999;font-size:24px;animation:confettiFall 1s ease-out forwards}
+@keyframes confettiFall{0%{opacity:1;transform:translateY(0) rotate(0deg) scale(1)}100%{opacity:0;transform:translateY(100px) rotate(360deg) scale(0)}}
+.secret-counter{position:fixed;bottom:16px;right:16px;font-size:11px;color:rgba(200,180,160,0.4);z-index:1;cursor:default;user-select:none}
 
 /* ===== Scroll Reveal ===== */
-.reveal{
-  opacity:0;
-  transform:translateY(24px);
-  transition:all 0.6s cubic-bezier(0.22,1,0.36,1);
-}
-.reveal.visible{
-  opacity:1;
-  transform:translateY(0);
-}
+.reveal{opacity:0;transform:translateY(24px);transition:all 0.6s cubic-bezier(0.22,1,0.36,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
 
-/* ===== Confetti ===== */
-.confetti{
-  position:fixed;
-  pointer-events:none;
-  z-index:99999;
-  font-size:24px;
-  animation:confettiFall 1s ease-out forwards;
-}
-@keyframes confettiFall{
-  0%{opacity:1;transform:translateY(0) rotate(0deg) scale(1)}
-  100%{opacity:0;transform:translateY(100px) rotate(360deg) scale(0)}
-}
+/* ===== Footer ===== */
+footer{text-align:center;padding:48px 24px;border-top:3px dashed rgba(255,180,140,0.2);color:#bbaa99;font-size:13px;position:relative;z-index:1}
+footer a{color:#e87040;text-decoration:none;font-weight:600}
 </style>
 </head>
 <body>
 
-<!-- 浮动装饰 -->
 <div class="float-emoji" style="top:12%;left:6%;animation-delay:0s">😪</div>
 <div class="float-emoji" style="top:25%;right:7%;animation-delay:1.5s">☕</div>
 <div class="float-emoji" style="top:55%;left:4%;animation-delay:3s">💰</div>
 <div class="float-emoji" style="top:75%;right:6%;animation-delay:4.5s">🎮</div>
 
+<div class="toast" id="toast"></div>
+<div class="secret-counter" id="secret-counter" title="试试连续点击标题">🫣</div>
+
 <!-- Hero -->
-<div class="hero">
+<div class="hero" id="hero-section">
   <div class="hero-badge">🩹 每天早上的心理建设急救站</div>
   <div class="hero-emoji-row">😩 + ☕ = 😤💪</div>
-  <h1>哄自己上班</h1>
-  <p class="hero-sub">
-    明知不想去，还是得去。<br>
-    既然如此，不如<strong>笑着出门</strong>。
-  </p>
-  <div class="scroll-hint">
-    往下滑，开始今天的心理建设
-    <div class="scroll-arrow"></div>
-  </div>
+  <h1 id="hero-title" style="cursor:default" title="试试点击我">哄自己上班</h1>
+  <p class="hero-sub">明知不想去，还是得去。<br>既然如此，不如<strong>笑着出门</strong>。</p>
+  <div class="scroll-hint">往下滑，开始今天的心理建设<div class="scroll-arrow"></div></div>
 </div>
 
 <!-- 数据条 -->
 <div class="stats-strip reveal">
-  <div class="stat">
-    <div class="stat-num">3.2亿</div>
-    <div class="stat-label">和你一样的打工人</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">93.8%</div>
-    <div class="stat-label">的人有倦怠感</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">54.9%</div>
-    <div class="stat-label">受焦虑困扰</div>
+  <div class="stat"><div class="stat-num">3.2亿</div><div class="stat-label">和你一样的打工人</div></div>
+  <div class="stat"><div class="stat-num">93.8%</div><div class="stat-label">的人有倦怠感</div></div>
+  <div class="stat"><div class="stat-num">54.9%</div><div class="stat-label">受焦虑困扰</div></div>
+</div>
+
+<!-- 设置 -->
+<div class="block reveal">
+  <h2 class="block-title">📋 先告诉我你的情况</h2>
+  <p class="block-sub">这样我才能精准地哄你</p>
+  <div class="settings-box">
+    <div class="setting-group">
+      <label>上班</label>
+      <div class="time-picker">
+        <select id="start-hour"></select>
+        <span class="time-sep">:</span>
+        <select id="start-min"></select>
+      </div>
+    </div>
+    <div class="setting-group">
+      <label>下班</label>
+      <div class="time-picker">
+        <select id="end-hour"></select>
+        <span class="time-sep">:</span>
+        <select id="end-min"></select>
+      </div>
+    </div>
+    <div class="setting-group">
+      <label>月薪</label>
+      <input type="number" class="setting-input salary" id="monthly-salary" value="10000" onchange="saveSettings()">
+    </div>
+    <div class="setting-group">
+      <label>休息</label>
+      <select id="rest-type" class="setting-select" onchange="saveSettings()">
+        <option value="double">双休</option>
+        <option value="single">单休</option>
+        <option value="size">大小周</option>
+      </select>
+    </div>
   </div>
 </div>
 
-<!-- 今日哄你上班 -->
+<!-- 哄你上班 -->
 <div class="block reveal">
   <h2 class="block-title">💊 今日份心理建设</h2>
   <p class="block-sub">不灌鸡汤，只说人话</p>
   <div class="motivation-box">
-    <div class="motivation-tag"><span id="motivation-tag-label">美食路线</span> · 第 <span id="round-num">1</span> 条</div>
+    <div class="motivation-tag"><span id="motivation-tag-label">加载中</span> · 第 <span id="round-num">1</span> 条</div>
     <p class="motivation-text" id="motivation-text">加载中...</p>
     <p class="motivation-footer">—— 来自3亿打工人的集体智慧</p>
   </div>
@@ -571,7 +230,20 @@ footer a{color:#e87040;text-decoration:none;font-weight:600}
   </div>
 </div>
 
-<!-- 薪资计算器 -->
+<!-- 下班倒计时 -->
+<div class="block reveal">
+  <h2 class="block-title">⏰ 下班倒计时</h2>
+  <p class="block-sub" id="countdown-sub">再坚持一下，胜利就在眼前</p>
+  <div class="countdown-row">
+    <div class="countdown-box"><div class="countdown-num" id="cd-hours">--</div><div class="countdown-label">小时</div></div>
+    <div class="countdown-box"><div class="countdown-num" id="cd-minutes">--</div><div class="countdown-label">分钟</div></div>
+    <div class="countdown-box"><div class="countdown-num" id="cd-seconds">--</div><div class="countdown-label">秒</div></div>
+    <div class="countdown-box"><div class="countdown-num" id="cd-percent">0%</div><div class="countdown-label">今日进度</div></div>
+  </div>
+  <p class="countdown-msg" id="countdown-msg"></p>
+</div>
+
+<!-- 你正在赚钱 -->
 <div class="block reveal">
   <h2 class="block-title">💰 你正在赚钱</h2>
   <p class="block-sub">每过一秒，钱包就鼓一点</p>
@@ -579,58 +251,21 @@ footer a{color:#e87040;text-decoration:none;font-weight:600}
     <div class="salary-label">今日已赚</div>
     <div class="salary-amount" id="salary-amount">¥0.00</div>
     <div class="salary-sub">每秒 ¥<span id="salary-per-sec">0.0000</span></div>
-    <div class="salary-input-row">
-      <label>月薪</label>
-      <input type="number" class="salary-input" id="monthly-salary" value="10000" onchange="updateSalary()">
-      <label>元</label>
-    </div>
     <p class="salary-tip" id="salary-tip"></p>
   </div>
 </div>
 
-<!-- 下班倒计时 -->
-<div class="block reveal">
-  <h2 class="block-title">⏰ 下班倒计时</h2>
-  <p class="block-sub">再坚持一下，胜利就在眼前</p>
-  <div class="time-picker-row">
-    <label>我几点下班</label>
-    <input type="time" class="time-input" id="work-end-time" value="18:00" onchange="saveEndTime()">
-    <span style="font-size:13px;color:#bbaa99">( 点击修改 )</span>
-  </div>
-  <div class="countdown-row">
-    <div class="countdown-box">
-      <div class="countdown-num" id="cd-hours">--</div>
-      <div class="countdown-label">小时</div>
-    </div>
-    <div class="countdown-box">
-      <div class="countdown-num" id="cd-minutes">--</div>
-      <div class="countdown-label">分钟</div>
-    </div>
-    <div class="countdown-box">
-      <div class="countdown-num" id="cd-seconds">--</div>
-      <div class="countdown-label">秒</div>
-    </div>
-    <div class="countdown-box">
-      <div class="countdown-num" id="cd-percent">0%</div>
-      <div class="countdown-label">今日进度</div>
-    </div>
-  </div>
-  <p class="countdown-msg" id="countdown-msg"></p>
-</div>
-
-<!-- RPG任务 -->
+<!-- RPG -->
 <div class="block reveal">
   <h2 class="block-title">🎮 今日NPC任务</h2>
   <p class="block-sub">把上班当RPG，领导是NPC，工资是金币</p>
   <div class="rpg-box">
     <div class="rpg-badge">⚔️ 每日任务</div>
-    <div class="rpg-title" id="rpg-title">任务加载中...</div>
+    <div class="rpg-title" id="rpg-title">加载中...</div>
     <div class="rpg-task" id="rpg-task"></div>
     <div class="rpg-reward" id="rpg-reward">🎁 加载中...</div>
   </div>
-  <div class="btn-row">
-    <button class="btn btn-orange" onclick="generateRPG()">🎲 刷新任务</button>
-  </div>
+  <div class="btn-row"><button class="btn btn-orange" onclick="generateRPG()">🎲 刷新任务</button></div>
 </div>
 
 <!-- 摸鱼奖励 -->
@@ -638,36 +273,12 @@ footer a{color:#e87040;text-decoration:none;font-weight:600}
   <h2 class="block-title">🎁 今日摸鱼奖励</h2>
   <p class="block-sub">完成心理建设，解锁你的小确幸</p>
   <div class="joy-grid">
-    <div class="joy-item" onclick="toggleJoy(this)">
-      <div class="joy-icon">🧋</div>
-      <div class="joy-name">超贵奶茶</div>
-      <div class="joy-desc">下午三点犒劳自己</div>
-    </div>
-    <div class="joy-item" onclick="toggleJoy(this)">
-      <div class="joy-icon">🐱</div>
-      <div class="joy-name">吸猫时间</div>
-      <div class="joy-desc">看5分钟猫咪视频</div>
-    </div>
-    <div class="joy-item" onclick="toggleJoy(this)">
-      <div class="joy-icon">🎵</div>
-      <div class="joy-name">摸鱼歌单</div>
-      <div class="joy-desc">戴上耳机假装在忙</div>
-    </div>
-    <div class="joy-item" onclick="toggleJoy(this)">
-      <div class="joy-icon">🛒</div>
-      <div class="joy-name">清空购物车</div>
-      <div class="joy-desc">奖励自己一件小东西</div>
-    </div>
-    <div class="joy-item" onclick="toggleJoy(this)">
-      <div class="joy-icon">🚽</div>
-      <div class="joy-name">带薪拉屎</div>
-      <div class="joy-desc">经典摸鱼永远的神</div>
-    </div>
-    <div class="joy-item" onclick="toggleJoy(this)">
-      <div class="joy-icon">📺</div>
-      <div class="joy-name">午休追剧</div>
-      <div class="joy-desc">看一集快乐加倍</div>
-    </div>
+    <div class="joy-item" onclick="toggleJoy(this)"><div class="joy-icon">🧋</div><div class="joy-name">超贵奶茶</div><div class="joy-desc">下午三点犒劳自己</div></div>
+    <div class="joy-item" onclick="toggleJoy(this)"><div class="joy-icon">🐱</div><div class="joy-name">吸猫时间</div><div class="joy-desc">看5分钟猫咪视频</div></div>
+    <div class="joy-item" onclick="toggleJoy(this)"><div class="joy-icon">🎵</div><div class="joy-name">摸鱼歌单</div><div class="joy-desc">戴上耳机假装在忙</div></div>
+    <div class="joy-item" onclick="toggleJoy(this)"><div class="joy-icon">🛒</div><div class="joy-name">清空购物车</div><div class="joy-desc">奖励自己一件小东西</div></div>
+    <div class="joy-item" onclick="toggleJoy(this)"><div class="joy-icon">🚽</div><div class="joy-name">带薪拉屎</div><div class="joy-desc">经典摸鱼永远的神</div></div>
+    <div class="joy-item" onclick="toggleJoy(this)"><div class="joy-icon">📺</div><div class="joy-name">午休追剧</div><div class="joy-desc">看一集快乐加倍</div></div>
   </div>
 </div>
 
@@ -675,10 +286,7 @@ footer a{color:#e87040;text-decoration:none;font-weight:600}
 <div class="block reveal">
   <div class="ending-box">
     <div class="ending-title">你已经完成了今天的心理建设 💪</div>
-    <p class="ending-text">
-      现在，去征服这个世界吧。<br>
-      （或者至少，去把今天的班上完）
-    </p>
+    <p class="ending-text">现在，去征服这个世界吧。<br>（或者至少，去把今天的班上完）</p>
     <div class="ending-sign">明天见，打工人 ✨</div>
   </div>
 </div>
@@ -695,17 +303,76 @@ const revealObserver = new IntersectionObserver(entries => {
 }, {threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-// ===== 下班时间 =====
-function getWorkEnd(){
-  const saved = localStorage.getItem('workEndTime');
-  return saved || '18:00';
+// ===== Toast =====
+function showToast(msg, duration){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), duration || 2000);
 }
-function saveEndTime(){
-  const v = document.getElementById('work-end-time').value;
-  localStorage.setItem('workEndTime', v);
+
+// ===== 自定义时间选择器初始化 =====
+function initTimeSelects(){
+  const startH = document.getElementById('start-hour');
+  const startM = document.getElementById('start-min');
+  const endH = document.getElementById('end-hour');
+  const endM = document.getElementById('end-min');
+  for(let i = 0; i < 24; i++){
+    const v = String(i).padStart(2,'0');
+    startH.innerHTML += `<option value="${v}">${v}</option>`;
+    endH.innerHTML += `<option value="${v}">${v}</option>`;
+  }
+  for(let i = 0; i < 60; i+=5){
+    const v = String(i).padStart(2,'0');
+    startM.innerHTML += `<option value="${v}">${v}</option>`;
+    endM.innerHTML += `<option value="${v}">${v}</option>`;
+  }
+  // 填充5/10/15...55的完整选项
+  [startM, endM].forEach(sel => {
+    // 已经有0,5,10,...55，再补上其他分钟
+    sel.innerHTML = '';
+    for(let i = 0; i < 60; i++){
+      const v = String(i).padStart(2,'0');
+      sel.innerHTML += `<option value="${v}">${v}</option>`;
+    }
+  });
 }
-// 初始化
-document.getElementById('work-end-time').value = getWorkEnd();
+initTimeSelects();
+
+// ===== 设置管理 =====
+function loadSettings(){
+  const saved = JSON.parse(localStorage.getItem('workSettings') || '{}');
+  document.getElementById('start-hour').value = saved.startHour || '09';
+  document.getElementById('start-min').value = saved.startMin || '00';
+  document.getElementById('end-hour').value = saved.endHour || '18';
+  document.getElementById('end-min').value = saved.endMin || '00';
+  document.getElementById('monthly-salary').value = saved.salary || '10000';
+  document.getElementById('rest-type').value = saved.rest || 'double';
+}
+function saveSettings(){
+  const s = {
+    startHour: document.getElementById('start-hour').value,
+    startMin: document.getElementById('start-min').value,
+    endHour: document.getElementById('end-hour').value,
+    endMin: document.getElementById('end-min').value,
+    salary: document.getElementById('monthly-salary').value,
+    rest: document.getElementById('rest-type').value,
+  };
+  localStorage.setItem('workSettings', JSON.stringify(s));
+  updateSalary(); updateCountdown();
+  showToast('✅ 设置已保存');
+}
+loadSettings();
+
+// ===== 读取设置 =====
+function getStartH(){
+  return parseInt(document.getElementById('start-hour').value) + parseInt(document.getElementById('start-min').value)/60;
+}
+function getEndH(){
+  return parseInt(document.getElementById('end-hour').value) + parseInt(document.getElementById('end-min').value)/60;
+}
+function getWorkDays(){ const v = document.getElementById('rest-type').value; return v==='single'?26:v==='size'?24:22; }
+function getDailyHours(){ return Math.max(1, getEndH() - getStartH()); }
+function getMonthlySalary(){ return parseFloat(document.getElementById('monthly-salary').value) || 10000; }
 
 // ===== 哄你上班语录 =====
 const motivations = [
@@ -771,50 +438,46 @@ nextMotivation();
 
 function shareMotivation(){
   const text = document.getElementById('motivation-text').textContent;
-  if(navigator.share){
-    navigator.share({title:'哄自己上班', text: text + '\n\n—— 来自「哄自己上班」'});
-  } else {
-    navigator.clipboard.writeText(text).then(() => {
-      const btn = document.querySelector('.btn-ghost');
-      const orig = btn.innerHTML;
-      btn.innerHTML = '✅ 已复制';
-      setTimeout(() => btn.innerHTML = orig, 1500);
-    });
+  const shareText = text + '\n\n—— 来自「哄自己上班」';
+  if(navigator.share){ navigator.share({title:'哄自己上班', text: shareText}); }
+  else {
+    const ta = document.createElement('textarea');
+    ta.value = shareText; ta.style.cssText='position:fixed;left:-9999px';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); showToast('✅ 已复制，去发给同事吧'); }
+    catch(e){ alert('复制失败：\n\n'+shareText); }
+    document.body.removeChild(ta);
   }
 }
 
-// ===== 薪资计算器 =====
-let monthlySalary = 10000;
+// ===== 薪资 =====
+let salaryTipIdx = 0;
 function updateSalary(){
-  monthlySalary = parseFloat(document.getElementById('monthly-salary').value) || 10000;
-  const perSec = monthlySalary / (22 * 8 * 3600);
+  const salary = getMonthlySalary(), days = getWorkDays(), hours = getDailyHours();
+  const perSec = salary / (days * hours * 3600);
   document.getElementById('salary-per-sec').textContent = perSec.toFixed(4);
   const tips = [
     `每分钟你赚 ¥${(perSec*60).toFixed(2)}，够买一瓶矿泉水`,
     `每小时你赚 ¥${(perSec*3600).toFixed(2)}，够吃一顿外卖`,
-    `今天8小时你能赚 ¥${(perSec*3600*8).toFixed(2)}，不错不错`,
-    `这周5天你能赚 ¥${(perSec*3600*8*5).toFixed(2)}，坚持住`,
+    `今天${hours}小时你能赚 ¥${(perSec*3600*hours).toFixed(2)}，不错不错`,
+    `这周你能赚 ¥${(perSec*3600*hours*(days===26?6:days===24?5.5:5)).toFixed(0)}，坚持住`,
   ];
-  document.getElementById('salary-tip').textContent = tips[Math.floor(Math.random()*tips.length)];
+  salaryTipIdx = (salaryTipIdx + 1) % tips.length;
+  document.getElementById('salary-tip').textContent = tips[salaryTipIdx];
 }
 updateSalary();
-
-function getWorkStartHour(){ return 9; }
-function getWorkEndHour(){
-  const v = getWorkEnd();
-  const parts = v.split(':');
-  return parseInt(parts[0]) + parseInt(parts[1])/60;
-}
 
 function tickSalary(){
   const now = new Date();
   const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
-  const endH = getWorkEndHour();
+  const startH = getStartH(), endH = getEndH();
+  const days = getWorkDays(), hours = getDailyHours(), salary = getMonthlySalary();
+  const maxDaily = salary / days;
   let workSec = 0;
-  if(h >= 9 && h < endH) workSec = (h-9)*3600 + m*60 + s;
-  else if(h >= endH) workSec = (endH - 9) * 3600;
-  const perSec = monthlySalary / (22*8*3600);
-  document.getElementById('salary-amount').textContent = '¥' + (workSec * perSec).toFixed(2);
+  if(h >= startH && h < endH) workSec = (h-startH)*3600 + m*60 + s;
+  else if(h >= endH) workSec = (endH - startH) * 3600;
+  const perSec = salary / (days * hours * 3600);
+  document.getElementById('salary-amount').textContent = '¥' + Math.min(workSec * perSec, maxDaily).toFixed(2);
   requestAnimationFrame(tickSalary);
 }
 tickSalary();
@@ -823,13 +486,14 @@ tickSalary();
 function updateCountdown(){
   const now = new Date();
   const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
-  const endTime = getWorkEnd();
-  const parts = endTime.split(':');
-  const endH = parseInt(parts[0]), endM = parseInt(parts[1]);
-  
+  const startH = getStartH(), endH = getEndH();
+  const sh = document.getElementById('start-hour').value + ':' + document.getElementById('start-min').value;
+  const eh = document.getElementById('end-hour').value + ':' + document.getElementById('end-min').value;
+  document.getElementById('countdown-sub').textContent = `上班 ${sh}，下班 ${eh}`;
+
   let target = new Date(now);
-  target.setHours(endH, endM, 0, 0);
-  
+  target.setHours(parseInt(document.getElementById('end-hour').value), parseInt(document.getElementById('end-min').value), 0, 0);
+
   if(now >= target){
     document.getElementById('cd-hours').textContent = '00';
     document.getElementById('cd-minutes').textContent = '00';
@@ -838,7 +502,7 @@ function updateCountdown(){
     document.getElementById('countdown-msg').textContent = '🎉 下班啦！今天辛苦了！';
     return;
   }
-  if(h < 9){
+  if(h < startH){
     document.getElementById('cd-hours').textContent = '--';
     document.getElementById('cd-minutes').textContent = '--';
     document.getElementById('cd-seconds').textContent = '--';
@@ -847,27 +511,22 @@ function updateCountdown(){
     return;
   }
   const diff = target - now;
-  const hh = Math.floor(diff/3600000);
-  const mm = Math.floor((diff%3600000)/60000);
-  const ss = Math.floor((diff%60000)/1000);
-  document.getElementById('cd-hours').textContent = String(hh).padStart(2,'0');
-  document.getElementById('cd-minutes').textContent = String(mm).padStart(2,'0');
-  document.getElementById('cd-seconds').textContent = String(ss).padStart(2,'0');
-  
-  const totalWorkSec = (endH - 9) * 3600;
-  const elapsed = (h-9)*3600 + m*60 + s;
+  document.getElementById('cd-hours').textContent = String(Math.floor(diff/3600000)).padStart(2,'0');
+  document.getElementById('cd-minutes').textContent = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+  document.getElementById('cd-seconds').textContent = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+  const elapsed = (h-startH)*3600 + m*60 + s;
+  const totalWorkSec = (endH - startH) * 3600;
   const pct = Math.min(100, Math.floor(elapsed/totalWorkSec*100));
   document.getElementById('cd-percent').textContent = pct + '%';
-  const msgs = pct < 30 ? '才刚开始，慢慢来 ☕' : pct < 60 ? '已经过半了，加油 💪' : pct < 90 ? '胜利在望 🎯' : '马上就自由了！🚀';
-  document.getElementById('countdown-msg').textContent = msgs;
+  document.getElementById('countdown-msg').textContent = pct < 30 ? '才刚开始，慢慢来 ☕' : pct < 60 ? '已经过半了，加油 💪' : pct < 90 ? '胜利在望 🎯' : '马上就自由了！🚀';
 }
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-// ===== RPG任务 =====
+// ===== RPG =====
 const rpgTasks = [
   {title:'假装热爱工作', task:'在工位上坐直，面带微笑，让领导觉得你很投入。<br>持续时间：2小时', reward:'带薪摸鱼15分钟'},
-  {title:'抵挡会议攻击', task:'参加一个可能本可以邮件解决的会议，全程保持清醒，适时点头。<br>目标：不睡着', reward:'会后奶茶一杯'},
+  {title:'抵挡会议攻击', task:'参加一个可能本可以邮件解决的会议，全程保持清醒。<br>目标：不睡着', reward:'会后奶茶一杯'},
   {title:'完成今日KPI', task:'打开电脑，假装在忙，实际在摸鱼和工作之间反复横跳。<br>关键：不能被发现', reward:'准时下班的权利'},
   {title:'社交魔法', task:'和同事聊天30分钟，内容包括但不限于：吐槽领导、讨论午饭、分享摸鱼技巧。', reward:'快乐值+50'},
   {title:'午休冲刺', task:'12:00准时冲向食堂，用最快速度吃完饭，然后享受40分钟的午睡。', reward:'下午精神值恢复80%'},
@@ -879,8 +538,7 @@ const rpgTasks = [
 ];
 let lastRPG = -1;
 function generateRPG(){
-  let idx;
-  do { idx = Math.floor(Math.random()*rpgTasks.length); } while(idx === lastRPG);
+  let idx; do { idx = Math.floor(Math.random()*rpgTasks.length); } while(idx === lastRPG);
   lastRPG = idx;
   const t = rpgTasks[idx];
   document.getElementById('rpg-title').textContent = t.title;
@@ -895,8 +553,7 @@ function toggleJoy(el){
   if(el.classList.contains('unlocked')){
     const emojis = ['🎉','✨','🎊','💫','⭐','🌟'];
     for(let i = 0; i < 8; i++){
-      const c = document.createElement('div');
-      c.className = 'confetti';
+      const c = document.createElement('div'); c.className='confetti';
       c.textContent = emojis[Math.floor(Math.random()*emojis.length)];
       const rect = el.getBoundingClientRect();
       c.style.left = rect.left + rect.width/2 + (Math.random()-0.5)*100 + 'px';
@@ -907,6 +564,54 @@ function toggleJoy(el){
     }
   }
 }
+
+// ===== 彩蛋1: 点击标题 =====
+let titleClickCount = 0;
+const easterEggMessages = ['🤫 你发现了彩蛋！','🎉 再点一次有惊喜...','✨ 你真的很执着呢','🏆 恭喜！你是摸鱼冠军！','💎 隐藏成就：无聊大师','🦄 你已经点了6次了，真的很闲啊','🎯 你的领导在你身后','👻 BOO！吓到了吗？快去上班！','🔥 你解锁了「上班恐惧症晚期」','🌟 最后一个彩蛋了，真的没有了'];
+document.getElementById('hero-title').addEventListener('click', function(){
+  titleClickCount++;
+  if(titleClickCount <= easterEggMessages.length) showToast(easterEggMessages[titleClickCount-1], 2500);
+  else showToast('🫠 你赢了，别点了...', 2000);
+  document.getElementById('secret-counter').textContent = '🫣 x' + titleClickCount;
+  if(titleClickCount === 5){ document.body.style.transition='filter 0.5s';document.body.style.filter='hue-rotate(180deg)';setTimeout(()=>{document.body.style.filter='';},2000); }
+  if(titleClickCount === 10){ document.body.style.transition='transform 0.5s';document.body.style.transform='rotate(180deg)';setTimeout(()=>{document.body.style.transform='';},2000); }
+});
+
+// ===== 彩蛋2: Konami Code =====
+let konamiInput = [];
+const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+document.addEventListener('keydown', function(e){
+  konamiInput.push(e.key);
+  if(konamiInput.length > 10) konamiInput.shift();
+  if(konamiInput.join(',') === konamiCode.join(',')){
+    showToast('🎮 你输入了秘籍！今天可以提前下班！（才怪）', 3000);
+    konamiInput = [];
+    for(let i = 0; i < 30; i++){
+      setTimeout(() => {
+        const c = document.createElement('div'); c.className='confetti';
+        c.textContent = ['🎉','🎊','✨','💫','⭐','🌟','🎈','🎁'][Math.floor(Math.random()*8)];
+        c.style.left = Math.random()*window.innerWidth + 'px';
+        c.style.top = Math.random()*window.innerHeight/2 + 'px';
+        c.style.animationDelay = (Math.random()*0.5) + 's';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 1500);
+      }, i * 50);
+    }
+  }
+});
+
+// ===== 彩蛋3: 长按标题 =====
+let pressTimer;
+document.getElementById('hero-title').addEventListener('mousedown', function(){
+  pressTimer = setTimeout(() => {
+    showToast('🧘 摆烂模式已启动...（其实什么都不会发生）', 3000);
+    document.getElementById('hero-title').style.animation='none';
+    document.getElementById('hero-title').style.opacity='0.5';
+    setTimeout(()=>{document.getElementById('hero-title').style.animation='';document.getElementById('hero-title').style.opacity='';},3000);
+  }, 2000);
+});
+document.getElementById('hero-title').addEventListener('mouseup', function(){ clearTimeout(pressTimer); });
+document.getElementById('hero-title').addEventListener('mouseleave', function(){ clearTimeout(pressTimer); });
 </script>
 </body>
 </html>
