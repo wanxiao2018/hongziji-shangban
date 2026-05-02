@@ -16,7 +16,8 @@ body{
 }
 
 /* ===== 浮动emoji ===== */
-.float-emoji{position:fixed;font-size:28px;pointer-events:none;z-index:0;opacity:0.5;animation:floatE 8s ease-in-out infinite}
+.float-emoji{position:fixed;font-size:28px;pointer-events:auto;z-index:0;opacity:0.5;animation:floatE 8s ease-in-out infinite;cursor:pointer;transition:transform 0.2s,opacity 0.2s}
+.float-emoji:hover{opacity:0.9;transform:scale(1.3)}
 @keyframes floatE{0%,100%{transform:translateY(0) rotate(0deg)}33%{transform:translateY(-15px) rotate(5deg)}66%{transform:translateY(10px) rotate(-3deg)}}
 
 /* ===== Hero ===== */
@@ -50,19 +51,23 @@ body{
 .setting-group{display:flex;align-items:center;gap:8px}
 .setting-group label{font-size:14px;color:#9a8a7a;font-weight:700;white-space:nowrap}
 
-/* 自定义时间选择器 */
+/* 自定义滚轮时间选择器 */
 .time-picker{display:flex;align-items:center;gap:4px}
-.time-picker select{
-  background:rgba(255,240,225,0.7);border:2px solid rgba(255,180,140,0.25);
-  border-radius:10px;padding:10px 8px;
-  font-size:16px;font-weight:700;color:#e87040;
-  font-family:'Inter',monospace;outline:none;cursor:pointer;
-  text-align:center;text-align-last:center;
-  -webkit-appearance:none;appearance:none;
-  min-width:52px;
+.scroll-col{
+  width:52px;height:120px;overflow-y:scroll;overflow-x:hidden;
+  scroll-snap-type:y mandatory;border-radius:10px;
+  background:rgba(255,240,225,0.5);border:2px solid rgba(255,180,140,0.2);
+  scrollbar-width:none;-ms-overflow-style:none;
 }
-.time-picker select:focus{border-color:#e87040}
-.time-picker select option{background:#fff8f0;color:#3a3030;font-size:15px}
+.scroll-col::-webkit-scrollbar{display:none}
+.scroll-item{
+  height:40px;display:flex;align-items:center;justify-content:center;
+  scroll-snap-align:center;font-size:16px;font-weight:700;
+  font-family:'Inter',monospace;color:#c8a080;transition:all 0.15s;
+  user-select:none;cursor:pointer;
+}
+.scroll-item.active{color:#e87040;font-size:20px;font-weight:900}
+.scroll-col::-webkit-scrollbar{display:none}
 .time-sep{font-size:18px;font-weight:900;color:#e87040;margin:0 2px}
 
 .setting-input{
@@ -118,16 +123,80 @@ body{
 .rpg-reward{display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:linear-gradient(135deg,#ff7b4a,#ff9a5c);color:#fff;border-radius:999px;font-size:15px;font-weight:700;box-shadow:0 4px 16px rgba(255,120,74,0.2)}
 
 /* ===== 摸鱼奖励 ===== */
-.joy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:600px;margin:0 auto}
+.joy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:600px;margin:0 auto;perspective:800px}
 @media(max-width:600px){.joy-grid{grid-template-columns:repeat(2,1fr)}}
-.joy-item{background:rgba(255,220,200,0.12);border:2px solid rgba(255,180,140,0.15);border-radius:20px;padding:24px 14px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative}
-.joy-item:hover{border-color:rgba(255,150,100,0.4);background:rgba(255,220,200,0.25);transform:translateY(-3px)}
-.joy-item:active{transform:scale(0.96)}
-.joy-item.unlocked{border-color:#e87040;background:rgba(255,200,170,0.2)}
-.joy-item.unlocked::after{content:'✅ 已解锁';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:11px;color:#e87040;font-weight:700}
+.joy-card{
+  height:120px;cursor:pointer;position:relative;
+  transform-style:preserve-3d;transition:transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+.joy-card.flipped{transform:rotateY(180deg)}
+.joy-card-front,.joy-card-back{
+  position:absolute;inset:0;border-radius:20px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+}
+.joy-card-back{
+  background:linear-gradient(135deg,rgba(255,180,140,0.3),rgba(255,220,200,0.3));
+  border:2px dashed rgba(255,150,100,0.4);
+  font-size:36px;
+}
+.joy-card-back::after{
+  content:'点击翻开';position:absolute;bottom:10px;
+  font-size:11px;color:#c8a080;font-weight:600;
+}
+.joy-card-front{
+  background:rgba(255,200,170,0.2);border:2px solid rgba(255,150,100,0.3);
+  transform:rotateY(180deg);
+}
 .joy-icon{font-size:32px;margin-bottom:6px}
 .joy-name{font-size:14px;font-weight:700;color:#3a3030}
 .joy-desc{font-size:11px;color:#bbaa99;margin-top:4px}
+
+/* ===== 上班人格测试 ===== */
+.test-intro{text-align:center;padding:48px 32px;border-radius:32px;background:rgba(255,220,200,0.15);border:2px solid rgba(255,180,140,0.2)}
+.test-intro-emoji{font-size:64px;margin-bottom:16px;animation:shake 1.5s ease-in-out infinite}
+.test-intro-title{font-size:24px;font-weight:900;color:#3a3030;margin-bottom:12px}
+.test-intro-desc{font-size:15px;color:#9a8a7a;margin-bottom:28px;line-height:1.8}
+.test-question{display:none;padding:40px 32px;border-radius:32px;background:rgba(255,220,200,0.15);border:2px solid rgba(255,180,140,0.2);text-align:center}
+.test-question.active{display:block;animation:fadeInUp 0.4s ease}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.q-progress{display:flex;justify-content:center;gap:6px;margin-bottom:24px}
+.q-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,180,140,0.25);transition:all 0.3s}
+.q-dot.done{background:#ff9a5c}
+.q-dot.current{background:#e87040;transform:scale(1.3)}
+.q-num{display:inline-block;padding:5px 14px;background:rgba(255,180,140,0.12);border-radius:999px;font-size:13px;color:#d08050;font-weight:700;margin-bottom:16px}
+.q-text{font-size:clamp(18px,2.5vw,22px);font-weight:800;color:#3a3030;margin-bottom:28px;line-height:1.5}
+.q-options{display:flex;flex-direction:column;gap:12px;max-width:500px;margin:0 auto}
+.q-opt{padding:16px 20px;border-radius:16px;background:rgba(255,240,225,0.5);border:2px solid rgba(255,180,140,0.2);font-size:15px;font-weight:700;color:#5a4a3a;cursor:pointer;transition:all 0.2s;text-align:left;font-family:inherit}
+.q-opt:hover{background:rgba(255,200,160,0.4);border-color:rgba(255,180,140,0.5);transform:translateX(4px)}
+.q-opt:active{transform:scale(0.98)}
+.q-opt.selected{background:linear-gradient(135deg,rgba(255,123,74,0.15),rgba(255,154,92,0.15));border-color:#e87040;color:#e87040}
+.q-sub{font-size:12px;color:#bbaa99;font-weight:400;margin-top:4px;display:block}
+.q-nav{display:flex;justify-content:center;gap:12px;margin-top:28px}
+.q-nav .btn{min-width:120px}
+.q-nav .btn:disabled{opacity:0.4;cursor:not-allowed}
+
+.test-result{display:none;padding:48px 32px;border-radius:32px;background:rgba(255,220,200,0.15);border:2px solid rgba(255,180,140,0.2);text-align:center}
+.test-result.active{display:block;animation:fadeInUp 0.5s ease}
+.result-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;background:linear-gradient(135deg,rgba(255,123,74,0.15),rgba(255,154,92,0.15));border:2px solid rgba(255,120,74,0.3);border-radius:999px;font-size:14px;color:#e87040;font-weight:700;margin-bottom:20px}
+.result-emoji{font-size:80px;margin-bottom:16px;animation:resultBounce 1s ease}
+@keyframes resultBounce{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+.result-type{font-size:clamp(28px,5vw,40px);font-weight:900;color:#3a3030;margin-bottom:8px}
+.result-slogan{font-size:18px;color:#e87040;font-weight:700;margin-bottom:24px}
+.result-desc{font-size:15px;color:#6a5a4a;line-height:1.8;max-width:480px;margin:0 auto 24px;text-align:left}
+.result-stats{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;margin-bottom:28px;padding:20px;border-radius:20px;background:rgba(255,240,225,0.4)}
+.result-stat{text-align:center}
+.result-stat-num{font-size:24px;font-weight:900;color:#e87040}
+.result-stat-label{font-size:12px;color:#bbaa99}
+.result-share-box{padding:20px;border-radius:20px;background:rgba(255,240,225,0.4);margin-top:20px}
+.result-share-text{font-size:14px;color:#9a8a7a;margin-bottom:12px}
+.result-card{display:inline-block;padding:20px 28px;border-radius:20px;background:linear-gradient(135deg,#fff8f0,#ffe8d0);border:2px dashed rgba(255,180,140,0.4);text-align:center;margin-bottom:16px}
+.result-card-emoji{font-size:48px}
+.result-card-type{font-size:20px;font-weight:900;color:#3a3030;margin:8px 0 4px}
+.result-card-slogan{font-size:13px;color:#e87040;font-weight:700}
+.result-card-site{font-size:11px;color:#bbaa99;margin-top:12px}
+.result-bar{height:8px;border-radius:4px;background:rgba(255,180,140,0.2);margin:4px 0 8px;overflow:hidden}
+.result-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#ff7b4a,#ffcc5c);transition:width 1s ease}
 
 /* ===== 结尾 ===== */
 .ending-box{text-align:center;padding:48px 32px;border-radius:32px;background:rgba(255,220,200,0.12);border:2px solid rgba(255,180,140,0.15)}
@@ -155,10 +224,7 @@ footer a{color:#e87040;text-decoration:none;font-weight:600}
 </head>
 <body>
 
-<div class="float-emoji" style="top:12%;left:6%;animation-delay:0s">😪</div>
-<div class="float-emoji" style="top:25%;right:7%;animation-delay:1.5s">☕</div>
-<div class="float-emoji" style="top:55%;left:4%;animation-delay:3s">💰</div>
-<div class="float-emoji" style="top:75%;right:6%;animation-delay:4.5s">🎮</div>
+<div id="floating-emojis"></div>
 
 <div class="toast" id="toast"></div>
 <div class="secret-counter" id="secret-counter" title="试试连续点击标题">🫣</div>
@@ -187,30 +253,26 @@ footer a{color:#e87040;text-decoration:none;font-weight:600}
     <div class="setting-group">
       <label>上班</label>
       <div class="time-picker">
-        <select id="start-hour"></select>
+        <div class="scroll-col" id="start-hour-col"></div>
         <span class="time-sep">:</span>
-        <select id="start-min"></select>
+        <div class="scroll-col" id="start-min-col"></div>
       </div>
     </div>
     <div class="setting-group">
       <label>下班</label>
       <div class="time-picker">
-        <select id="end-hour"></select>
+        <div class="scroll-col" id="end-hour-col"></div>
         <span class="time-sep">:</span>
-        <select id="end-min"></select>
+        <div class="scroll-col" id="end-min-col"></div>
       </div>
     </div>
     <div class="setting-group">
       <label>月薪</label>
-      <input type="number" class="setting-input salary" id="monthly-salary" value="10000" onchange="saveSettings()">
+      <div class="scroll-col" id="salary-col" style="width:80px"></div>
     </div>
     <div class="setting-group">
       <label>休息</label>
-      <select id="rest-type" class="setting-select" onchange="saveSettings()">
-        <option value="double">双休</option>
-        <option value="single">单休</option>
-        <option value="size">大小周</option>
-      </select>
+      <div class="scroll-col" id="rest-col" style="width:70px"></div>
     </div>
   </div>
 </div>
@@ -226,7 +288,6 @@ footer a{color:#e87040;text-decoration:none;font-weight:600}
   </div>
   <div class="btn-row">
     <button class="btn btn-orange" onclick="nextMotivation()">🎯 再来一条</button>
-    <button class="btn btn-ghost" onclick="shareMotivation()">📤 发给同事</button>
   </div>
 </div>
 
@@ -268,18 +329,36 @@ footer a{color:#e87040;text-decoration:none;font-weight:600}
   <div class="btn-row"><button class="btn btn-orange" onclick="generateRPG()">🎲 刷新任务</button></div>
 </div>
 
+<!-- 上班人格测试 -->
+<div class="block reveal" id="personality-test">
+  <h2 class="block-title">🧪 上班人格测试</h2>
+  <p class="block-sub">测测你是哪种打工人（结果仅供娱乐，不构成辞职建议）</p>
+
+  <!-- 介绍页 -->
+  <div class="test-intro" id="test-intro">
+    <div class="test-intro-emoji">🔬</div>
+    <div class="test-intro-title">你是哪种打工人？</div>
+    <div class="test-intro-desc">
+      8道题，测出你的「上班人格」<br>
+      每个选项都很真实，因为这就是你<br>
+      <span style="color:#e87040;font-weight:700">测完可以分享给同事，看看谁更惨</span>
+    </div>
+    <button class="btn btn-orange" onclick="startTest()">🚀 开始测试</button>
+  </div>
+
+  <!-- 问题区 -->
+  <div id="test-questions"></div>
+
+  <!-- 结果区 -->
+  <div class="test-result" id="test-result"></div>
+</div>
+
 <!-- 摸鱼奖励 -->
 <div class="block reveal">
   <h2 class="block-title">🎁 今日摸鱼奖励</h2>
   <p class="block-sub">完成心理建设，解锁你的小确幸</p>
-  <div class="joy-grid">
-    <div class="joy-item" onclick="toggleJoy(this)"><div class="joy-icon">🧋</div><div class="joy-name">超贵奶茶</div><div class="joy-desc">下午三点犒劳自己</div></div>
-    <div class="joy-item" onclick="toggleJoy(this)"><div class="joy-icon">🐱</div><div class="joy-name">吸猫时间</div><div class="joy-desc">看5分钟猫咪视频</div></div>
-    <div class="joy-item" onclick="toggleJoy(this)"><div class="joy-icon">🎵</div><div class="joy-name">摸鱼歌单</div><div class="joy-desc">戴上耳机假装在忙</div></div>
-    <div class="joy-item" onclick="toggleJoy(this)"><div class="joy-icon">🛒</div><div class="joy-name">清空购物车</div><div class="joy-desc">奖励自己一件小东西</div></div>
-    <div class="joy-item" onclick="toggleJoy(this)"><div class="joy-icon">🚽</div><div class="joy-name">带薪拉屎</div><div class="joy-desc">经典摸鱼永远的神</div></div>
-    <div class="joy-item" onclick="toggleJoy(this)"><div class="joy-icon">📺</div><div class="joy-name">午休追剧</div><div class="joy-desc">看一集快乐加倍</div></div>
-  </div>
+  <div class="joy-grid" id="joy-grid"></div>
+  <div class="btn-row" style="margin-top:24px"><button class="btn btn-ghost" onclick="shuffleJoyCards()">🔄 重新洗牌</button></div>
 </div>
 
 <!-- 结尾 -->
@@ -310,52 +389,172 @@ function showToast(msg, duration){
   setTimeout(() => t.classList.remove('show'), duration || 2000);
 }
 
-// ===== 自定义时间选择器初始化 =====
-function initTimeSelects(){
-  const startH = document.getElementById('start-hour');
-  const startM = document.getElementById('start-min');
-  const endH = document.getElementById('end-hour');
-  const endM = document.getElementById('end-min');
-  for(let i = 0; i < 24; i++){
-    const v = String(i).padStart(2,'0');
-    startH.innerHTML += `<option value="${v}">${v}</option>`;
-    endH.innerHTML += `<option value="${v}">${v}</option>`;
-  }
-  for(let i = 0; i < 60; i+=5){
-    const v = String(i).padStart(2,'0');
-    startM.innerHTML += `<option value="${v}">${v}</option>`;
-    endM.innerHTML += `<option value="${v}">${v}</option>`;
-  }
-  // 填充5/10/15...55的完整选项
-  [startM, endM].forEach(sel => {
-    // 已经有0,5,10,...55，再补上其他分钟
-    sel.innerHTML = '';
-    for(let i = 0; i < 60; i++){
-      const v = String(i).padStart(2,'0');
-      sel.innerHTML += `<option value="${v}">${v}</option>`;
-    }
+// ===== 滚轮时间选择器 =====
+function initScrollColLabels(colId, items, defaultVal){
+  const col = document.getElementById(colId);
+  const spacer1 = document.createElement('div');
+  spacer1.style.height = '40px';spacer1.style.flexShrink = '0';
+  col.appendChild(spacer1);
+  items.forEach((item, i) => {
+    const el = document.createElement('div');
+    el.className = 'scroll-item';
+    el.dataset.value = item.v;
+    el.textContent = item.t;
+    el.addEventListener('click', function(){
+      col.scrollTo({top: i * 40, behavior: 'smooth'});
+    });
+    col.appendChild(el);
   });
+  const spacer2 = document.createElement('div');
+  spacer2.style.height = '40px';spacer2.style.flexShrink = '0';
+  col.appendChild(spacer2);
+  const defaultIdx = items.findIndex(x => x.v === defaultVal);
+  setTimeout(() => col.scrollTo({top: (defaultIdx >= 0 ? defaultIdx : 0) * 40}), 50);
+  let scrollTimer;
+  col.addEventListener('scroll', function(){
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      const els = col.querySelectorAll('.scroll-item');
+      const centerIdx = Math.round(col.scrollTop / 40);
+      els.forEach((el, i) => el.classList.toggle('active', i === centerIdx));
+      col.scrollTo({top: centerIdx * 40, behavior: 'smooth'});
+    }, 80);
+  });
+  setTimeout(() => {
+    const els = col.querySelectorAll('.scroll-item');
+    els.forEach((el, i) => el.classList.toggle('active', i === (defaultIdx >= 0 ? defaultIdx : 0)));
+  }, 100);
 }
-initTimeSelects();
+function initScrollColValues(colId, values, defaultVal){
+  const col = document.getElementById(colId);
+  const spacer1 = document.createElement('div');
+  spacer1.style.height = '40px';spacer1.style.flexShrink = '0';
+  col.appendChild(spacer1);
+  values.forEach((val, i) => {
+    const el = document.createElement('div');
+    el.className = 'scroll-item';
+    el.dataset.value = val;
+    el.textContent = val >= 10000 ? (val/10000).toFixed(val%10000?1:0)+'万' : val;
+    el.addEventListener('click', function(){
+      col.scrollTo({top: i * 40, behavior: 'smooth'});
+    });
+    col.appendChild(el);
+  });
+  const spacer2 = document.createElement('div');
+  spacer2.style.height = '40px';spacer2.style.flexShrink = '0';
+  col.appendChild(spacer2);
+  const defaultIdx = values.indexOf(defaultVal);
+  setTimeout(() => col.scrollTo({top: (defaultIdx >= 0 ? defaultIdx : 0) * 40}), 50);
+  let scrollTimer;
+  col.addEventListener('scroll', function(){
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      const els = col.querySelectorAll('.scroll-item');
+      const centerIdx = Math.round(col.scrollTop / 40);
+      els.forEach((el, i) => el.classList.toggle('active', i === centerIdx));
+      col.scrollTo({top: centerIdx * 40, behavior: 'smooth'});
+    }, 80);
+  });
+  setTimeout(() => {
+    const els = col.querySelectorAll('.scroll-item');
+    els.forEach((el, i) => el.classList.toggle('active', i === (defaultIdx >= 0 ? defaultIdx : 0)));
+  }, 100);
+}
+
+function initScrollCol(colId, min, max, defaultVal){
+  const col = document.getElementById(colId);
+  // 顶部留白
+  const spacer1 = document.createElement('div');
+  spacer1.style.height = '40px';spacer1.style.flexShrink = '0';
+  col.appendChild(spacer1);
+  for(let i = min; i <= max; i++){
+    const v = String(i).padStart(2,'0');
+    const item = document.createElement('div');
+    item.className = 'scroll-item';
+    item.dataset.value = v;
+    item.textContent = v;
+    item.addEventListener('click', function(){
+      col.scrollTo({top: (i - min) * 40, behavior: 'smooth'});
+    });
+    col.appendChild(item);
+  }
+  // 底部留白
+  const spacer2 = document.createElement('div');
+  spacer2.style.height = '40px';spacer2.style.flexShrink = '0';
+  col.appendChild(spacer2);
+  // 设置默认值
+  const idx = parseInt(defaultVal) - min;
+  setTimeout(() => col.scrollTo({top: idx * 40}), 50);
+  // 滚动时更新active
+  let scrollTimer;
+  col.addEventListener('scroll', function(){
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      const items = col.querySelectorAll('.scroll-item');
+      const scrollTop = col.scrollTop;
+      const centerIdx = Math.round(scrollTop / 40);
+      items.forEach((item, i) => {
+        item.classList.toggle('active', i === centerIdx);
+      });
+      // 吸附
+      col.scrollTo({top: centerIdx * 40, behavior: 'smooth'});
+    }, 80);
+  });
+  // 初始active
+  setTimeout(() => {
+    const items = col.querySelectorAll('.scroll-item');
+    items.forEach((item, i) => item.classList.toggle('active', i === idx));
+  }, 100);
+}
+initScrollCol('start-hour-col', 0, 23, '09');
+initScrollCol('start-min-col', 0, 59, '00');
+initScrollCol('end-hour-col', 0, 23, '18');
+initScrollCol('end-min-col', 0, 59, '00');
+
+// 月薪滚轮（3000-50000，步长1000）
+const salaryValues = [];
+for(let i = 3; i <= 50; i++) salaryValues.push(i * 1000);
+initScrollColValues('salary-col', salaryValues, 10000);
+
+// 休息滚轮
+const restValues = [{v:'double',t:'双休'},{v:'single',t:'单休'},{v:'size',t:'大小周'}];
+initScrollColLabels('rest-col', restValues, 'double');
 
 // ===== 设置管理 =====
 function loadSettings(){
   const saved = JSON.parse(localStorage.getItem('workSettings') || '{}');
-  document.getElementById('start-hour').value = saved.startHour || '09';
-  document.getElementById('start-min').value = saved.startMin || '00';
-  document.getElementById('end-hour').value = saved.endHour || '18';
-  document.getElementById('end-min').value = saved.endMin || '00';
-  document.getElementById('monthly-salary').value = saved.salary || '10000';
-  document.getElementById('rest-type').value = saved.rest || 'double';
+  if(saved.startHour) initScrollCol('start-hour-col', 0, 23, saved.startHour);
+  if(saved.startMin) initScrollCol('start-min-col', 0, 59, saved.startMin);
+  if(saved.endHour) initScrollCol('end-hour-col', 0, 23, saved.endHour);
+  if(saved.endMin) initScrollCol('end-min-col', 0, 59, saved.endMin);
+  // salary and rest are loaded via initScrollColValues/initScrollColLabels above
+  // but if saved values exist, re-init with them
+  if(saved.salary){
+    const salaryValues = [];
+    for(let i = 3; i <= 50; i++) salaryValues.push(i * 1000);
+    document.getElementById('salary-col').innerHTML = '';
+    initScrollColValues('salary-col', salaryValues, parseInt(saved.salary));
+  }
+  if(saved.rest){
+    const restValues = [{v:'double',t:'双休'},{v:'single',t:'单休'},{v:'size',t:'大小周'}];
+    document.getElementById('rest-col').innerHTML = '';
+    initScrollColLabels('rest-col', restValues, saved.rest);
+  }
+}
+function getScrollValue(colId){
+  const col = document.getElementById(colId);
+  const items = col.querySelectorAll('.scroll-item');
+  const centerIdx = Math.round(col.scrollTop / 40);
+  return items[centerIdx] ? items[centerIdx].dataset.value : '00';
 }
 function saveSettings(){
   const s = {
-    startHour: document.getElementById('start-hour').value,
-    startMin: document.getElementById('start-min').value,
-    endHour: document.getElementById('end-hour').value,
-    endMin: document.getElementById('end-min').value,
-    salary: document.getElementById('monthly-salary').value,
-    rest: document.getElementById('rest-type').value,
+    startHour: getScrollValue('start-hour-col'),
+    startMin: getScrollValue('start-min-col'),
+    endHour: getScrollValue('end-hour-col'),
+    endMin: getScrollValue('end-min-col'),
+    salary: getScrollValue('salary-col'),
+    rest: getScrollValue('rest-col'),
   };
   localStorage.setItem('workSettings', JSON.stringify(s));
   updateSalary(); updateCountdown();
@@ -365,14 +564,14 @@ loadSettings();
 
 // ===== 读取设置 =====
 function getStartH(){
-  return parseInt(document.getElementById('start-hour').value) + parseInt(document.getElementById('start-min').value)/60;
+  return parseInt(getScrollValue('start-hour-col')) + parseInt(getScrollValue('start-min-col'))/60;
 }
 function getEndH(){
-  return parseInt(document.getElementById('end-hour').value) + parseInt(document.getElementById('end-min').value)/60;
+  return parseInt(getScrollValue('end-hour-col')) + parseInt(getScrollValue('end-min-col'))/60;
 }
-function getWorkDays(){ const v = document.getElementById('rest-type').value; return v==='single'?26:v==='size'?24:22; }
+function getWorkDays(){ const v = getScrollValue('rest-col'); return v==='single'?26:v==='size'?24:22; }
 function getDailyHours(){ return Math.max(1, getEndH() - getStartH()); }
-function getMonthlySalary(){ return parseFloat(document.getElementById('monthly-salary').value) || 10000; }
+function getMonthlySalary(){ return parseFloat(getScrollValue('salary-col')) || 10000; }
 
 // ===== 哄你上班语录 =====
 const motivations = [
@@ -436,19 +635,7 @@ function nextMotivation(){
 }
 nextMotivation();
 
-function shareMotivation(){
-  const text = document.getElementById('motivation-text').textContent;
-  const shareText = text + '\n\n—— 来自「哄自己上班」';
-  if(navigator.share){ navigator.share({title:'哄自己上班', text: shareText}); }
-  else {
-    const ta = document.createElement('textarea');
-    ta.value = shareText; ta.style.cssText='position:fixed;left:-9999px';
-    document.body.appendChild(ta); ta.select();
-    try{ document.execCommand('copy'); showToast('✅ 已复制，去发给同事吧'); }
-    catch(e){ alert('复制失败：\n\n'+shareText); }
-    document.body.removeChild(ta);
-  }
-}
+
 
 // ===== 薪资 =====
 let salaryTipIdx = 0;
@@ -487,12 +674,12 @@ function updateCountdown(){
   const now = new Date();
   const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
   const startH = getStartH(), endH = getEndH();
-  const sh = document.getElementById('start-hour').value + ':' + document.getElementById('start-min').value;
-  const eh = document.getElementById('end-hour').value + ':' + document.getElementById('end-min').value;
+  const sh = getScrollValue('start-hour-col') + ':' + getScrollValue('start-min-col');
+  const eh = getScrollValue('end-hour-col') + ':' + getScrollValue('end-min-col');
   document.getElementById('countdown-sub').textContent = `上班 ${sh}，下班 ${eh}`;
 
   let target = new Date(now);
-  target.setHours(parseInt(document.getElementById('end-hour').value), parseInt(document.getElementById('end-min').value), 0, 0);
+  target.setHours(parseInt(getScrollValue('end-hour-col')), parseInt(getScrollValue('end-min-col')), 0, 0);
 
   if(now >= target){
     document.getElementById('cd-hours').textContent = '00';
@@ -547,23 +734,112 @@ function generateRPG(){
 }
 generateRPG();
 
-// ===== 摸鱼奖励 =====
-function toggleJoy(el){
-  el.classList.toggle('unlocked');
-  if(el.classList.contains('unlocked')){
-    const emojis = ['🎉','✨','🎊','💫','⭐','🌟'];
-    for(let i = 0; i < 8; i++){
-      const c = document.createElement('div'); c.className='confetti';
-      c.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-      const rect = el.getBoundingClientRect();
-      c.style.left = rect.left + rect.width/2 + (Math.random()-0.5)*100 + 'px';
-      c.style.top = rect.top + 'px';
-      c.style.animationDelay = (Math.random()*0.3) + 's';
-      document.body.appendChild(c);
-      setTimeout(() => c.remove(), 1500);
-    }
-  }
+// ===== 摸鱼奖励（翻牌模式）=====
+const allJoyRewards = [
+  {icon:'🧋', name:'超贵奶茶', desc:'下午三点犒劳自己'},
+  {icon:'🐱', name:'吸猫时间', desc:'看5分钟猫咪视频'},
+  {icon:'🎵', name:'摸鱼歌单', desc:'戴上耳机假装在忙'},
+  {icon:'🛒', name:'清空购物车', desc:'奖励自己一件小东西'},
+  {icon:'🚽', name:'带薪拉屎', desc:'经典摸鱼永远的神'},
+  {icon:'📺', name:'午休追剧', desc:'看一集快乐加倍'},
+  {icon:'🍕', name:'下午茶', desc:'来块蛋糕补充能量'},
+  {icon:'🎮', name:'摸鱼小游戏', desc:'偷偷玩5分钟'},
+  {icon:'😴', name:'工位午睡', desc:'趴桌子10分钟'},
+  {icon:'📱', name:'刷朋友圈', desc:'看看别人在干嘛'},
+  {icon:'🎧', name:'听播客', desc:'戴耳机假装开会'},
+  {icon:'🍫', name:'偷吃零食', desc:'抽屉里的秘密武器'},
+  {icon:'☕', name:'续命咖啡', desc:'第三杯才刚开始'},
+  {icon:'🌸', name:'下楼散步', desc:'出去透口气'},
+  {icon:'📝', name:'写日记', desc:'记录今天的摸鱼心得'},
+  {icon:'🎭', name:'假装打电话', desc:'喂喂喂我这边信号不好'},
+];
+function shuffleJoyCards(){
+  const grid = document.getElementById('joy-grid');
+  grid.innerHTML = '';
+  // 随机选6个不重复
+  const shuffled = [...allJoyRewards].sort(() => Math.random() - 0.5).slice(0, 6);
+  shuffled.forEach(reward => {
+    const card = document.createElement('div');
+    card.className = 'joy-card';
+    card.innerHTML = `
+      <div class="joy-card-back">🎁</div>
+      <div class="joy-card-front">
+        <div class="joy-icon">${reward.icon}</div>
+        <div class="joy-name">${reward.name}</div>
+        <div class="joy-desc">${reward.desc}</div>
+      </div>
+    `;
+    card.addEventListener('click', function(){
+      if(!card.classList.contains('flipped')){
+        card.classList.add('flipped');
+        // 彩花
+        const emojis = ['🎉','✨','🎊','💫','⭐','🌟'];
+        for(let i = 0; i < 6; i++){
+          const c = document.createElement('div'); c.className='confetti';
+          c.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+          const rect = card.getBoundingClientRect();
+          c.style.left = rect.left + rect.width/2 + (Math.random()-0.5)*80 + 'px';
+          c.style.top = rect.top + 'px';
+          c.style.animationDelay = (Math.random()*0.3) + 's';
+          document.body.appendChild(c);
+          setTimeout(() => c.remove(), 1500);
+        }
+      }
+    });
+    grid.appendChild(card);
+  });
 }
+shuffleJoyCards();
+
+// ===== 彩蛋0: 随机浮动emoji =====
+const floatingEmojiPool = [
+  {emoji:'😪', msgs:['别叹气了，叹气也要消耗能量的','你叹的气够吹起一个气球了','建议把叹气列入今日运动量']},
+  {emoji:'☕', msgs:['今天第几杯了？第三杯才刚开始呢','咖啡因：打工人的合法兴奋剂','没有咖啡，办公室少说瘫痪一半']},
+  {emoji:'💰', msgs:['刚才那一秒你又赚了 ¥0.0158','别算了，越算越想辞职','钱不是万能的，但没钱万万不能']},
+  {emoji:'🎮', msgs:['今日副本：办公室生存大挑战','你的摸鱼等级已经Lv.99了','成就解锁：假装忙碌大师']},
+  {emoji:'🐱', msgs:['猫猫说：今天也要摸鱼哦','吸一口猫，精神百倍','你司的猫比你努力']},
+  {emoji:'🍕', msgs:['披萨不会背叛你','今天午饭吃什么？又是外卖吧','用美食治愈打工的伤']},
+  {emoji:'🏖️', msgs:['心已经飞到海边了','想想下周的假期','你值得一个假期']},
+  {emoji:'😴', msgs:['困了就眯一会，别勉强','打工人的眼泪是枕头的养分','昨晚又熬夜了吧']},
+  {emoji:'🎵', msgs:['戴上耳机世界就是你的','今日推荐：摸鱼歌单','音乐是打工人的避难所']},
+  {emoji:'🌈', msgs:['风雨过后不一定有彩虹，但一定有加班','今天也要加油鸭','彩虹总在下班后出现']},
+  {emoji:'🔥', msgs:['你今天状态不错啊','燃烧吧，打工人！','这把火能撑到下午三点']},
+  {emoji:'🍀', msgs:['祝你今天不加班','幸运日！领导不在','今天摸鱼不会被发现']},
+];
+const floatingPositions = [
+  {top:'8%',left:'4%'},{top:'15%',right:'5%'},{top:'30%',left:'3%'},
+  {top:'45%',right:'4%'},{top:'60%',left:'5%'},{top:'70%',right:'6%'},
+  {top:'85%',left:'4%'},{top:'20%',left:'8%'},{top:'50%',right:'8%'},
+  {top:'40%',left:'2%'},{top:'75%',right:'3%'},{top:'90%',left:'6%'},
+];
+let totalEmojiClicks = 0;
+function initFloatingEmojis(){
+  const container = document.getElementById('floating-emojis');
+  container.innerHTML = '';
+  // 随机选6-8个emoji
+  const count = 6 + Math.floor(Math.random() * 3);
+  const shuffled = [...floatingEmojiPool].sort(() => Math.random() - 0.5).slice(0, count);
+  const shuffledPos = [...floatingPositions].sort(() => Math.random() - 0.5);
+  shuffled.forEach((item, i) => {
+    const el = document.createElement('div');
+    el.className = 'float-emoji';
+    const pos = shuffledPos[i];
+    Object.entries(pos).forEach(([k,v]) => el.style[k] = v);
+    el.style.animationDelay = (i * 0.8) + 's';
+    el.textContent = item.emoji;
+    el.addEventListener('click', function(){
+      const msg = item.msgs[Math.floor(Math.random() * item.msgs.length)];
+      showToast(item.emoji + ' ' + msg, 2500);
+      el.style.transform = 'scale(1.8) rotate(20deg)';
+      setTimeout(() => { el.style.transform = ''; }, 300);
+      totalEmojiClicks++;
+      if(totalEmojiClicks === 10) showToast('🏆 你已经点了10次emoji了，真的很闲啊！', 3000);
+      if(totalEmojiClicks === 25) showToast('👑 emoji点击大师！你赢了！', 3000);
+    });
+    container.appendChild(el);
+  });
+}
+initFloatingEmojis();
 
 // ===== 彩蛋1: 点击标题 =====
 let titleClickCount = 0;
@@ -612,6 +888,334 @@ document.getElementById('hero-title').addEventListener('mousedown', function(){
 });
 document.getElementById('hero-title').addEventListener('mouseup', function(){ clearTimeout(pressTimer); });
 document.getElementById('hero-title').addEventListener('mouseleave', function(){ clearTimeout(pressTimer); });
+
+// ===== 上班人格测试 =====
+const testQuestions = [
+  {
+    q: '早上闹钟响了，你的第一反应是？',
+    opts: [
+      { text: '立刻起床，元气满满去上班！', sub: '（你确定你不是在演戏？）', scores: {卷王:2} },
+      { text: '关掉闹钟，再睡5分钟...', sub: '（然后一睡就是40分钟）', scores: {摸鱼:2} },
+      { text: '躺床上刷10分钟手机才起来', sub: '（"看一眼时间"→刷了半小时）', scores: {装忙:2} },
+      { text: '开始思考人生的意义', sub: '（结论：上班没有意义）', scores: {崩溃:2} }
+    ]
+  },
+  {
+    q: '到公司后第一件事做什么？',
+    opts: [
+      { text: '打开电脑，开始高效工作', sub: '（领导最爱的员工类型）', scores: {卷王:2} },
+      { text: '泡咖啡、吃早餐、刷手机', sub: '（正式工作从10点开始）', scores: {摸鱼:2} },
+      { text: '打开一堆窗口假装很忙', sub: '（Alt+Tab 是你的生存技能）', scores: {装忙:2} },
+      { text: '坐下发呆，思考为什么在这', sub: '（灵魂出窍式上班）', scores: {已读不回:2} }
+    ]
+  },
+  {
+    q: '领导发消息"在吗？"你怎么回？',
+    opts: [
+      { text: '秒回"在的！有什么需要？"', sub: '（你的秒回速度让外卖小哥都汗颜）', scores: {卷王:2} },
+      { text: '过2小时才回"刚看到"', sub: '（其实看到的时候心跳漏了一拍）', scores: {已读不回:2} },
+      { text: '假装没看到，等领导来找', sub: '（眼不见为净，消息不看就不存在）', scores: {摸鱼:2} },
+      { text: '心跳加速，手抖着回"在"', sub: '（领导的"在吗"是职场版恐怖故事）', scores: {崩溃:2} }
+    ]
+  },
+  {
+    q: '开会时你通常在干嘛？',
+    opts: [
+      { text: '认真记笔记，积极发言', sub: '（会议室里的模范生）', scores: {卷王:2} },
+      { text: '脑子放空，神游天外', sub: '（灵魂已经到了马尔代夫）', scores: {摸鱼:2} },
+      { text: '偶尔点头，其实在想午饭', sub: '（点头频率=思考午饭频率）', scores: {装忙:2} },
+      { text: '全程担心被点名发言', sub: '（"千万别叫我千万别叫我..."）', scores: {崩溃:2} }
+    ]
+  },
+  {
+    q: '同事约你一起加班，你？',
+    opts: [
+      { text: '"好啊！正好这个项目需要"', sub: '（你是不是把公司当家了？）', scores: {卷王:2} },
+      { text: '"不好意思我今晚有事"', sub: '（事=回家躺着）', scores: {摸鱼:2} },
+      { text: '"嗯...我看看吧"', sub: '（翻译：我考虑一下怎么拒绝）', scores: {装忙:2} },
+      { text: '内心崩溃但还是答应了', sub: '（你的善良就是你的软肋）', scores: {崩溃:2} }
+    ]
+  },
+  {
+    q: '工作做不完了怎么办？',
+    opts: [
+      { text: '加班也要做完，绝不拖到明天', sub: '（你的时间管理：把24小时当48小时用）', scores: {卷王:2} },
+      { text: '明天再说，今天先下班', sub: '（今日事今日毕？那是别人的毕）', scores: {摸鱼:2} },
+      { text: '先做简单的，难的往后拖', sub: '（拖延症晚期但很有策略）', scores: {装忙:2} },
+      { text: '焦虑到失眠，第二天继续焦虑', sub: '（工作没做完，觉也没睡好）', scores: {崩溃:2} }
+    ]
+  },
+  {
+    q: '收到领导发的"辛苦了"，你心想？',
+    opts: [
+      { text: '"不辛苦！应该的！"', sub: '（你的回答让领导很满意）', scores: {卷王:2} },
+      { text: '"知道辛苦就别找我了"', sub: '（内心OS，嘴上不说）', scores: {摸鱼:2} },
+      { text: '发个表情包敷衍一下', sub: '（[微笑] 万能的职场表情）', scores: {装忙:2} },
+      { text: '"辛苦是真的辛苦啊"', sub: '（终于有人说实话了）', scores: {崩溃:2} }
+    ]
+  },
+  {
+    q: '周五下午4点，你在想什么？',
+    opts: [
+      { text: '"这周的工作总结还没写"', sub: '（周末计划：写工作总结）', scores: {卷王:2} },
+      { text: '"还有1小时就自由了！"', sub: '（倒计时比下班打卡还准）', scores: {摸鱼:2} },
+      { text: '"假装在忙，等下班"', sub: '（最后1小时=表演时间）', scores: {装忙:2} },
+      { text: '"下周一又要来了..."', sub: '（周末焦虑症候群）', scores: {崩溃:2} },
+      { text: '"已读不回就是我的态度"', sub: '（周五的我已经灵魂出窍）', scores: {已读不回:2} }
+    ]
+  }
+];
+
+const personalityTypes = {
+  卷王: {
+    emoji: '🏆',
+    name: '卷王型',
+    title: '工作狂人',
+    slogan: '工作使我快乐！（真的吗？）',
+    desc: '你是领导眼中的模范员工，同事眼中的"别人家的打工人"。你的时间管理堪比瑞士手表，你的工作热情让太阳都自愧不如。你可能没有周末，但你有KPI啊！',
+    tips: '建议：偶尔也要摸摸鱼，不然鱼会伤心的',
+    percent: 15
+  },
+  摸鱼: {
+    emoji: '🐟',
+    name: '摸鱼型',
+    title: '办公室隐形人',
+    slogan: '能躺着绝不坐着',
+    desc: '你是办公室的隐形大师，看起来很忙实际上在摸鱼。你的效率极高，因为你把"偷懒"变成了一门艺术。你的工位上永远有一杯咖啡和一部手机，这就是你的全部装备。',
+    tips: '建议：摸鱼可以，但别让领导发现你的摸鱼技巧比工作技巧还强',
+    percent: 30
+  },
+  装忙: {
+    emoji: '🎭',
+    name: '装忙型',
+    title: '表演艺术家',
+    slogan: '我很忙，但你不知道我在忙什么',
+    desc: '你是办公室的表演大师，永远在"开会"、"讨论"、"对接"。你的Alt+Tab速度堪比专业电竞选手，你的表情管理让演员都自愧不如。你可能没有在工作，但你看起来很忙。',
+    tips: '建议：装忙也要有底线，别装到最后自己都信了',
+    percent: 25
+  },
+  崩溃: {
+    emoji: '💔',
+    name: '崩溃型',
+    title: '脆脆打工人',
+    slogan: '我太难了',
+    desc: '你是办公室的"脆脆鲨"，每天都在崩溃边缘试探。你的内心戏比电视剧还精彩，你的焦虑感比WiFi信号还强。但奇怪的是，你第二天还是会准时出现在工位上。',
+    tips: '建议：崩溃可以，但别崩溃到忘记下班',
+    percent: 20
+  },
+  已读不回: {
+    emoji: '👻',
+    name: '已读不回型',
+    title: '办公室幽灵',
+    slogan: '我没看到就是不存在',
+    desc: '你是办公室的幽灵，消息永远已读不回，存在感极低。你的领导可能都忘了你的名字，但你的工资卡记得。你的生存哲学是：不主动、不拒绝、不负责。',
+    tips: '建议：偶尔也要冒个泡，不然会被当成真的幽灵',
+    percent: 10
+  }
+};
+
+let currentQ = 0;
+let answers = [];
+let scores = {卷王:0, 摸鱼:0, 装忙:0, 崩溃:0, 已读不回:0};
+
+function startTest(){
+  document.getElementById('test-intro').style.display = 'none';
+  currentQ = 0;
+  answers = [];
+  scores = {卷王:0, 摸鱼:0, 装忙:0, 崩溃:0, 已读不回:0};
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const container = document.getElementById('test-questions');
+  const q = testQuestions[currentQ];
+  
+  let dotsHtml = '';
+  for(let i = 0; i < testQuestions.length; i++){
+    dotsHtml += `<div class="q-dot ${i < currentQ ? 'done' : ''} ${i === currentQ ? 'current' : ''}"></div>`;
+  }
+  
+  let optsHtml = '';
+  q.opts.forEach((opt, i) => {
+    const isSelected = answers[currentQ] === i;
+    optsHtml += `
+      <button class="q-opt ${isSelected ? 'selected' : ''}" onclick="selectOption(${i})">
+        ${opt.text}
+        <span class="q-sub">${opt.sub}</span>
+      </button>
+    `;
+  });
+  
+  container.innerHTML = `
+    <div class="test-question active">
+      <div class="q-progress">${dotsHtml}</div>
+      <div class="q-num">第 ${currentQ + 1} / ${testQuestions.length} 题</div>
+      <div class="q-text">${q.q}</div>
+      <div class="q-options">${optsHtml}</div>
+      <div class="q-nav">
+        <button class="btn btn-ghost" onclick="prevQ()" ${currentQ === 0 ? 'disabled' : ''}>⬅ 上一题</button>
+        <button class="btn btn-orange" onclick="nextQ()" id="next-btn" ${answers[currentQ] === undefined ? 'disabled' : ''}>
+          ${currentQ === testQuestions.length - 1 ? '🎉 看结果' : '下一题 ➡'}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function selectOption(idx){
+  answers[currentQ] = idx;
+  renderQuestion();
+}
+
+function prevQ(){
+  if(currentQ > 0){
+    currentQ--;
+    renderQuestion();
+  }
+}
+
+function nextQ(){
+  if(answers[currentQ] === undefined) return;
+  
+  if(currentQ < testQuestions.length - 1){
+    currentQ++;
+    renderQuestion();
+  } else {
+    // 一次性计算所有分数
+    scores = {卷王:0, 摸鱼:0, 装忙:0, 崩溃:0, 已读不回:0};
+    answers.forEach((ansIdx, qi) => {
+      if(ansIdx !== undefined){
+        const opt = testQuestions[qi].opts[ansIdx];
+        Object.entries(opt.scores).forEach(([type, score]) => {
+          scores[type] = (scores[type] || 0) + score;
+        });
+      }
+    });
+    showResult();
+  }
+}
+
+function showResult(){
+  document.getElementById('test-questions').style.display = 'none';
+  
+  // 找出最高分
+  let maxType = '摸鱼';
+  let maxScore = 0;
+  Object.entries(scores).forEach(([type, score]) => {
+    if(score > maxScore){
+      maxScore = score;
+      maxType = type;
+    }
+  });
+  
+  const type = personalityTypes[maxType];
+  const totalScore = Object.values(scores).reduce((a,b) => a+b, 0);
+  
+  // 计算各类型占比
+  const percentages = {};
+  Object.entries(scores).forEach(([t, s]) => {
+    percentages[t] = totalScore > 0 ? Math.round(s / totalScore * 100) : 0;
+  });
+  
+  // 排序
+  const sorted = Object.entries(percentages).sort((a,b) => b[1] - a[1]);
+  
+  let barsHtml = '';
+  sorted.forEach(([t, pct]) => {
+    const pt = personalityTypes[t];
+    barsHtml += `
+      <div style="text-align:left;margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:#5a4a3a">
+          <span>${pt.emoji} ${pt.name}</span>
+          <span>${pct}%</span>
+        </div>
+        <div class="result-bar"><div class="result-bar-fill" style="width:${pct}%"></div></div>
+      </div>
+    `;
+  });
+  
+  const resultContainer = document.getElementById('test-result');
+  resultContainer.innerHTML = `
+    <div class="result-badge">🧪 测试结果</div>
+    <div class="result-emoji">${type.emoji}</div>
+    <div class="result-type">${type.name}</div>
+    <div class="result-slogan">${type.slogan}</div>
+    <div class="result-desc">${type.desc}</div>
+    <div class="result-stats">
+      <div class="result-stat">
+        <div class="result-stat-num">${type.percent}%</div>
+        <div class="result-stat-label">同类打工人</div>
+      </div>
+      <div class="result-stat">
+        <div class="result-stat-num">${maxScore}</div>
+        <div class="result-stat-label">匹配度</div>
+      </div>
+      <div class="result-stat">
+        <div class="result-stat-num">${testQuestions.length}</div>
+        <div class="result-stat-label">题目完成</div>
+      </div>
+    </div>
+    <div style="font-size:14px;color:#e87040;font-weight:700;margin-bottom:20px">💡 ${type.tips}</div>
+    <div style="margin-bottom:20px">
+      <div style="font-size:14px;color:#9a8a7a;margin-bottom:12px">你的上班人格构成：</div>
+      ${barsHtml}
+    </div>
+    <div class="result-share-box">
+      <div class="result-share-text">📱 长按截图分享给同事，看看谁更惨</div>
+      <div class="result-card">
+        <div class="result-card-emoji">${type.emoji}</div>
+        <div class="result-card-type">我是${type.name}打工人</div>
+        <div class="result-card-slogan">${type.slogan}</div>
+        <div class="result-card-site">—— 哄自己上班 · hongziji-shangban</div>
+      </div>
+      <div style="margin-top:12px">
+        <button class="btn btn-orange" onclick="copyResult('${type.name}','${type.slogan}')">📋 复制结果</button>
+        <button class="btn btn-ghost" onclick="retakeTest()" style="margin-left:8px">🔄 重新测试</button>
+      </div>
+    </div>
+  `;
+  resultContainer.classList.add('active');
+  
+  // 滚动到结果
+  resultContainer.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function copyResult(typeName, slogan){
+  const text = `🧪 我的上班人格测试结果：${typeName}\n${slogan}\n\n来测测你是哪种打工人 → hongziji-shangban`;
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(() => {
+      showToast('📋 结果已复制，快去分享吧！', 2500);
+    }).catch(() => {
+      fallbackCopy(text);
+    });
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+    showToast('📋 结果已复制，快去分享吧！', 2500);
+  } catch(e){
+    showToast('😢 复制失败，请手动截图分享', 2500);
+  }
+  document.body.removeChild(ta);
+}
+
+function retakeTest(){
+  document.getElementById('test-result').classList.remove('active');
+  document.getElementById('test-result').style.display = 'none';
+  document.getElementById('test-questions').innerHTML = '';
+  document.getElementById('test-intro').style.display = 'block';
+  document.getElementById('personality-test').scrollIntoView({behavior:'smooth', block:'center'});
+}
 </script>
 </body>
 </html>
