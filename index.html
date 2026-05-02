@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>哄自己上班 — 今天也辛苦了</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Noto+Sans+SC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Noto Sans SC','Inter',sans-serif;
+  overflow-x:hidden;
+  line-height:1.6;
+  background:#fff8f0;
+  color:#2d2d2d;
+}
+
+/* ===== 全局装饰 ===== */
+.floating-emoji{
+  position:fixed;
+  font-size:32px;
+  pointer-events:none;
+  z-index:0;
+  animation:floatEmoji 6s ease-in-out infinite;
+  opacity:0.6;
+}
+@keyframes floatEmoji{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-20px) rotate(10deg)}
+}
+
+/* ===== Hero ===== */
+.hero{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:40px 20px;
+  position:relative;
+  background:linear-gradient(180deg,#fff8f0 0%,#fff0e0 50%,#ffe8d0 100%);
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  top:-50%;left:-50%;
+  width:200%;height:200%;
+  background:radial-gradient(circle at 30% 40%,rgba(255,150,100,0.15) 0%,transparent 50%),
+             radial-gradient(circle at 70% 60%,rgba(255,200,100,0.12) 0%,transparent 50%);
+  animation:heroGlow 8s ease-in-out infinite alternate;
+}
+@keyframes heroGlow{
+  0%{transform:translate(0,0)}
+  100%{transform:translate(2%,-2%)}
+}
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 24px;
+  background:rgba(255,120,80,0.1);
+  border:2px solid rgba(255,120,80,0.3);
+  border-radius:999px;
+  font-size:15px;
+  color:#ff6b4a;
+  font-weight:700;
+  margin-bottom:32px;
+  position:relative;
+  z-index:1;
+  animation:badgeBounce 2s ease-in-out infinite;
+}
+@keyframes badgeBounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+}
+.hero h1{
+  font-size:clamp(72px,14vw,160px);
+  font-weight:900;
+  line-height:1.05;
+  margin-bottom:24px;
+  position:relative;
+  z-index:1;
+  background:linear-gradient(135deg,#ff6b4a 0%,#ff9a5c 30%,#ffcc5c 60%,#ff6b4a 100%);
+  background-size:200% 200%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:gradientShift 3s ease-in-out infinite;
+}
+@keyframes gradientShift{
+  0%,100%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+}
+.hero-sub{
+  font-size:clamp(18px,2.5vw,24px);
+  color:#8a7a6a;
+  max-width:500px;
+  margin:0 auto 40px;
+  position:relative;
+  z-index:1;
+}
+.hero-sub strong{color:#ff6b4a;font-weight:700}
+.hero-emoji-row{
+  font-size:48px;
+  margin-bottom:40px;
+  position:relative;
+  z-index:1;
+  animation:shake 1s ease-in-out infinite;
+}
+@keyframes shake{
+  0%,100%{transform:rotate(0deg)}
+  25%{transform:rotate(-5deg)}
+  75%{transform:rotate(5deg)}
+}
+.scroll-hint{
+  position:absolute;
+  bottom:40px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  color:#bbaa99;
+  font-size:14px;
+  font-weight:600;
+  z-index:1;
+}
+.scroll-arrow{
+  width:28px;height:28px;
+  border-right:3px solid #ff9a5c;
+  border-bottom:3px solid #ff9a5c;
+  transform:rotate(45deg);
+  animation:scrollBounce 1.5s ease-in-out infinite;
+}
+@keyframes scrollBounce{
+  0%,100%{transform:rotate(45deg) translateY(0)}
+  50%{transform:rotate(45deg) translateY(8px)}
+}
+
+/* ===== Sections ===== */
+.section{
+  padding:100px 24px;
+  max-width:900px;
+  margin:0 auto;
+  position:relative;
+}
+.section-title{
+  font-size:clamp(32px,5vw,52px);
+  font-weight:900;
+  text-align:center;
+  margin-bottom:12px;
+  line-height:1.3;
+}
+.section-sub{
+  text-align:center;
+  color:#9a8a7a;
+  font-size:17px;
+  margin-bottom:56px;
+}
+
+/* ===== 数据条 ===== */
+.stats-strip{
+  display:flex;
+  justify-content:center;
+  gap:40px;
+  flex-wrap:wrap;
+  padding:48px 24px;
+  background:linear-gradient(135deg,#fff5eb,#fff0e0);
+  border-top:3px dashed #ffd4b8;
+  border-bottom:3px dashed #ffd4b8;
+}
+.stat{text-align:center}
+.stat-num{
+  font-size:clamp(28px,4vw,42px);
+  font-weight:900;
+  color:#ff6b4a;
+}
+.stat-label{
+  font-size:13px;
+  color:#aa9988;
+  margin-top:4px;
+}
+
+/* ===== 哄你上班卡片 ===== */
+.motivation-card{
+  background:#fff;
+  border-radius:28px;
+  padding:48px 36px;
+  text-align:center;
+  box-shadow:0 8px 40px rgba(255,150,100,0.12);
+  border:2px solid #ffe0c8;
+  position:relative;
+  overflow:hidden;
+  min-height:220px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.motivation-card::before{
+  content:'💊';
+  position:absolute;
+  top:16px;right:20px;
+  font-size:40px;
+  opacity:0.15;
+}
+.motivation-tag{
+  display:inline-block;
+  padding:6px 16px;
+  background:#fff0e0;
+  border-radius:999px;
+  font-size:12px;
+  color:#ff9a5c;
+  font-weight:700;
+  margin-bottom:20px;
+}
+.motivation-text{
+  font-size:clamp(20px,2.5vw,28px);
+  font-weight:800;
+  line-height:1.6;
+  color:#3a3030;
+  white-space:nowrap;
+  overflow:visible;
+}
+.motivation-footer{
+  margin-top:24px;
+  font-size:13px;
+  color:#ccaa88;
+}
+.btn-row{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  margin-top:32px;
+  flex-wrap:wrap;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:14px 32px;
+  border:none;
+  border-radius:999px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all 0.2s;
+  font-family:inherit;
+}
+.btn:active{transform:scale(0.96)}
+.btn-primary{
+  background:linear-gradient(135deg,#ff6b4a,#ff9a5c);
+  color:#fff;
+  box-shadow:0 4px 20px rgba(255,107,74,0.3);
+}
+.btn-primary:hover{box-shadow:0 6px 28px rgba(255,107,74,0.4);transform:translateY(-2px)}
+.btn-secondary{
+  background:#fff;
+  color:#ff6b4a;
+  border:2px solid #ffd4b8;
+}
+.btn-secondary:hover{background:#fff5eb}
+
+/* ===== 薪资计算器 ===== */
+.salary-section{
+  background:linear-gradient(180deg,#fff8f0 0%,#fff0e0 100%);
+  padding:100px 24px;
+  text-align:center;
+}
+.salary-card{
+  background:#fff;
+  border-radius:28px;
+  padding:48px 36px;
+  max-width:500px;
+  margin:0 auto;
+  box-shadow:0 8px 40px rgba(255,150,100,0.1);
+  border:2px solid #ffe8d0;
+}
+.salary-label{font-size:14px;color:#aa9988;margin-bottom:8px}
+.salary-amount{
+  font-size:clamp(48px,10vw,80px);
+  font-weight:900;
+  font-family:'Inter',monospace;
+  color:#ff6b4a;
+  margin-bottom:8px;
+  line-height:1.1;
+}
+.salary-sub{
+  font-size:16px;
+  color:#ff9a5c;
+  font-weight:600;
+  margin-bottom:24px;
+}
+.salary-input-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  margin-bottom:16px;
+}
+.salary-input-row label{
+  font-size:14px;
+  color:#9a8a7a;
+  font-weight:600;
+  white-space:nowrap;
+}
+.salary-input{
+  background:#fff8f0;
+  border:2px solid #ffd4b8;
+  border-radius:14px;
+  padding:12px 20px;
+  font-size:20px;
+  font-weight:800;
+  color:#ff6b4a;
+  width:160px;
+  text-align:center;
+  font-family:'Inter',monospace;
+  outline:none;
+  transition:border-color 0.2s;
+}
+.salary-input:focus{border-color:#ff6b4a}
+.salary-tip{
+  font-size:14px;
+  color:#bbaa99;
+  line-height:1.6;
+}
+
+/* ===== 倒计时 ===== */
+.countdown-section{
+  background:#fff;
+  padding:100px 24px;
+  text-align:center;
+}
+.countdown-row{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  margin-bottom:32px;
+  flex-wrap:wrap;
+}
+.countdown-box{
+  background:linear-gradient(135deg,#fff5eb,#ffe8d8);
+  border-radius:20px;
+  padding:24px 20px;
+  min-width:90px;
+  border:2px solid #ffd4b8;
+}
+.countdown-num{
+  font-size:clamp(32px,5vw,48px);
+  font-weight:900;
+  font-family:'Inter',monospace;
+  color:#ff6b4a;
+  line-height:1;
+}
+.countdown-label{
+  font-size:12px;
+  color:#aa9988;
+  margin-top:4px;
+  font-weight:600;
+}
+.countdown-msg{
+  font-size:20px;
+  font-weight:700;
+  color:#ff9a5c;
+}
+
+/* ===== RPG任务 ===== */
+.rpg-section{
+  background:linear-gradient(180deg,#fff8f0 0%,#fff0e8 100%);
+  padding:100px 24px;
+  text-align:center;
+}
+.rpg-card{
+  background:#fff;
+  border-radius:28px;
+  padding:48px 36px;
+  max-width:600px;
+  margin:0 auto;
+  box-shadow:0 8px 40px rgba(255,150,100,0.1);
+  border:2px solid #ffe0c8;
+  position:relative;
+}
+.rpg-card::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:50%;
+  transform:translateX(-50%);
+  width:60%;height:4px;
+  background:linear-gradient(90deg,transparent,#ff9a5c,transparent);
+  border-radius:2px;
+}
+.rpg-badge{
+  display:inline-block;
+  padding:6px 18px;
+  background:#fff0e0;
+  border-radius:999px;
+  font-size:13px;
+  color:#ff6b4a;
+  font-weight:700;
+  margin-bottom:20px;
+}
+.rpg-title{
+  font-size:26px;
+  font-weight:900;
+  color:#3a3030;
+  margin-bottom:16px;
+}
+.rpg-task{
+  font-size:17px;
+  color:#6a5a4a;
+  line-height:1.8;
+  margin-bottom:20px;
+}
+.rpg-reward{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:10px 24px;
+  background:linear-gradient(135deg,#ff6b4a,#ff9a5c);
+  color:#fff;
+  border-radius:999px;
+  font-size:15px;
+  font-weight:700;
+}
+
+/* ===== 摸鱼奖励 ===== */
+.joy-section{
+  background:#fff;
+  padding:100px 24px;
+  text-align:center;
+}
+.joy-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  max-width:700px;
+  margin:0 auto;
+}
+@media(max-width:600px){.joy-grid{grid-template-columns:repeat(2,1fr)}}
+.joy-item{
+  background:#fff8f0;
+  border:2px solid #ffe0c8;
+  border-radius:20px;
+  padding:24px 16px;
+  text-align:center;
+  cursor:pointer;
+  transition:all 0.2s;
+  position:relative;
+  overflow:hidden;
+}
+.joy-item:hover{
+  border-color:#ff9a5c;
+  transform:translateY(-4px);
+  box-shadow:0 8px 24px rgba(255,150,100,0.15);
+}
+.joy-item:active{transform:scale(0.96)}
+.joy-item.unlocked{
+  border-color:#ff6b4a;
+  background:#fff0e8;
+}
+.joy-item.unlocked::after{
+  content:'✅ 已解锁';
+  position:absolute;
+  bottom:8px;left:50%;
+  transform:translateX(-50%);
+  font-size:11px;
+  color:#ff6b4a;
+  font-weight:700;
+}
+.joy-icon{font-size:36px;margin-bottom:8px}
+.joy-name{font-size:15px;font-weight:700;color:#3a3030}
+.joy-desc{font-size:12px;color:#aa9988;margin-top:4px}
+
+/* ===== 结尾 ===== */
+.ending{
+  background:linear-gradient(180deg,#fff8f0 0%,#ffe8d0 100%);
+  padding:100px 24px;
+  text-align:center;
+}
+.ending-card{
+  background:#fff;
+  border-radius:28px;
+  padding:48px 36px;
+  max-width:600px;
+  margin:0 auto;
+  box-shadow:0 8px 40px rgba(255,150,100,0.1);
+  border:2px solid #ffe0c8;
+}
+.ending-title{
+  font-size:clamp(24px,4vw,36px);
+  font-weight:900;
+  color:#3a3030;
+  margin-bottom:16px;
+}
+.ending-text{
+  font-size:17px;
+  color:#8a7a6a;
+  line-height:1.8;
+  margin-bottom:24px;
+}
+.ending-sign{
+  font-size:18px;
+  color:#ff6b4a;
+  font-weight:700;
+}
+
+/* ===== Footer ===== */
+footer{
+  text-align:center;
+  padding:48px 24px;
+  border-top:3px dashed #ffd4b8;
+  color:#bbaa99;
+  font-size:13px;
+}
+footer a{color:#ff6b4a;text-decoration:none;font-weight:600}
+
+/* ===== Scroll Reveal ===== */
+.reveal{
+  opacity:0;
+  transform:translateY(30px);
+  transition:all 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ===== Confetti ===== */
+.confetti{
+  position:fixed;
+  pointer-events:none;
+  z-index:99999;
+  font-size:24px;
+  animation:confettiFall 1s ease-out forwards;
+}
+@keyframes confettiFall{
+  0%{opacity:1;transform:translateY(0) rotate(0deg) scale(1)}
+  100%{opacity:0;transform:translateY(100px) rotate(360deg) scale(0)}
+}
+</style>
+</head>
+<body>
+
+<!-- 浮动装饰emoji -->
+<div class="floating-emoji" style="top:10%;left:5%;animation-delay:0s">😪</div>
+<div class="floating-emoji" style="top:20%;right:8%;animation-delay:1s">☕</div>
+<div class="floating-emoji" style="top:60%;left:3%;animation-delay:2s">💰</div>
+<div class="floating-emoji" style="top:70%;right:5%;animation-delay:3s">🎮</div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-badge">🩹 每天早上的心理建设急救站</div>
+  <div class="hero-emoji-row">😩 + ☕ = 😤💪</div>
+  <h1>哄自己上班</h1>
+  <p class="hero-sub">
+    明知不想去，还是得去。<br>
+    既然如此，不如<strong>笑着出门</strong>。
+  </p>
+  <div class="scroll-hint">
+    往下滑，开始今天的心理建设
+    <div class="scroll-arrow"></div>
+  </div>
+</div>
+
+<!-- 数据条 -->
+<div class="stats-strip reveal">
+  <div class="stat">
+    <div class="stat-num">3.2亿</div>
+    <div class="stat-label">和你一样的打工人</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">93.8%</div>
+    <div class="stat-label">的人有倦怠感</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">54.9%</div>
+    <div class="stat-label">受焦虑困扰</div>
+  </div>
+</div>
+
+<!-- 今日哄你上班 -->
+<div class="section reveal">
+  <h2 class="section-title">💊 今日份心理建设</h2>
+  <p class="section-sub">不灌鸡汤，只说人话</p>
+  <div class="motivation-card">
+    <div class="motivation-tag">第 <span id="round-num">1</span> 条</div>
+    <p class="motivation-text" id="motivation-text">点击下方按钮，获取今日份心理建设</p>
+    <p class="motivation-footer">—— 来自3亿打工人的集体智慧</p>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="nextMotivation()">🎯 再来一条</button>
+    <button class="btn btn-secondary" onclick="shareMotivation()">📤 发给同事</button>
+  </div>
+</div>
+
+<!-- 薪资计算器 -->
+<div class="salary-section reveal">
+  <h2 class="section-title">💰 你正在赚钱</h2>
+  <p class="section-sub">每过一秒，你的钱包就鼓一点</p>
+  <div class="salary-card">
+    <div class="salary-label">今日已赚</div>
+    <div class="salary-amount" id="salary-amount">¥0.00</div>
+    <div class="salary-sub">每秒 ¥<span id="salary-per-sec">0.0000</span></div>
+    <div class="salary-input-row">
+      <label>月薪</label>
+      <input type="number" class="salary-input" id="monthly-salary" value="10000" onchange="updateSalary()">
+      <label>元</label>
+    </div>
+    <p class="salary-tip" id="salary-tip"></p>
+  </div>
+</div>
+
+<!-- 下班倒计时 -->
+<div class="countdown-section reveal">
+  <h2 class="section-title">⏰ 下班倒计时</h2>
+  <p class="section-sub">再坚持一下，胜利就在眼前</p>
+  <div class="countdown-row">
+    <div class="countdown-box">
+      <div class="countdown-num" id="cd-hours">--</div>
+      <div class="countdown-label">小时</div>
+    </div>
+    <div class="countdown-box">
+      <div class="countdown-num" id="cd-minutes">--</div>
+      <div class="countdown-label">分钟</div>
+    </div>
+    <div class="countdown-box">
+      <div class="countdown-num" id="cd-seconds">--</div>
+      <div class="countdown-label">秒</div>
+    </div>
+    <div class="countdown-box">
+      <div class="countdown-num" id="cd-percent">0%</div>
+      <div class="countdown-label">今日进度</div>
+    </div>
+  </div>
+  <p class="countdown-msg" id="countdown-msg"></p>
+</div>
+
+<!-- RPG任务 -->
+<div class="rpg-section reveal">
+  <h2 class="section-title">🎮 今日NPC任务</h2>
+  <p class="section-sub">把上班当成RPG，领导是NPC，工资是金币</p>
+  <div class="rpg-card">
+    <div class="rpg-badge">⚔️ 每日任务</div>
+    <div class="rpg-title" id="rpg-title">任务加载中...</div>
+    <div class="rpg-task" id="rpg-task"></div>
+    <div class="rpg-reward" id="rpg-reward">🎁 加载中...</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="generateRPG()">🎲 刷新任务</button>
+  </div>
+</div>
+
+<!-- 摸鱼奖励 -->
+<div class="joy-section reveal">
+  <h2 class="section-title">🎁 今日摸鱼奖励</h2>
+  <p class="section-sub">完成心理建设，解锁你的小确幸</p>
+  <div class="joy-grid">
+    <div class="joy-item" onclick="toggleJoy(this)">
+      <div class="joy-icon">🧋</div>
+      <div class="joy-name">超贵奶茶</div>
+      <div class="joy-desc">下午三点犒劳自己</div>
+    </div>
+    <div class="joy-item" onclick="toggleJoy(this)">
+      <div class="joy-icon">🐱</div>
+      <div class="joy-name">吸猫时间</div>
+      <div class="joy-desc">看5分钟猫咪视频</div>
+    </div>
+    <div class="joy-item" onclick="toggleJoy(this)">
+      <div class="joy-icon">🎵</div>
+      <div class="joy-name">摸鱼歌单</div>
+      <div class="joy-desc">戴上耳机假装在忙</div>
+    </div>
+    <div class="joy-item" onclick="toggleJoy(this)">
+      <div class="joy-icon">🛒</div>
+      <div class="joy-name">清空购物车</div>
+      <div class="joy-desc">奖励自己一件小东西</div>
+    </div>
+    <div class="joy-item" onclick="toggleJoy(this)">
+      <div class="joy-icon">🚽</div>
+      <div class="joy-name">带薪拉屎</div>
+      <div class="joy-desc">经典摸鱼永远的神</div>
+    </div>
+    <div class="joy-item" onclick="toggleJoy(this)">
+      <div class="joy-icon">📺</div>
+      <div class="joy-name">午休追剧</div>
+      <div class="joy-desc">看一集快乐加倍</div>
+    </div>
+  </div>
+</div>
+
+<!-- 结尾 -->
+<div class="ending reveal">
+  <div class="ending-card">
+    <div class="ending-title">你已经完成了今天的心理建设 💪</div>
+    <p class="ending-text">
+      现在，去征服这个世界吧。<br>
+      （或者至少，去把今天的班上完）
+    </p>
+    <div class="ending-sign">明天见，打工人 ✨</div>
+  </div>
+</div>
+
+<footer>
+  <p>哄自己上班 © 2026 · 用幽默对抗打工的苦涩</p>
+  <p style="margin-top:8px"><a href="https://github.com/wanxiao2018" target="_blank">GitHub</a></p>
+</footer>
+
+<script>
+// ===== 滚动动画 =====
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) e.target.classList.add('visible');
+  });
+}, {threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ===== 哄你上班语录 =====
+const motivations = [
+  {text:"你不是去上班的，你是去吃上午茶、中饭、下午茶的。", tag:"美食路线"},
+  {text:"今天的你，比昨天的你多活了一天，赚了。", tag:"哲学思考"},
+  {text:"去公司可以免费充电、免费喝水、免费吹空调，血赚。", tag:"薅羊毛"},
+  {text:"想想你的猫，它需要你赚钱买猫粮。", tag:"责任感"},
+  {text:"上班8小时，摸鱼4小时，实际工作2小时，还行吧。", tag:"数学计算"},
+  {text:"你不去上班，怎么发「又是不想上班的一天」？", tag:"社交需求"},
+  {text:"今天的工资 = 一杯超贵奶茶 + 一顿好吃的 + 一个快递。", tag:"消费主义"},
+  {text:"领导也是人，他也不想上班，你们是同一条船上的人。", tag:"战友情"},
+  {text:"想想周五下班那一刻的快乐，值得你撑过这五天。", tag:"延迟满足"},
+  {text:"你不是在上班，你是在为下班后的快乐积累资本。", tag:"投资思维"},
+  {text:"今天的任务：假装热爱工作8小时，奖励：下班后的自由。", tag:"角色扮演"},
+  {text:"你已经坚持了这么多天了，今天不过是再来一天而已。", tag:"惯性定律"},
+  {text:"去公司最大的好处：有人陪你聊天，比在家刷手机强。", tag:"社交价值"},
+  {text:"今天不上明天也得上，不如今天上完拉倒。", tag:"务实主义"},
+  {text:"你的工位上还有你养的绿萝，它在等你浇水。", tag:"责任感"},
+  {text:"上班可以穿好看的衣服，在家只能穿睡衣。", tag:"时尚"},
+  {text:"今天坚持到下午三点，就奖励自己一杯最贵的奶茶。", tag:"奖励机制"},
+  {text:"想想退休那天的快乐，每一天都是倒计时。", tag:"长期主义"},
+  {text:"你不是在打工，你是在玩一个叫「职场生存」的大型RPG。", tag:"游戏化"},
+  {text:"去上班最大的意义：让老板知道你还在，工资不能少发。", tag:"存在主义"},
+  {text:"想想你的花呗，再看看你的余额，去吧打工人。", tag:"经济压力"},
+  {text:"今天不去，明天的活还是你的，不如今天去干完。", tag:"拖延无用"},
+  {text:"公司有免费WiFi，可以偷偷看剧，这波不亏。", tag:"福利"},
+  {text:"你不是一个人在战斗，全国3亿打工人和你同在。", tag:"集体荣誉"},
+  {text:"今天的你，是未来亿万富翁的起点，去积累经验值吧。", tag:"梦想"},
+  {text:"想想周末，想想假期，想想年终奖，你就有动力了。", tag:"盼头"},
+  {text:"今天的风好大，正好把你吹到公司去。", tag:"天意"},
+  {text:"你已经起床上厕所了，顺便去上班吧。", tag:"顺路"},
+  {text:"闹钟响了10遍了，再不起床就迟到了，迟到扣钱更心疼。", tag:"损失厌恶"},
+{text:"带薪拉屎一天30分钟，一个月就是10小时，赚麻了。", tag:"时间管理"},
+  {text:"你不去上班，谁给你的花呗还钱？", tag:"财务自由"},
+  {text:"今天不去，明天就要干两天的活，这笔账算不过来。", tag:"数学天才"},
+  {text:"同事昨天请了奶茶，你今天不去就亏了。", tag:"社交投资"},
+  {text:"公司楼下新开了一家面包店，去尝尝？这叫工作动力。", tag:"美食探索"},
+  {text:"你已经化了妆/换了衣服，不去上班这身行头白费了。", tag:"沉没成本"},
+  {text:"想想你的社保不断缴，退休金在向你招手。", tag:"长期投资"},
+  {text:"去公司最大的好处：有人帮你收快递。", tag:"物流便利"},
+  {text:"今天有早会，迟到会被点名，去吧勇士。", tag:"面子工程"},
+  {text:"你不去上班，怎么在工位上偷偷追剧？", tag:"反向激励"},
+  {text:"去了就有工资，不去就扣钱，这道题不难选。", tag:"经济学"},
+  {text:"今天周五！再撑一天就解放了，冲啊！", tag:"周末倒计时"},
+  {text:"你的工位上还有昨天没喝完的水，不去浪费了。", tag:"环保主义"},
+  {text:"同事说今天中午吃火锅，你确定不去？", tag:"社交绑架"},
+  {text:"想想年假还没用完，去了又能摸一天鱼。", tag:"假期规划"},
+  {text:"老板今天不在，去了等于放飞自我。", tag:"天降好运"},
+  {text:"今天的工作量看起来不多，去混一天又何妨。", tag:"轻松模式"},
+  {text:"你不去上班，家里的WiFi也要钱啊。", tag:"成本核算"},
+  {text:"想想你收藏的那些旅行攻略，都需要钱来实现。", tag:"梦想基金"},
+  {text:"今天的你，比未来的你更年轻，去赚点钱吧。", tag:"青春无价"},
+];
+let currentMotivation = 0;
+function nextMotivation(){
+  currentMotivation = (currentMotivation + 1) % motivations.length;
+  const m = motivations[currentMotivation];
+  document.getElementById('motivation-text').textContent = m.text;
+  document.querySelector('.motivation-tag').textContent = m.tag;
+  document.getElementById('round-num').textContent = currentMotivation + 1;
+}
+nextMotivation();
+
+function shareMotivation(){
+  const text = document.getElementById('motivation-text').textContent;
+  if(navigator.share){
+    navigator.share({title:'哄自己上班', text: text + '\n\n—— 来自「哄自己上班」'});
+  } else {
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = event.target;
+      const orig = btn.textContent;
+      btn.textContent = '✅ 已复制';
+      setTimeout(() => btn.textContent = orig, 1500);
+    });
+  }
+}
+
+// ===== 薪资计算器 =====
+let monthlySalary = 10000;
+function updateSalary(){
+  monthlySalary = parseFloat(document.getElementById('monthly-salary').value) || 10000;
+  const perSec = monthlySalary / (22 * 8 * 3600);
+  document.getElementById('salary-per-sec').textContent = perSec.toFixed(4);
+  const tips = [
+    `每分钟你赚 ¥${(perSec*60).toFixed(2)}，够买一瓶矿泉水`,
+    `每小时你赚 ¥${(perSec*3600).toFixed(2)}，够吃一顿外卖`,
+    `今天8小时你能赚 ¥${(perSec*3600*8).toFixed(2)}，不错不错`,
+    `这周5天你能赚 ¥${(perSec*3600*8*5).toFixed(2)}，坚持住`,
+  ];
+  document.getElementById('salary-tip').textContent = tips[Math.floor(Math.random()*tips.length)];
+}
+
+function tickSalary(){
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+  let workSec = 0;
+  if(h >= 9 && h < 18) workSec = (h-9)*3600 + m*60 + s;
+  else if(h >= 18) workSec = 8*3600;
+  const perSec = monthlySalary / (22*8*3600);
+  document.getElementById('salary-amount').textContent = '¥' + (workSec * perSec).toFixed(2);
+  requestAnimationFrame(tickSalary);
+}
+updateSalary();
+tickSalary();
+
+// ===== 倒计时 =====
+function updateCountdown(){
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+  let target = new Date(now);
+  target.setHours(18,0,0,0);
+  if(now >= target){
+    document.getElementById('cd-hours').textContent = '00';
+    document.getElementById('cd-minutes').textContent = '00';
+    document.getElementById('cd-seconds').textContent = '00';
+    document.getElementById('cd-percent').textContent = '100%';
+    document.getElementById('countdown-msg').textContent = '🎉 下班啦！今天辛苦了！';
+    return;
+  }
+  if(h < 9){
+    document.getElementById('cd-hours').textContent = '--';
+    document.getElementById('cd-minutes').textContent = '--';
+    document.getElementById('cd-seconds').textContent = '--';
+    document.getElementById('cd-percent').textContent = '0%';
+    document.getElementById('countdown-msg').textContent = '还没上班呢，再享受一会儿...';
+    return;
+  }
+  const diff = target - now;
+  const hh = Math.floor(diff/3600000);
+  const mm = Math.floor((diff%3600000)/60000);
+  const ss = Math.floor((diff%60000)/1000);
+  document.getElementById('cd-hours').textContent = String(hh).padStart(2,'0');
+  document.getElementById('cd-minutes').textContent = String(mm).padStart(2,'0');
+  document.getElementById('cd-seconds').textContent = String(ss).padStart(2,'0');
+  const elapsed = (h-9)*3600 + m*60 + s;
+  const pct = Math.min(100, Math.floor(elapsed/28800*100));
+  document.getElementById('cd-percent').textContent = pct + '%';
+  const msgs = pct < 30 ? '才刚开始，慢慢来 ☕' : pct < 60 ? '已经过半了，加油 💪' : pct < 90 ? '胜利在望 🎯' : '马上就自由了！🚀';
+  document.getElementById('countdown-msg').textContent = msgs;
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// ===== RPG任务 =====
+const rpgTasks = [
+  {title:'假装热爱工作', task:'在工位上坐直，面带微笑，让领导觉得你很投入。<br>持续时间：2小时', reward:'带薪摸鱼15分钟'},
+  {title:'抵挡会议攻击', task:'参加一个可能本可以邮件解决的会议，全程保持清醒，适时点头。<br>目标：不睡着', reward:'会后奶茶一杯'},
+  {title:'完成今日KPI', task:'打开电脑，假装在忙，实际在摸鱼和工作之间反复横跳。<br>关键：不能被发现', reward:'准时下班的权利'},
+  {title:'社交魔法', task:'和同事聊天30分钟，内容包括但不限于：吐槽领导、讨论午饭、分享摸鱼技巧。', reward:'快乐值+50'},
+  {title:'午休冲刺', task:'12:00准时冲向食堂，用最快速度吃完饭，然后享受40分钟的午睡。', reward:'下午精神值恢复80%'},
+  {title:'表演艺术家', task:'在领导路过时切换到工作界面，手速要快，表情要自然。这是一门艺术。', reward:'演技经验值+100'},
+  {title:'薅羊毛大师', task:'统计今天薅了公司多少羊毛：免费水电、空调、WiFi、纸巾、饮用水...', reward:'薅羊毛成就解锁'},
+  {title:'情绪管理大师', task:'面对不合理的要求，保持微笑，内心默念「我是来赚钱的不是来生气的」', reward:'血压稳定，头发保住'},
+  {title:'倒计时守护者', task:'每过一小时看一眼下班倒计时，记录自己的心情变化。<br>目标：活着等到下班。', reward:'下班后自由的空气'},
+  {title:'职场副本', task:'今天要攻克一个难题：在不加班的前提下完成所有任务。<br>难度：地狱级', reward:'准时下班成就'},
+];
+let lastRPG = -1;
+function generateRPG(){
+  let idx;
+  do { idx = Math.floor(Math.random()*rpgTasks.length); } while(idx === lastRPG);
+  lastRPG = idx;
+  const t = rpgTasks[idx];
+  document.getElementById('rpg-title').textContent = t.title;
+  document.getElementById('rpg-task').innerHTML = t.task;
+  document.getElementById('rpg-reward').textContent = '🎁 ' + t.reward;
+}
+generateRPG();
+
+// ===== 摸鱼奖励 =====
+function toggleJoy(el){
+  el.classList.toggle('unlocked');
+  if(el.classList.contains('unlocked')){
+    // 彩纸特效
+    const emojis = ['🎉','✨','🎊','💫','⭐','🌟'];
+    for(let i = 0; i < 8; i++){
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      const rect = el.getBoundingClientRect();
+      c.style.left = rect.left + rect.width/2 + (Math.random()-0.5)*100 + 'px';
+      c.style.top = rect.top + 'px';
+      c.style.animationDelay = (Math.random()*0.3) + 's';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 1500);
+    }
+  }
+}
+</script>
+</body>
+</html>
