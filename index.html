@@ -15,9 +15,20 @@ body{
   background-attachment:fixed;color:#3a3030;
 }
 
+/* 去除蓝色选中框 */
+::selection{background:rgba(255,120,80,0.2);color:inherit}
+*{-webkit-tap-highlight-color:transparent!important;user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}
+*:focus,*:active{outline:none!important}
+*:focus-visible{outline:none!important}
+button:focus,button:active{outline:none!important;box-shadow:none!important}
+input:focus,select:focus{outline:none!important}
+h1:focus,h2:focus,h3:focus,p:focus,span:focus,div:focus{outline:none!important;-webkit-tap-highlight-color:transparent}
+
 /* ===== 浮动emoji ===== */
-.float-emoji{position:fixed;font-size:28px;pointer-events:auto;z-index:0;opacity:0.5;animation:floatE 8s ease-in-out infinite;cursor:pointer;transition:transform 0.2s,opacity 0.2s}
+.float-emoji{position:fixed;font-size:28px;pointer-events:auto;z-index:100;opacity:0.5;animation:floatE 8s ease-in-out infinite;cursor:pointer;transition:transform 0.2s,opacity 0.2s}
 .float-emoji:hover{opacity:0.9;transform:scale(1.3)}
+.emoji-tooltip{position:fixed;padding:12px 18px;background:rgba(60,50,40,0.95);color:#fff;border-radius:14px;font-size:15px;font-weight:600;z-index:99998;pointer-events:none;opacity:0;transition:opacity 0.3s;max-width:280px;min-width:160px;line-height:1.5;backdrop-filter:blur(8px);box-shadow:0 6px 24px rgba(0,0,0,0.2)}
+.emoji-tooltip.show{opacity:1}
 @keyframes floatE{0%,100%{transform:translateY(0) rotate(0deg)}33%{transform:translateY(-15px) rotate(5deg)}66%{transform:translateY(10px) rotate(-3deg)}}
 
 /* ===== Hero ===== */
@@ -36,7 +47,7 @@ body{
 @keyframes scrollBounce{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(8px)}}
 
 /* ===== 通用区块 ===== */
-.block{padding:80px 24px;max-width:800px;margin:0 auto;position:relative;z-index:1}
+.block{min-height:100vh;padding:120px 24px;max-width:800px;margin:0 auto;position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;gap:24px}
 .block-title{font-size:clamp(28px,4.5vw,44px);font-weight:900;text-align:center;margin-bottom:10px}
 .block-sub{text-align:center;color:#b0a090;font-size:16px;margin-bottom:48px}
 
@@ -123,10 +134,10 @@ body{
 .rpg-reward{display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:linear-gradient(135deg,#ff7b4a,#ff9a5c);color:#fff;border-radius:999px;font-size:15px;font-weight:700;box-shadow:0 4px 16px rgba(255,120,74,0.2)}
 
 /* ===== 摸鱼奖励 ===== */
-.joy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:600px;margin:0 auto;perspective:800px}
+.joy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;max-width:600px;margin:0 auto;perspective:800px;align-items:stretch}
 @media(max-width:600px){.joy-grid{grid-template-columns:repeat(2,1fr)}}
 .joy-card{
-  height:120px;cursor:pointer;position:relative;
+  height:140px;cursor:pointer;position:relative;width:100%;
   transform-style:preserve-3d;transition:transform 0.5s cubic-bezier(0.22,1,0.36,1);
 }
 .joy-card.flipped{transform:rotateY(180deg)}
@@ -198,6 +209,27 @@ body{
 .result-bar{height:8px;border-radius:4px;background:rgba(255,180,140,0.2);margin:4px 0 8px;overflow:hidden}
 .result-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#ff7b4a,#ffcc5c);transition:width 1s ease}
 
+/* ===== 刮奖卡 ===== */
+.scratch-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.scratch-card{position:relative;height:160px;border-radius:20px;overflow:hidden;cursor:pointer;background:linear-gradient(135deg,#fff5eb,#ffe8d0);border:2px solid rgba(255,180,140,0.25)}
+.scratch-card canvas{position:absolute;inset:0;width:100%;height:100%;z-index:2;border-radius:20px}
+.scratch-card-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;z-index:1;text-align:center}
+.scratch-card-title{font-size:13px;font-weight:700;color:#d08050;margin-bottom:8px}
+.scratch-card-reward{font-size:13px;font-weight:700;color:#3a3030;line-height:1.4;white-space:nowrap}
+.scratch-card-hint{font-size:11px;color:#bbaa99;margin-top:8px}
+.scratch-card.revealed canvas{display:none}
+.scratch-card.revealed .scratch-card-hint{display:none}
+.scratch-card.revealed{animation:resultBounce 0.5s ease;background:linear-gradient(135deg,rgba(255,123,74,0.1),rgba(255,154,92,0.1))}
+
+/* ===== 大号刮奖区（倒计时/薪资） ===== */
+.big-scratch{position:relative;border-radius:28px;overflow:hidden;background:rgba(255,220,200,0.12);border:2px solid rgba(255,180,140,0.15)}
+.big-scratch canvas{position:absolute;inset:0;width:100%;height:100%;z-index:10;border-radius:28px;cursor:pointer}
+.big-scratch-content{padding:40px 24px;position:relative;z-index:1}
+.big-scratch.revealed canvas{display:none}
+.big-scratch.revealed{animation:resultBounce 0.5s ease}
+.big-scratch-hint{text-align:center;margin-top:12px;font-size:13px;color:#c8a080;font-weight:600}
+.big-scratch.revealed .big-scratch-hint{display:none}
+
 /* ===== 结尾 ===== */
 .ending-box{text-align:center;padding:48px 32px;border-radius:32px;background:rgba(255,220,200,0.12);border:2px solid rgba(255,180,140,0.15)}
 .ending-title{font-size:clamp(22px,3.5vw,32px);font-weight:900;color:#3a3030;margin-bottom:14px}
@@ -225,6 +257,7 @@ footer a{color:#e87040;text-decoration:none;font-weight:600}
 <body>
 
 <div id="floating-emojis"></div>
+<div class="emoji-tooltip" id="emoji-tooltip"></div>
 
 <div class="toast" id="toast"></div>
 <div class="secret-counter" id="secret-counter" title="试试连续点击标题">🫣</div>
@@ -316,17 +349,12 @@ footer a{color:#e87040;text-decoration:none;font-weight:600}
   </div>
 </div>
 
-<!-- RPG -->
+<!-- 刮奖任务 -->
 <div class="block reveal">
-  <h2 class="block-title">🎮 今日NPC任务</h2>
-  <p class="block-sub">把上班当RPG，领导是NPC，工资是金币</p>
-  <div class="rpg-box">
-    <div class="rpg-badge">⚔️ 每日任务</div>
-    <div class="rpg-title" id="rpg-title">加载中...</div>
-    <div class="rpg-task" id="rpg-task"></div>
-    <div class="rpg-reward" id="rpg-reward">🎁 加载中...</div>
-  </div>
-  <div class="btn-row"><button class="btn btn-orange" onclick="generateRPG()">🎲 刷新任务</button></div>
+  <h2 class="block-title">🎰 今日刮刮乐</h2>
+  <p class="block-sub">刮开看看今天的打工命运（手动狗头）</p>
+  <div class="scratch-cards" id="scratch-cards"></div>
+  <div class="btn-row"><button class="btn btn-orange" onclick="generateScratchCards()">🎲 换一批</button></div>
 </div>
 
 <!-- 上班人格测试 -->
@@ -339,9 +367,8 @@ footer a{color:#e87040;text-decoration:none;font-weight:600}
     <div class="test-intro-emoji">🔬</div>
     <div class="test-intro-title">你是哪种打工人？</div>
     <div class="test-intro-desc">
-      8道题，测出你的「上班人格」<br>
-      每个选项都很真实，因为这就是你<br>
-      <span style="color:#e87040;font-weight:700">测完可以分享给同事，看看谁更惨</span>
+      35道题，测出你的「上班人格」<br>
+      每个选项都很真实，因为这就是你
     </div>
     <button class="btn btn-orange" onclick="startTest()">🚀 开始测试</button>
   </div>
@@ -575,55 +602,195 @@ function getMonthlySalary(){ return parseFloat(getScrollValue('salary-col')) || 
 
 // ===== 哄你上班语录 =====
 const motivations = [
-  {text:"你不是去上班的，你是去吃上午茶、中饭、下午茶的。", tag:"美食路线"},
-  {text:"今天的你，比昨天的你多活了一天，赚了。", tag:"哲学思考"},
-  {text:"去公司可以免费充电、免费喝水、免费吹空调，血赚。", tag:"薅羊毛"},
-  {text:"想想你的猫，它需要你赚钱买猫粮。", tag:"责任感"},
-  {text:"上班8小时，摸鱼4小时，实际工作2小时，还行吧。", tag:"数学计算"},
-  {text:"你不去上班，怎么发「又是不想上班的一天」？", tag:"社交需求"},
-  {text:"今天的工资 = 一杯超贵奶茶 + 一顿好吃的 + 一个快递。", tag:"消费主义"},
-  {text:"领导也是人，他也不想上班，你们是同一条船上的人。", tag:"战友情"},
-  {text:"想想周五下班那一刻的快乐，值得你撑过这五天。", tag:"延迟满足"},
-  {text:"你不是在上班，你是在为下班后的快乐积累资本。", tag:"投资思维"},
-  {text:"今天的任务：假装热爱工作8小时，奖励：下班后的自由。", tag:"角色扮演"},
-  {text:"你已经坚持了这么多天了，今天不过是再来一天而已。", tag:"惯性定律"},
-  {text:"去公司最大的好处：有人陪你聊天，比在家刷手机强。", tag:"社交价值"},
-  {text:"今天不上明天也得上，不如今天上完拉倒。", tag:"务实主义"},
-  {text:"你的工位上还有你养的绿萝，它在等你浇水。", tag:"责任感"},
-  {text:"上班可以穿好看的衣服，在家只能穿睡衣。", tag:"时尚"},
-  {text:"今天坚持到下午三点，就奖励自己一杯最贵的奶茶。", tag:"奖励机制"},
-  {text:"想想退休那天的快乐，每一天都是倒计时。", tag:"长期主义"},
-  {text:"你不是在打工，你是在玩一个叫「职场生存」的大型RPG。", tag:"游戏化"},
-  {text:"去上班最大的意义：让老板知道你还在，工资不能少发。", tag:"存在主义"},
-  {text:"想想你的花呗，再看看你的余额，去吧打工人。", tag:"经济压力"},
-  {text:"今天不去，明天的活还是你的，不如今天去干完。", tag:"拖延无用"},
-  {text:"公司有免费WiFi，可以偷偷看剧，这波不亏。", tag:"福利"},
-  {text:"你不是一个人在战斗，全国3亿打工人和你同在。", tag:"集体荣誉"},
-  {text:"今天的你，是未来亿万富翁的起点，去积累经验值吧。", tag:"梦想"},
-  {text:"想想周末，想想假期，想想年终奖，你就有动力了。", tag:"盼头"},
-  {text:"今天的风好大，正好把你吹到公司去。", tag:"天意"},
-  {text:"你已经起床上厕所了，顺便去上班吧。", tag:"顺路"},
-  {text:"闹钟响了10遍了，再不起床就迟到了，迟到扣钱更心疼。", tag:"损失厌恶"},
-  {text:"带薪拉屎一天30分钟，一个月就是10小时，赚麻了。", tag:"时间管理"},
-  {text:"你不去上班，谁给你的花呗还钱？", tag:"财务自由"},
-  {text:"今天不去，明天就要干两天的活，这笔账算不过来。", tag:"数学天才"},
-  {text:"同事昨天请了奶茶，你今天不去就亏了。", tag:"社交投资"},
-  {text:"公司楼下新开了一家面包店，去尝尝？这叫工作动力。", tag:"美食探索"},
-  {text:"你已经化了妆/换了衣服，不去上班这身行头白费了。", tag:"沉没成本"},
-  {text:"想想你的社保不断缴，退休金在向你招手。", tag:"长期投资"},
-  {text:"去公司最大的好处：有人帮你收快递。", tag:"物流便利"},
-  {text:"今天有早会，迟到会被点名，去吧勇士。", tag:"面子工程"},
-  {text:"你不去上班，怎么在工位上偷偷追剧？", tag:"反向激励"},
-  {text:"去了就有工资，不去就扣钱，这道题不难选。", tag:"经济学"},
-  {text:"今天周五！再撑一天就解放了，冲啊！", tag:"周末倒计时"},
-  {text:"你的工位上还有昨天没喝完的水，不去浪费了。", tag:"环保主义"},
-  {text:"同事说今天中午吃火锅，你确定不去？", tag:"社交绑架"},
-  {text:"想想年假还没用完，去了又能摸一天鱼。", tag:"假期规划"},
-  {text:"老板今天不在，去了等于放飞自我。", tag:"天降好运"},
-  {text:"今天的工作量看起来不多，去混一天又何妨。", tag:"轻松模式"},
-  {text:"你不去上班，家里的WiFi也要钱啊。", tag:"成本核算"},
-  {text:"想想你收藏的那些旅行攻略，都需要钱来实现。", tag:"梦想基金"},
-  {text:"今天的你，比未来的你更年轻，去赚点钱吧。", tag:"青春无价"},
+  {text:"你不是去上班的，你是去吃上午茶、中饭、下午茶的。",tag:"美食路线"},
+  {text:"今天的你，比昨天的你多活了一天，赚了。",tag:"哲学思考"},
+  {text:"去公司可以免费充电、免费喝水、免费吹空调，血赚。",tag:"薅羊毛"},
+  {text:"想想你的猫，它需要你赚钱买猫粮。",tag:"责任感"},
+  {text:"上班8小时，摸鱼4小时，实际工作2小时，还行吧。",tag:"数学计算"},
+  {text:"你不去上班，怎么发「又是不想上班的一天」？",tag:"社交需求"},
+  {text:"今天的工资 = 一杯超贵奶茶 + 一顿好吃的 + 一个快递。",tag:"消费主义"},
+  {text:"领导也是人，他也不想上班，你们是同一条船上的人。",tag:"战友情"},
+  {text:"想想周五下班那一刻的快乐，值得你撑过这五天。",tag:"延迟满足"},
+  {text:"你不是在上班，你是在为下班后的快乐积累资本。",tag:"投资思维"},
+  {text:"今天的任务：假装热爱工作8小时，奖励：下班后的自由。",tag:"角色扮演"},
+  {text:"你已经坚持了这么多天了，今天不过是再来一天而已。",tag:"惯性定律"},
+  {text:"去公司最大的好处：有人陪你聊天，比在家刷手机强。",tag:"社交价值"},
+  {text:"今天不上明天也得上，不如今天上完拉倒。",tag:"务实主义"},
+  {text:"你的工位上还有你养的绿萝，它在等你浇水。",tag:"责任感"},
+  {text:"上班可以穿好看的衣服，在家只能穿睡衣。",tag:"时尚"},
+  {text:"今天坚持到下午三点，就奖励自己一杯最贵的奶茶。",tag:"奖励机制"},
+  {text:"想想退休那天的快乐，每一天都是倒计时。",tag:"长期主义"},
+  {text:"你不是在打工，你是在玩一个叫「职场生存」的大型RPG。",tag:"游戏化"},
+  {text:"去上班最大的意义：让老板知道你还在，工资不能少发。",tag:"存在主义"},
+  {text:"想想你的花呗，再看看你的余额，去吧打工人。",tag:"经济压力"},
+  {text:"今天不去，明天的活还是你的，不如今天去干完。",tag:"拖延无用"},
+  {text:"公司有免费WiFi，可以偷偷看剧，这波不亏。",tag:"福利"},
+  {text:"你不是一个人在战斗，全国3亿打工人和你同在。",tag:"集体荣誉"},
+  {text:"今天的你，是未来亿万富翁的起点，去积累经验值吧。",tag:"梦想"},
+  {text:"想想周末，想想假期，想想年终奖，你就有动力了。",tag:"盼头"},
+  {text:"今天的风好大，正好把你吹到公司去。",tag:"天意"},
+  {text:"你已经起床上厕所了，顺便去上班吧。",tag:"顺路"},
+  {text:"闹钟响了10遍了，再不起床就迟到了，迟到扣钱更心疼。",tag:"损失厌恶"},
+  {text:"带薪拉屎一天30分钟，一个月就是10小时，赚麻了。",tag:"时间管理"},
+  {text:"你不去上班，谁给你的花呗还钱？",tag:"财务自由"},
+  {text:"今天不去，明天就要干两天的活，这笔账算不过来。",tag:"数学天才"},
+  {text:"同事昨天请了奶茶，你今天不去就亏了。",tag:"社交投资"},
+  {text:"公司楼下新开了一家面包店，去尝尝？这叫工作动力。",tag:"美食探索"},
+  {text:"你已经化了妆/换了衣服，不去上班这身行头白费了。",tag:"沉没成本"},
+  {text:"想想你的社保不断缴，退休金在向你招手。",tag:"长期投资"},
+  {text:"去公司最大的好处：有人帮你收快递。",tag:"物流便利"},
+  {text:"今天有早会，迟到会被点名，去吧勇士。",tag:"面子工程"},
+  {text:"你不去上班，怎么在工位上偷偷追剧？",tag:"反向激励"},
+  {text:"去了就有工资，不去就扣钱，这道题不难选。",tag:"经济学"},
+  {text:"今天周五！再撑一天就解放了，冲啊！",tag:"周末倒计时"},
+  {text:"你的工位上还有昨天没喝完的水，不去浪费了。",tag:"环保主义"},
+  {text:"同事说今天中午吃火锅，你确定不去？",tag:"社交绑架"},
+  {text:"想想年假还没用完，去了又能摸一天鱼。",tag:"假期规划"},
+  {text:"老板今天不在，去了等于放飞自我。",tag:"天降好运"},
+  {text:"今天的工作量看起来不多，去混一天又何妨。",tag:"轻松模式"},
+  {text:"你不去上班，家里的WiFi也要钱啊。",tag:"成本核算"},
+  {text:"想想你收藏的那些旅行攻略，都需要钱来实现。",tag:"梦想基金"},
+  {text:"今天的你，比未来的你更年轻，去赚点钱吧。",tag:"青春无价"},
+  {text:"每天叫醒你的不是梦想，是钉钉打卡。",tag:"打卡"},
+  {text:"上班摸鱼不是偷懒，是合理分配精力。",tag:"摸鱼"},
+  {text:"你以为周五是解放，其实是周末加班预告。",tag:"周五"},
+  {text:"工资到账三分钟，花呗还完一场空。",tag:"工资"},
+  {text:"别怕工作做不完，反正明天还有新的。",tag:"工作量"},
+  {text:"会议室的WiFi比家里的还差，正好不开会。",tag:"开会"},
+  {text:"你的PPT不是不够好，是领导审美太独特。",tag:"PPT"},
+  {text:"工位上的绿萝都比你有成长空间。",tag:"成长"},
+  {text:"简历上写的精通Excel，其实只会合并单元格。",tag:"简历"},
+  {text:"早高峰地铁教你一个道理：活着就好。",tag:"通勤"},
+  {text:"每天最大的运动量是去茶水间接水。",tag:"摸鱼"},
+  {text:"领导说的「再想想」，意思是重做。",tag:"领导"},
+  {text:"团建的本质是：换个地方加班。",tag:"团建"},
+  {text:"你的价值取决于你还有多少年假没用。",tag:"年假"},
+  {text:"打印机坏了是今天最开心的事。",tag:"摸鱼"},
+  {text:"同事问你忙不忙，永远说忙。",tag:"职场"},
+  {text:"内卷不可怕，可怕的是你卷不过别人。",tag:"内卷"},
+  {text:"别焦虑了，反正焦虑也解决不了问题。",tag:"焦虑"},
+  {text:"下午三点的困意，是身体在提醒你该辞职了。",tag:"打瞌睡"},
+  {text:"公司的空调永远要么太冷要么太热。",tag:"空调"},
+  {text:"你觉得工资低，老板觉得你加班不够多。",tag:"工资"},
+  {text:"面试时你是人才，入职后你是耗材。",tag:"入职"},
+  {text:"升职加薪四个字，认识但没见过。",tag:"升职"},
+  {text:"工位方圆三米就是你的全世界。",tag:"工位"},
+  {text:"周报是成年人的日记，写的都是谎话。",tag:"周报"},
+  {text:"你不是不想努力，你是看不到努力的意义。",tag:"躺平"},
+  {text:"下午茶时间是唯一不用演戏的时候。",tag:"下午茶"},
+  {text:"电梯里遇到领导，空气都凝固了。",tag:"电梯"},
+  {text:"你以为转行就好了，其实每个行业都想跑路。",tag:"转行"},
+  {text:"加班到深夜，连外卖小哥都心疼你。",tag:"加班"},
+  {text:"年底述职就是一场大型吹牛比赛。",tag:"述职"},
+  {text:"每个月总有那么三十天不想上班。",tag:"不想上班"},
+  {text:"年终奖的惊喜在于你猜不到有多少钱。",tag:"年终奖"},
+  {text:"别担心AI取代你，你还没那么重要。",tag:"AI"},
+  {text:"厕所是你在公司唯一的私人空间。",tag:"摸鱼"},
+  {text:"食堂的菜十年如一日，你的工资也是。",tag:"食堂"},
+  {text:"请假比上班还累，要编三个理由。",tag:"请假"},
+  {text:"同事离职你才知道，原来工资可以这么高。",tag:"离职"},
+  {text:"项目deadline像人生，永远赶不上。",tag:"deadline"},
+  {text:"今天也是假装热爱工作的一天。",tag:"摸鱼"},
+  {text:"别人的朋友圈在旅游，你在搬砖。",tag:"朋友圈"},
+  {text:"工牌不是身份证明，是电子镣铐。",tag:"工牌"},
+  {text:"你以为996是极限，007告诉你天真了。",tag:"加班"},
+  {text:"月薪五千的你操着五千万的心。",tag:"工资"},
+  {text:"领导画的饼比食堂的还大。",tag:"画饼"},
+  {text:"每天最重要的决策是中午吃什么。",tag:"午饭"},
+  {text:"邮件回复「收到」就是你能做的最大努力。",tag:"邮件"},
+  {text:"你的职业生涯就像WiFi信号，时有时无。",tag:"职业"},
+  {text:"摸鱼一时爽，一直摸鱼一直爽。",tag:"摸鱼"},
+  {text:"同事问你要不要拼单，这是今天最大的诱惑。",tag:"拼单"},
+  {text:"公司说扁平化管理，意思是没得升。",tag:"管理"},
+  {text:"带薪拉屎是打工人最后的倔强。",tag:"摸鱼"},
+  {text:"周一的闹钟是世界上最残忍的声音。",tag:"周一"},
+  {text:"别羡慕自由职业，他们羡慕你的五险一金。",tag:"社保"},
+  {text:"打卡机比你妈还关心你几点起床。",tag:"打卡"},
+  {text:"你不是在上班，你是在坐牢还倒贴钱。",tag:"上班"},
+  {text:"月薪过万在北上广，也就刚够呼吸。",tag:"工资"},
+  {text:"开完会你发现，问题还在那里。",tag:"开会"},
+  {text:"领导的「辛苦了」不能当饭吃。",tag:"领导"},
+  {text:"你的简历是小说，你的能力是杂文。",tag:"简历"},
+  {text:"每天最清醒的时刻是下班那一秒。",tag:"下班"},
+  {text:"工作群消息999+，有用的就两条。",tag:"群消息"},
+  {text:"公司说的弹性工作，弹的都是你的命。",tag:"弹性"},
+  {text:"假期最后一天的焦虑比上班还严重。",tag:"假期"},
+  {text:"你不是找不到好工作，你是找不到工作。",tag:"求职"},
+  {text:"每月工资就像大姨妈，来一次走一次。",tag:"工资"},
+  {text:"领导说年轻人要多学习，意思是多干活。",tag:"领导"},
+  {text:"你不是在等周五，你是在等发工资。",tag:"工资"},
+  {text:"办公室最大的八卦就是谁要走了。",tag:"八卦"},
+  {text:"客户说的「考虑一下」，意思是你别想了。",tag:"客户"},
+  {text:"电梯坏了才发现公司在28楼。",tag:"通勤"},
+  {text:"每天最大的成就感来自准时打卡。",tag:"打卡"},
+  {text:"你不是不优秀，你只是性价比高。",tag:"职场"},
+  {text:"上班如上坟，区别是上坟不用打卡。",tag:"上班"},
+  {text:"新来的实习生工资都比你高。",tag:"工资"},
+  {text:"外卖到了是你每天最幸福的时刻。",tag:"外卖"},
+  {text:"今天也是为五险一金打工的一天。",tag:"社保"},
+  {text:"你和财务自由之间隔了一百个甲方。",tag:"甲方"},
+  {text:"每天的工作就是把邮件转发给下一个人。",tag:"邮件"},
+  {text:"公司年会的最大意义是确认你还在。",tag:"年会"},
+  {text:"打工人的心愿：工资按时发，领导别画饼。",tag:"打工"},
+  {text:"你不是不努力，是工资不值得你努力。",tag:"工资"},
+  {text:"每天重复同样的事情，这不叫工作，叫轮回。",tag:"上班"},
+  {text:"同事之间的友谊，建立在共同吐槽领导之上。",tag:"同事"},
+  {text:"你以为跳槽能解决问题，其实只是换了个地方痛苦。",tag:"跳槽"},
+  {text:"月底看到余额，才知道什么叫白打工。",tag:"工资"},
+  {text:"你妈问你工作怎么样，你说挺好的。谎言。",tag:"家人"},
+  {text:"同学聚会是最残忍的社交，因为你发现别人都比你混得好。",tag:"同学"},
+  {text:"领导说「好好干」，你听成了「好好加班」。",tag:"领导"},
+  {text:"每天最期待的事是外卖小哥的电话。",tag:"外卖"},
+  {text:"你不是社恐，你只是讨厌和同事social。",tag:"社交"},
+  {text:"绩效考核是成年人的期末考试，而且没有补考。",tag:"绩效"},
+  {text:"你已经很努力了，只是努力也没什么用。",tag:"努力"},
+  {text:"每天最大的勇气是打开工作邮箱。",tag:"邮件"},
+  {text:"你不是不想社交，你只是不想在公司社交。",tag:"社交"},
+  {text:"凌晨两点的加班通知，是领导对你最大的信任。",tag:"加班"},
+  {text:"你不是拖延症，你只是在等deadline激发潜能。",tag:"拖延"},
+  {text:"每次说「我考虑一下」，意思就是拒绝。",tag:"职场"},
+  {text:"你不是没钱，你只是钱都花在了安慰自己上。",tag:"消费"},
+  {text:"每天起床都要重新接受一遍「我还是要上班」的事实。",tag:"起床"},
+  {text:"你不是在等周末，你是在等退休。",tag:"退休"},
+  {text:"领导说「随便聊聊」，你就知道要谈绩效了。",tag:"领导"},
+  {text:"你不是在工作，你是在用生命换钱，然后用钱续命。",tag:"生命"},
+  {text:"同事之间最真诚的时刻是一起骂甲方。",tag:"甲方"},
+  {text:"你以为副业能救你，结果副业也想跑路。",tag:"副业"},
+  {text:"每天最幸福的事是把「已完成」拖到看板右边。",tag:"工作"},
+  {text:"你不是在开会，你是在参加一场行为艺术。",tag:"开会"},
+  {text:"年终总结就是把「摸鱼」写成「战略性休息」。",tag:"年终"},
+  {text:"你不是不想上班，你只是不想今天上班。",tag:"每天"},
+  {text:"工位上放满了零食，这不是贪吃，这是情绪管理。",tag:"零食"},
+  {text:"你不是没有梦想，你的梦想就是不上班。",tag:"梦想"},
+  {text:"每天中午纠结吃什么，是你唯一认真做的决策。",tag:"午饭"},
+  {text:"你不是在上班，你是在参加一场没有终点的马拉松。",tag:"上班"},
+  {text:"同事之间最远的距离是：你在加班，我在摸鱼。",tag:"同事"},
+  {text:"你不是不想升职，你只是不想承担更多责任。",tag:"升职"},
+  {text:"每天最清醒的时刻是看到工资到账短信。",tag:"工资"},
+  {text:"你不是在工作，你是在用时间换取一个叫「工资」的东西。",tag:"时间"},
+  {text:"领导说「辛苦了」，你回「应该的」，两个都是谎言。",tag:"领导"},
+  {text:"你不是在等下班，你是在等自由。",tag:"自由"},
+  {text:"每天最大的成就是准时下班不被拦住。",tag:"下班"},
+  {text:"你不是在开会，你是在练习冥想。",tag:"开会"},
+  {text:"同事问你周末干嘛，你说「休息」，其实是「补觉」。",tag:"周末"},
+  {text:"你不是不想加班，你只是不想无偿加班。",tag:"加班"},
+  {text:"每天最放松的时刻是关上公司门的那一秒。",tag:"下班"},
+  {text:"你不是在上班，你是在演一出叫「我很热爱工作」的戏。",tag:"演戏"},
+  {text:"领导画的饼太大了，你已经吃撑了。",tag:"画饼"},
+  {text:"你不是没钱，你只是工资和物价在赛跑，你输了。",tag:"经济"},
+  {text:"每天最大的动力是「再上X天就周末了」。",tag:"周末"},
+  {text:"你不是在工作，你是在消耗青春换取生存。",tag:"青春"},
+  {text:"同事之间最温暖的时刻是有人带了零食分你。",tag:"同事"},
+  {text:"你不是不想努力，你只是努力的回报太低了。",tag:"回报"},
+  {text:"每天最大的希望是领导今天心情好。",tag:"领导"},
+  {text:"你不是在上班，你是在参加一场叫「成年人」的角色扮演。",tag:"成年人"},
+  {text:"工资就像渣男，来了又走，从不留下。",tag:"工资"},
+  {text:"你不是不想社交，你只是社交能量在上班时耗光了。",tag:"社交"},
+  {text:"每天最大的挑战是假装听懂领导说的话。",tag:"领导"},
+  {text:"你不是在上班，你是在还房贷/房租。",tag:"房租"},
+  {text:"同事之间最默契的时刻是同时叹气。",tag:"同事"},
+  {text:"你不是不想辞职，你只是辞职后不知道干嘛。",tag:"辞职"},
+  {text:"每天最大的安慰是「至少今天又活过了一天」。",tag:"生存"},
 ];
 let currentMotivation = Math.floor(Math.random() * motivations.length);
 function nextMotivation(){
@@ -710,35 +877,165 @@ function updateCountdown(){
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-// ===== RPG =====
-const rpgTasks = [
-  {title:'假装热爱工作', task:'在工位上坐直，面带微笑，让领导觉得你很投入。<br>持续时间：2小时', reward:'带薪摸鱼15分钟'},
-  {title:'抵挡会议攻击', task:'参加一个可能本可以邮件解决的会议，全程保持清醒。<br>目标：不睡着', reward:'会后奶茶一杯'},
-  {title:'完成今日KPI', task:'打开电脑，假装在忙，实际在摸鱼和工作之间反复横跳。<br>关键：不能被发现', reward:'准时下班的权利'},
-  {title:'社交魔法', task:'和同事聊天30分钟，内容包括但不限于：吐槽领导、讨论午饭、分享摸鱼技巧。', reward:'快乐值+50'},
-  {title:'午休冲刺', task:'12:00准时冲向食堂，用最快速度吃完饭，然后享受40分钟的午睡。', reward:'下午精神值恢复80%'},
-  {title:'表演艺术家', task:'在领导路过时切换到工作界面，手速要快，表情要自然。这是一门艺术。', reward:'演技经验值+100'},
-  {title:'薅羊毛大师', task:'统计今天薅了公司多少羊毛：免费水电、空调、WiFi、纸巾、饮用水...', reward:'薅羊毛成就解锁'},
-  {title:'情绪管理大师', task:'面对不合理的要求，保持微笑，内心默念「我是来赚钱的不是来生气的」', reward:'血压稳定，头发保住'},
-  {title:'倒计时守护者', task:'每过一小时看一眼下班倒计时，记录自己的心情变化。<br>目标：活着等到下班。', reward:'下班后自由的空气'},
-  {title:'职场副本', task:'今天要攻克一个难题：在不加班的前提下完成所有任务。<br>难度：地狱级', reward:'准时下班成就'},
+// ===== 刮刮乐 =====
+const scratchTasks = [
+  {title:'假装热爱工作',reward:'在工位上坐直微笑2小时\n奖励：带薪摸鱼15分钟'},
+  {title:'会议忍者',reward:'在2小时会议中保持清醒\n奖励：获得"会议生存者"称号'},
+  {title:'Excel大法师',reward:'用3个以上函数嵌套做报表\n奖励：提前下班10分钟'},
+  {title:'邮件回复术',reward:'回复一封阴阳怪气的邮件\n奖励：灵感值+20'},
+  {title:'电梯社交',reward:'和领导同乘电梯聊30秒\n奖励：社交经验值+15'},
+  {title:'外卖决策者',reward:'帮全组决定中午吃什么\n奖励：获得"午餐之神"称号'},
+  {title:'打印机修理工',reward:'在IT来之前修好打印机\n奖励：技术值+10'},
+  {title:'需求变更应对',reward:'产品经理第3次改需求你微笑\n奖励：忍耐力+25'},
+  {title:'周报文学家',reward:'把划水5天写成高效推进\n奖励：文学造诣+20'},
+  {title:'团建表演家',reward:'在团建中表演"很开心"\n奖励：演技经验值+30'},
+  {title:'摸鱼隐身术',reward:'领导巡视时秒切工作页面\n奖励：敏捷+15'},
+  {title:'加班求生',reward:'被通知临时加班保持镇定\n奖励：耐力+20'},
+  {title:'甲方沟通',reward:'面对第8次修改意见温柔以对\n奖励：沟通大师称号'},
+  {title:'八卦守门员',reward:'听到劲爆八卦但不能传出去\n奖励：信任值+25'},
+  {title:'早起打卡挑战',reward:'连续5天9点前打卡成功\n奖励：全勤buff一周'},
+  {title:'年终总结大师',reward:'写出让领导觉得你很忙的总结\n奖励：晋升概率+10%'},
+  {title:'工位整理术',reward:'把堆积如山的桌面整理干净\n奖励：幸运值+15'},
+  {title:'跨部门协作',reward:'和技术部沟通非技术问题\n奖励：外交技能+20'},
+  {title:'报销忍者',reward:'填完15项报销单发票全齐\n奖励：金币+100'},
+  {title:'远程会议生存',reward:'在家开视频不开摄像头\n奖励：隐身术+15'},
+  {title:'PPT美化大师',reward:'把纯文字PPT改成高级感\n奖励：设计值+20'},
+  {title:'食堂选择困难',reward:'5个窗口前3分钟做出选择\n奖励：决断力+10'},
+  {title:'向上管理',reward:'主动向领导汇报工作进度\n奖励：好感度+15'},
+  {title:'已读不回挑战',reward:'非紧急消息等10分钟再回\n奖励：时间管理+10'},
+  {title:'请假话术',reward:'用完美理由请一天假\n奖励：自由日+1'},
+  {title:'数字排毒',reward:'工作时间不查看社交媒体\n奖励：专注力+25'},
+  {title:'新人生存指南',reward:'指导新人不能暴露公司真相\n奖励：导师经验值+20'},
+  {title:'周五摸鱼王',reward:'周五下午安详等待下班\n奖励："周五之王"永久称号'},
+  {title:'咖啡机保卫战',reward:'排队时不催促前面的人\n奖励：耐心值+15'},
+  {title:'带薪发呆',reward:'盯着窗外放空5分钟\n奖励：心灵治愈+30'},
 ];
-let lastRPG = -1;
-function generateRPG(){
-  let idx; do { idx = Math.floor(Math.random()*rpgTasks.length); } while(idx === lastRPG);
-  lastRPG = idx;
-  const t = rpgTasks[idx];
-  document.getElementById('rpg-title').textContent = t.title;
-  document.getElementById('rpg-task').innerHTML = t.task;
-  document.getElementById('rpg-reward').textContent = '🎁 ' + t.reward;
+
+function generateScratchCards(){
+  const container = document.getElementById('scratch-cards');
+  container.innerHTML = '';
+  const shuffled = [...scratchTasks].sort(() => Math.random() - 0.5).slice(0, 6);
+  shuffled.forEach(task => {
+    const card = document.createElement('div');
+    card.className = 'scratch-card';
+    card.innerHTML = `
+      <div class="scratch-card-content">
+        <div class="scratch-card-title">${task.title}</div>
+        <div class="scratch-card-reward">${task.reward.split('\n').join('<br>')}</div>
+      </div>
+      <canvas></canvas>
+      <div class="scratch-card-hint">☝️ 用手指刮开看命运</div>
+    `;
+    container.appendChild(card);
+    initScratchCanvas(card);
+  });
 }
-generateRPG();
+
+function initScratchCanvas(card){
+  const canvas = card.querySelector('canvas');
+  const ctx = canvas.getContext('2d');
+  // Wait for DOM to settle
+  requestAnimationFrame(() => {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    // Draw cover
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, '#ffd4a8');
+    gradient.addColorStop(0.5, '#ffb878');
+    gradient.addColorStop(1, '#ffa050');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Draw pattern
+    ctx.fillStyle = 'rgba(255,255,255,0.15)';
+    for(let i = 0; i < 20; i++){
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      const r = 5 + Math.random() * 15;
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    // Draw text
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.font = 'bold 28px "Noto Sans SC", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('🎰 刮刮看', canvas.width/2, canvas.height/2 - 10);
+    ctx.font = '14px "Noto Sans SC", sans-serif';
+    ctx.fillText('用鼠标/手指刮开', canvas.width/2, canvas.height/2 + 20);
+  });
+
+  let isDrawing = false;
+  let revealed = false;
+
+  function getPos(e){
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches ? e.touches[0] : e;
+    return {x: touch.clientX - rect.left, y: touch.clientY - rect.top};
+  }
+
+  function scratch(x, y){
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath();
+    ctx.arc(x, y, 20, 0, Math.PI * 2);
+    ctx.fill();
+    // Check reveal percentage
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    let transparent = 0;
+    for(let i = 3; i < imageData.data.length; i += 4){
+      if(imageData.data[i] < 128) transparent++;
+    }
+    if(transparent / (imageData.data.length / 4) > 0.4 && !revealed){
+      revealed = true;
+      card.classList.add('revealed');
+      // Confetti
+      const emojis = ['🎉','✨','🎊','💫','⭐','🌟'];
+      const rect = card.getBoundingClientRect();
+      for(let i = 0; i < 8; i++){
+        setTimeout(() => {
+          const c = document.createElement('div'); c.className='confetti';
+          c.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+          c.style.left = rect.left + rect.width/2 + (Math.random()-0.5)*100 + 'px';
+          c.style.top = rect.top + 'px';
+          document.body.appendChild(c);
+          setTimeout(() => c.remove(), 1500);
+        }, i * 80);
+      }
+    }
+  }
+
+  canvas.addEventListener('mousedown', (e) => { isDrawing = true; const p = getPos(e); scratch(p.x, p.y); });
+  canvas.addEventListener('mousemove', (e) => { if(isDrawing){ const p = getPos(e); scratch(p.x, p.y); }});
+  canvas.addEventListener('mouseup', () => isDrawing = false);
+  canvas.addEventListener('mouseleave', () => isDrawing = false);
+  canvas.addEventListener('touchstart', (e) => { e.preventDefault(); isDrawing = true; const p = getPos(e); scratch(p.x, p.y); }, {passive:false});
+  canvas.addEventListener('touchmove', (e) => { e.preventDefault(); if(isDrawing){ const p = getPos(e); scratch(p.x, p.y); }}, {passive:false});
+  canvas.addEventListener('touchend', () => isDrawing = false);
+}
+generateScratchCards();
 
 // ===== 摸鱼奖励（翻牌模式）=====
 const allJoyRewards = [
   {icon:'🧋', name:'超贵奶茶', desc:'下午三点犒劳自己'},
   {icon:'🐱', name:'吸猫时间', desc:'看5分钟猫咪视频'},
-  {icon:'🎵', name:'摸鱼歌单', desc:'戴上耳机假装在忙'},
+  {icon:'🛋️', name:'带薪发呆', desc:'盯着窗外放空5分钟'},
+  {icon:'📱', name:'偷偷刷手机', desc:'假装回消息其实在看八卦'},
+  {icon:'🍿', name:'零食补给', desc:'打开抽屉里的秘密零食库'},
+  {icon:'☕', name:'续命咖啡', desc:'去楼下买杯手冲精品'},
+  {icon:'🎵', name:'摸鱼歌单', desc:'戴上耳机听2首歌'},
+  {icon:'🚶', name:'假装接水', desc:'拿着杯子在公司溜达一圈'},
+  {icon:'😴', name:'厕所小憩', desc:'去洗手间闭眼休息3分钟'},
+  {icon:'🛒', name:'逛购物车', desc:'把想买的东西加入购物车不付款'},
+  {icon:'🎮', name:'手游时间', desc:'偷偷打一局消消乐'},
+  {icon:'📖', name:'小说更新', desc:'追的小说又更了一章'},
+  {icon:'🧩', name:'数独挑战', desc:'做一道数独清醒一下大脑'},
+  {icon:'🌿', name:'阳台放风', desc:'去楼顶看看天空深呼吸'},
+  {icon:'🍪', name:'同事投喂', desc:'隔壁工位递来一块饼干'},
+  {icon:'💬', name:'群聊摸鱼', desc:'和闺蜜/基友吐槽老板'},
+  {icon:'🍜', name:'提前想午饭', desc:'花10分钟研究今天吃什么'},
+  {icon:'📺', name:'短视频快乐', desc:'刷3个搞笑短视频'},
+  {icon:'💤', name:'午觉奖励', desc:'趴桌多睡10分钟'},
+  {icon:'🎁', name:'快递到了', desc:'拆快递的快乐无法形容'},
   {icon:'🛒', name:'清空购物车', desc:'奖励自己一件小东西'},
   {icon:'🚽', name:'带薪拉屎', desc:'经典摸鱼永远的神'},
   {icon:'📺', name:'午休追剧', desc:'看一集快乐加倍'},
@@ -748,10 +1045,42 @@ const allJoyRewards = [
   {icon:'📱', name:'刷朋友圈', desc:'看看别人在干嘛'},
   {icon:'🎧', name:'听播客', desc:'戴耳机假装开会'},
   {icon:'🍫', name:'偷吃零食', desc:'抽屉里的秘密武器'},
-  {icon:'☕', name:'续命咖啡', desc:'第三杯才刚开始'},
   {icon:'🌸', name:'下楼散步', desc:'出去透口气'},
   {icon:'📝', name:'写日记', desc:'记录今天的摸鱼心得'},
   {icon:'🎭', name:'假装打电话', desc:'喂喂喂我这边信号不好'},
+  {icon:'🧘', name:'工位冥想', desc:'闭眼深呼吸假装在思考'},
+  {icon:'🌅', name:'窗边发呆', desc:'看看窗外的云发会儿呆'},
+  {icon:'🍬', name:'甜蜜奖励', desc:'吃颗糖补充多巴胺'},
+  {icon:'📱', name:'看热搜', desc:'刷5分钟微博热搜'},
+  {icon:'🎨', name:'涂鸦时间', desc:'在便签纸上画画'},
+  {icon:'🏃', name:'假装开会', desc:'拿着笔记本去会议室休息'},
+  {icon:'🧹', name:'整理桌面', desc:'收拾一下工位假装很忙'},
+  {icon:'💌', name:'给朋友发消息', desc:'找人聊两句解解闷'},
+  {icon:'🌈', name:'看天气', desc:'查查周末天气适不适合出去玩'},
+  {icon:'🎵', name:'哼小曲', desc:'在心里唱首喜欢的歌'},
+  {icon:'📸', name:'拍工位', desc:'记录一下你的打工战场'},
+  {icon:'🍵', name:'泡花茶', desc:'给自己泡杯养生茶'},
+  {icon:'💭', name:'白日梦', desc:'想想中彩票后怎么花'},
+  {icon:'🎮', name:'网页小游戏', desc:'偷偷打开一个小游戏'},
+  {icon:'📖', name:'看段子', desc:'搜几个搞笑段子乐呵乐呵'},
+  {icon:'🧴', name:'涂护手霜', desc:'给双手做个SPA'},
+  {icon:'🎵', name:'换歌单', desc:'找找有没有新歌好听'},
+  {icon:'📱', name:'看外卖', desc:'先研究明天中午吃什么'},
+  {icon:'✨', name:'写愿望清单', desc:'列一下发工资后要买什么'},
+  {icon:'🎬', name:'看预告片', desc:'看看最近有什么好电影'},
+  {icon:'🧘‍♀️', name:'拉伸运动', desc:'在座位上伸个懒腰'},
+  {icon:'📱', name:'看小红书', desc:'刷10分钟种草笔记'},
+  {icon:'🌺', name:'浇花', desc:'给你的绿植浇浇水'},
+  {icon:'☕', name:'续杯咖啡', desc:'第二杯咖啡是必须的'},
+  {icon:'📝', name:'列购物清单', desc:'周末逛超市要买什么'},
+  {icon:'🎯', name:'定小目标', desc:'今天坚持到X点就奖励自己'},
+  {icon:'🧸', name:'摸摸手办', desc:'看看桌上的小玩具'},
+  {icon:'🌙', name:'看旅行攻略', desc:'计划一下下一次旅行'},
+  {icon:'📊', name:'看股票', desc:'看看今天是赚了还是亏了'},
+  {icon:'🎪', name:'看搞笑视频', desc:'笑一笑十年少'},
+  {icon:'💤', name:'打哈欠', desc:'伸个懒腰假装很忙'},
+  {icon:'🎵', name:'听白噪音', desc:'雨声助你放松一下'},
+  {icon:'📮', name:'写未来信', desc:'给下班后的自己写句话'},
 ];
 function shuffleJoyCards(){
   const grid = document.getElementById('joy-grid');
@@ -827,9 +1156,23 @@ function initFloatingEmojis(){
     Object.entries(pos).forEach(([k,v]) => el.style[k] = v);
     el.style.animationDelay = (i * 0.8) + 's';
     el.textContent = item.emoji;
-    el.addEventListener('click', function(){
+    el.addEventListener('click', function(e){
+      e.stopPropagation();
+      e.preventDefault();
       const msg = item.msgs[Math.floor(Math.random() * item.msgs.length)];
-      showToast(item.emoji + ' ' + msg, 2500);
+      const tooltip = document.getElementById('emoji-tooltip');
+      const rect = el.getBoundingClientRect();
+      tooltip.textContent = item.emoji + ' ' + msg;
+      const tipW = 260;
+      let tipLeft = rect.left + rect.width/2 - tipW/2;
+      tipLeft = Math.max(10, Math.min(tipLeft, window.innerWidth - tipW - 10));
+      let tipTop = rect.bottom + 12;
+      if(tipTop + 60 > window.innerHeight) tipTop = rect.top - 60;
+      tooltip.style.left = tipLeft + 'px';
+      tooltip.style.top = tipTop + 'px';
+      tooltip.classList.add('show');
+      clearTimeout(tooltip._hideTimer);
+      tooltip._hideTimer = setTimeout(() => tooltip.classList.remove('show'), 2800);
       el.style.transform = 'scale(1.8) rotate(20deg)';
       setTimeout(() => { el.style.transform = ''; }, 300);
       totalEmojiClicks++;
@@ -840,6 +1183,30 @@ function initFloatingEmojis(){
   });
 }
 initFloatingEmojis();
+// 点击其他地方关闭emoji tooltip
+document.addEventListener('click', function(){
+  const tooltip = document.getElementById('emoji-tooltip');
+  if(tooltip) tooltip.classList.remove('show');
+});
+
+// 随页面滚动随机变化emoji位置
+let lastScrollY = 0;
+window.addEventListener('scroll', function(){
+  const scrollY = window.scrollY;
+  if(Math.abs(scrollY - lastScrollY) > 300){
+    lastScrollY = scrollY;
+    const emojis = document.querySelectorAll('.float-emoji');
+    emojis.forEach(el => {
+      const newTop = (5 + Math.random() * 85) + '%';
+      const side = Math.random() > 0.5;
+      el.style.top = newTop;
+      el.style.left = side ? (2 + Math.random() * 6) + '%' : '';
+      el.style.right = side ? '' : (2 + Math.random() * 6) + '%';
+      el.style.transition = 'top 1.5s ease, left 1.5s ease, right 1.5s ease';
+      setTimeout(() => el.style.transition = 'transform 0.2s, opacity 0.2s', 1600);
+    });
+  }
+}, {passive:true});
 
 // ===== 彩蛋1: 点击标题 =====
 let titleClickCount = 0;
@@ -891,79 +1258,216 @@ document.getElementById('hero-title').addEventListener('mouseleave', function(){
 
 // ===== 上班人格测试 =====
 const testQuestions = [
-  {
-    q: '早上闹钟响了，你的第一反应是？',
-    opts: [
-      { text: '立刻起床，元气满满去上班！', sub: '（你确定你不是在演戏？）', scores: {卷王:2} },
-      { text: '关掉闹钟，再睡5分钟...', sub: '（然后一睡就是40分钟）', scores: {摸鱼:2} },
-      { text: '躺床上刷10分钟手机才起来', sub: '（"看一眼时间"→刷了半小时）', scores: {装忙:2} },
-      { text: '开始思考人生的意义', sub: '（结论：上班没有意义）', scores: {崩溃:2} }
-    ]
-  },
-  {
-    q: '到公司后第一件事做什么？',
-    opts: [
-      { text: '打开电脑，开始高效工作', sub: '（领导最爱的员工类型）', scores: {卷王:2} },
-      { text: '泡咖啡、吃早餐、刷手机', sub: '（正式工作从10点开始）', scores: {摸鱼:2} },
-      { text: '打开一堆窗口假装很忙', sub: '（Alt+Tab 是你的生存技能）', scores: {装忙:2} },
-      { text: '坐下发呆，思考为什么在这', sub: '（灵魂出窍式上班）', scores: {已读不回:2} }
-    ]
-  },
-  {
-    q: '领导发消息"在吗？"你怎么回？',
-    opts: [
-      { text: '秒回"在的！有什么需要？"', sub: '（你的秒回速度让外卖小哥都汗颜）', scores: {卷王:2} },
-      { text: '过2小时才回"刚看到"', sub: '（其实看到的时候心跳漏了一拍）', scores: {已读不回:2} },
-      { text: '假装没看到，等领导来找', sub: '（眼不见为净，消息不看就不存在）', scores: {摸鱼:2} },
-      { text: '心跳加速，手抖着回"在"', sub: '（领导的"在吗"是职场版恐怖故事）', scores: {崩溃:2} }
-    ]
-  },
-  {
-    q: '开会时你通常在干嘛？',
-    opts: [
-      { text: '认真记笔记，积极发言', sub: '（会议室里的模范生）', scores: {卷王:2} },
-      { text: '脑子放空，神游天外', sub: '（灵魂已经到了马尔代夫）', scores: {摸鱼:2} },
-      { text: '偶尔点头，其实在想午饭', sub: '（点头频率=思考午饭频率）', scores: {装忙:2} },
-      { text: '全程担心被点名发言', sub: '（"千万别叫我千万别叫我..."）', scores: {崩溃:2} }
-    ]
-  },
-  {
-    q: '同事约你一起加班，你？',
-    opts: [
-      { text: '"好啊！正好这个项目需要"', sub: '（你是不是把公司当家了？）', scores: {卷王:2} },
-      { text: '"不好意思我今晚有事"', sub: '（事=回家躺着）', scores: {摸鱼:2} },
-      { text: '"嗯...我看看吧"', sub: '（翻译：我考虑一下怎么拒绝）', scores: {装忙:2} },
-      { text: '内心崩溃但还是答应了', sub: '（你的善良就是你的软肋）', scores: {崩溃:2} }
-    ]
-  },
-  {
-    q: '工作做不完了怎么办？',
-    opts: [
-      { text: '加班也要做完，绝不拖到明天', sub: '（你的时间管理：把24小时当48小时用）', scores: {卷王:2} },
-      { text: '明天再说，今天先下班', sub: '（今日事今日毕？那是别人的毕）', scores: {摸鱼:2} },
-      { text: '先做简单的，难的往后拖', sub: '（拖延症晚期但很有策略）', scores: {装忙:2} },
-      { text: '焦虑到失眠，第二天继续焦虑', sub: '（工作没做完，觉也没睡好）', scores: {崩溃:2} }
-    ]
-  },
-  {
-    q: '收到领导发的"辛苦了"，你心想？',
-    opts: [
-      { text: '"不辛苦！应该的！"', sub: '（你的回答让领导很满意）', scores: {卷王:2} },
-      { text: '"知道辛苦就别找我了"', sub: '（内心OS，嘴上不说）', scores: {摸鱼:2} },
-      { text: '发个表情包敷衍一下', sub: '（[微笑] 万能的职场表情）', scores: {装忙:2} },
-      { text: '"辛苦是真的辛苦啊"', sub: '（终于有人说实话了）', scores: {崩溃:2} }
-    ]
-  },
-  {
-    q: '周五下午4点，你在想什么？',
-    opts: [
-      { text: '"这周的工作总结还没写"', sub: '（周末计划：写工作总结）', scores: {卷王:2} },
-      { text: '"还有1小时就自由了！"', sub: '（倒计时比下班打卡还准）', scores: {摸鱼:2} },
-      { text: '"假装在忙，等下班"', sub: '（最后1小时=表演时间）', scores: {装忙:2} },
-      { text: '"下周一又要来了..."', sub: '（周末焦虑症候群）', scores: {崩溃:2} },
-      { text: '"已读不回就是我的态度"', sub: '（周五的我已经灵魂出窍）', scores: {已读不回:2} }
-    ]
-  }
+  {q:'早上闹钟响了，你的第一反应是？',opts:[
+    {text:'立刻起床，元气满满去上班！',sub:'（你确定你不是在演戏？）',scores:{卷王:2}},
+    {text:'关掉闹钟，再睡5分钟...',sub:'（然后一睡就是40分钟）',scores:{摸鱼:2}},
+    {text:'躺床上刷10分钟手机才起来',sub:'（"看一眼时间"→刷了半小时）',scores:{装忙:2}},
+    {text:'开始思考人生的意义',sub:'（结论：上班没有意义）',scores:{崩溃:2}}
+  ]},
+  {q:'到公司后第一件事做什么？',opts:[
+    {text:'打开电脑，开始高效工作',sub:'（领导最爱的员工类型）',scores:{卷王:2}},
+    {text:'泡咖啡、吃早餐、刷手机',sub:'（正式工作从10点开始）',scores:{摸鱼:2}},
+    {text:'打开一堆窗口假装很忙',sub:'（Alt+Tab是你的生存技能）',scores:{装忙:2}},
+    {text:'坐下发呆，思考为什么在这',sub:'（灵魂出窍式上班）',scores:{已读不回:2}}
+  ]},
+  {q:'领导发消息"在吗？"你怎么回？',opts:[
+    {text:'秒回"在的！有什么需要？"',sub:'（你的秒回速度让外卖小哥都汗颜）',scores:{卷王:2}},
+    {text:'过2小时才回"刚看到"',sub:'（其实看到的时候心跳漏了一拍）',scores:{已读不回:2}},
+    {text:'假装没看到，等领导来找',sub:'（眼不见为净，消息不看就不存在）',scores:{摸鱼:2}},
+    {text:'心跳加速，手抖着回"在"',sub:'（领导的"在吗"是职场版恐怖故事）',scores:{崩溃:2}}
+  ]},
+  {q:'开会时你通常在干嘛？',opts:[
+    {text:'认真记笔记，积极发言',sub:'（会议室里的模范生）',scores:{卷王:2}},
+    {text:'脑子放空，神游天外',sub:'（灵魂已经到了马尔代夫）',scores:{摸鱼:2}},
+    {text:'偶尔点头，其实在想午饭',sub:'（点头频率=思考午饭频率）',scores:{装忙:2}},
+    {text:'全程担心被点名发言',sub:'（"千万别叫我千万别叫我..."）',scores:{崩溃:2}}
+  ]},
+  {q:'同事约你一起加班，你？',opts:[
+    {text:'"好啊！正好这个项目需要"',sub:'（你是不是把公司当家了？）',scores:{卷王:2}},
+    {text:'"不好意思我今晚有事"',sub:'（事=回家躺着）',scores:{摸鱼:2}},
+    {text:'"嗯...我看看吧"',sub:'（翻译：我考虑一下怎么拒绝）',scores:{装忙:2}},
+    {text:'内心崩溃但还是答应了',sub:'（你的善良就是你的软肋）',scores:{崩溃:2}}
+  ]},
+  {q:'工作做不完了怎么办？',opts:[
+    {text:'加班也要做完，绝不拖到明天',sub:'（你的时间管理：把24小时当48小时用）',scores:{卷王:2}},
+    {text:'明天再说，今天先下班',sub:'（今日事今日毕？那是别人的毕）',scores:{摸鱼:2}},
+    {text:'先做简单的，难的往后拖',sub:'（拖延症晚期但很有策略）',scores:{装忙:2}},
+    {text:'焦虑到失眠，第二天继续焦虑',sub:'（工作没做完，觉也没睡好）',scores:{崩溃:2}}
+  ]},
+  {q:'收到领导发的"辛苦了"，你心想？',opts:[
+    {text:'"不辛苦！应该的！"',sub:'（你的回答让领导很满意）',scores:{卷王:2}},
+    {text:'"知道辛苦就别找我了"',sub:'（内心OS，嘴上不说）',scores:{摸鱼:2}},
+    {text:'发个表情包敷衍一下',sub:'（[微笑]万能的职场表情）',scores:{装忙:2}},
+    {text:'"辛苦是真的辛苦啊"',sub:'（终于有人说实话了）',scores:{崩溃:2}}
+  ]},
+  {q:'周五下午4点，你在想什么？',opts:[
+    {text:'"这周的工作总结还没写"',sub:'（周末计划：写工作总结）',scores:{卷王:2}},
+    {text:'"还有1小时就自由了！"',sub:'（倒计时比下班打卡还准）',scores:{摸鱼:2}},
+    {text:'"假装在忙，等下班"',sub:'（最后1小时=表演时间）',scores:{装忙:2}},
+    {text:'"下周一又要来了..."',sub:'（周末焦虑症候群）',scores:{崩溃:2}}
+  ]},
+  {q:'中午吃什么？你的决策过程是？',opts:[
+    {text:'提前一天就想好了',sub:'（你是午饭界的项目经理）',scores:{卷王:2}},
+    {text:'随便吃点，能填饱就行',sub:'（吃饭是为了活着，活着是为了摸鱼）',scores:{摸鱼:2}},
+    {text:'纠结20分钟最后点了外卖',sub:'（选择困难症晚期）',scores:{装忙:2}},
+    {text:'根本不饿，焦虑吃饱了',sub:'（压力就是最好的减肥药）',scores:{崩溃:2}}
+  ]},
+  {q:'工作群里有人@你，你第一反应？',opts:[
+    {text:'秒看秒回，效率至上',sub:'（群消息就是你的KPI）',scores:{卷王:2}},
+    {text:'等一会儿再说',sub:'（已读不回是一种艺术）',scores:{已读不回:2}},
+    {text:'先看看是不是真的需要我',sub:'（能推就推，不能推就装死）',scores:{摸鱼:2}},
+    {text:'心跳加速，是不是出事了',sub:'（每次被@都是惊吓）',scores:{崩溃:2}}
+  ]},
+  {q:'领导突然找你谈话，你？',opts:[
+    {text:'整理好资料自信走进去',sub:'（你的准备比面试还充分）',scores:{卷王:2}},
+    {text:'心里盘算是不是要加薪',sub:'（万一是好事呢？）',scores:{摸鱼:2}},
+    {text:'紧张但表面淡定',sub:'（内心慌得一批，脸上笑嘻嘻）',scores:{装忙:2}},
+    {text:'完了完了是不是要裁我',sub:'（还没开始谈就已经在更新简历了）',scores:{崩溃:2}}
+  ]},
+  {q:'看到同事在摸鱼，你？',opts:[
+    {text:'假装没看到，继续工作',sub:'（你是职场道德模范）',scores:{卷王:2}},
+    {text:'加入他一起摸',sub:'（独摸摸不如众摸摸）',scores:{摸鱼:2}},
+    {text:'心里不平衡但不说',sub:'（凭什么他能摸我不能？）',scores:{装忙:2}},
+    {text:'更焦虑了，我还在干活',sub:'（内卷从自我怀疑开始）',scores:{崩溃:2}}
+  ]},
+  {q:'甲方第8次改需求，你？',opts:[
+    {text:'好的，马上改',sub:'（你的耐心值是普通人的8倍）',scores:{卷王:2}},
+    {text:'嘴上说好，心里骂娘',sub:'（甲方虐我千百遍）',scores:{装忙:2}},
+    {text:'拖一拖再说',sub:'（拖到甲方自己改主意）',scores:{摸鱼:2}},
+    {text:'想摔电脑走人',sub:'（键盘：我做错了什么？）',scores:{崩溃:2}}
+  ]},
+  {q:'下班后收到工作消息，你？',opts:[
+    {text:'立刻处理，不能耽误进度',sub:'（你的下班只是换个地方加班）',scores:{卷王:2}},
+    {text:'已读不回，明天再说',sub:'（下班后的时间是神圣不可侵犯的）',scores:{已读不回:2}},
+    {text:'看到了当没看到',sub:'（手机没电了/信号不好/在洗澡）',scores:{摸鱼:2}},
+    {text:'焦虑地看了但不敢回',sub:'（回了怕被觉得随时待命，不回怕被记恨）',scores:{崩溃:2}}
+  ]},
+  {q:'绩效考核季，你的状态？',opts:[
+    {text:'提前准备，数据说话',sub:'（你的述职PPT比论文还严谨）',scores:{卷王:2}},
+    {text:'随便写写，反正结果差不多',sub:'（绩效是玄学，努力不如运气）',scores:{摸鱼:2}},
+    {text:'临时抱佛脚疯狂加班',sub:'（平时不烧香，考核抱佛脚）',scores:{装忙:2}},
+    {text:'焦虑到吃不下饭',sub:'（绩效焦虑比高考还严重）',scores:{崩溃:2}}
+  ]},
+  {q:'团建活动你通常？',opts:[
+    {text:'积极参与，展现团队精神',sub:'（你是团建活动的气氛组）',scores:{卷王:2}},
+    {text:'能不去就不去',sub:'（团建=变相加班）',scores:{摸鱼:2}},
+    {text:'去了但全程摸鱼',sub:'（人在心不在，灵魂已出走）',scores:{装忙:2}},
+    {text:'社交恐惧发作',sub:'（团建是社恐人的噩梦）',scores:{崩溃:2}}
+  ]},
+  {q:'工位上的零食你会？',opts:[
+    {text:'分享给大家，增进感情',sub:'（你是办公室的零食天使）',scores:{卷王:2}},
+    {text:'偷偷吃，不让人发现',sub:'（抽屉里藏着一个小卖部）',scores:{摸鱼:2}},
+    {text:'摆着好看但不怎么吃',sub:'（零食是装饰品不是食物）',scores:{装忙:2}},
+    {text:'压力大吃太多，罪恶感满满',sub:'（情绪性进食是打工人的通病）',scores:{崩溃:2}}
+  ]},
+  {q:'新来的实习生问你工作建议，你？',opts:[
+    {text:'认真传授经验，耐心指导',sub:'（你是新人的人生导师）',scores:{卷王:2}},
+    {text:'"少说话多做事"',sub:'（过来人的忠告）',scores:{摸鱼:2}},
+    {text:'"挺好的，加油"',sub:'（万能回答，不功不过）',scores:{装忙:2}},
+    {text:'"快跑，能跑多远跑多远"',sub:'（真心话比客套话更珍贵）',scores:{崩溃:2}}
+  ]},
+  {q:'领导说"你很有潜力"，你理解为？',opts:[
+    {text:'终于被认可了！更有动力',sub:'（你是被画饼最开心的人）',scores:{卷王:2}},
+    {text:'翻译：现在还不够好',sub:'（潜力=现在不行）',scores:{摸鱼:2}},
+    {text:'表面感谢，心里不信',sub:'（领导的话要打折听）',scores:{装忙:2}},
+    {text:'又要开始画饼了',sub:'（"潜力"是领导画饼的标准用语）',scores:{崩溃:2}}
+  ]},
+  {q:'工作日的早上，你洗漱要多久？',opts:[
+    {text:'20分钟搞定出门',sub:'（效率就是生命）',scores:{卷王:2}},
+    {text:'能不洗就不洗',sub:'（口罩是最好的遮瑕）',scores:{摸鱼:2}},
+    {text:'慢慢来不着急',sub:'（迟到5分钟不算迟到）',scores:{装忙:2}},
+    {text:'在镜子前发呆10分钟',sub:'（思考今天要不要辞职）',scores:{崩溃:2}}
+  ]},
+  {q:'同事在背后议论你，你？',opts:[
+    {text:'用实力说话，让他们闭嘴',sub:'（成绩是最好的反击）',scores:{卷王:2}},
+    {text:'无所谓，爱说啥说啥',sub:'（耳朵自动过滤八卦）',scores:{摸鱼:2}},
+    {text:'心里不舒服但装没事',sub:'（微笑是最好的盔甲）',scores:{装忙:2}},
+    {text:'反复想哪里做错了',sub:'（玻璃心碎了一地）',scores:{崩溃:2}}
+  ]},
+  {q:'领导让你带新人，你？',opts:[
+    {text:'倾囊相授，毫无保留',sub:'（传帮带精神满分）',scores:{卷王:2}},
+    {text:'教一点留一点',sub:'（教会徒弟饿死师傅）',scores:{摸鱼:2}},
+    {text:'随便教教，别太认真',sub:'（意思意思就行了）',scores:{装忙:2}},
+    {text:'自己都顾不过来还带人',sub:'（雪上加霜莫过于此）',scores:{崩溃:2}}
+  ]},
+  {q:'月底发现工资又没涨，你？',opts:[
+    {text:'继续努力，下个月一定',sub:'（你的乐观让人佩服）',scores:{卷王:2}},
+    {text:'意料之中，无所谓',sub:'（麻木是打工人最后的保护色）',scores:{已读不回:2}},
+    {text:'嘴上说不开心，第二天照常',sub:'（习惯了就好了）',scores:{装忙:2}},
+    {text:'打开招聘APP看看',sub:'（跳槽的心又蠢蠢欲动了）',scores:{崩溃:2}}
+  ]},
+  {q:'被分配了一个完全不会的任务，你？',opts:[
+    {text:'查资料学习，边学边做',sub:'（能力都是被逼出来的）',scores:{卷王:2}},
+    {text:'先拖着，看会不会有人接手',sub:'（拖延是最好的策略）',scores:{摸鱼:2}},
+    {text:'硬着头皮上，边做边慌',sub:'（不会也要装会）',scores:{装忙:2}},
+    {text:'内心崩溃，觉得自己一无是处',sub:'（冒名顶替综合症发作）',scores:{崩溃:2}}
+  ]},
+  {q:'同事升职了你没有，你？',opts:[
+    {text:'恭喜他，继续努力自己',sub:'（你是心态最好的打工人）',scores:{卷王:2}},
+    {text:'早就猜到了，无所谓',sub:'（佛系打工，升职随缘）',scores:{已读不回:2}},
+    {text:'表面恭喜，心里不服',sub:'（凭什么不是我？）',scores:{装忙:2}},
+    {text:'怀疑自己的能力和价值',sub:'（人生陷入了低谷）',scores:{崩溃:2}}
+  ]},
+  {q:'公司发了下午茶，你？',opts:[
+    {text:'吃完继续高效工作',sub:'（下午茶是燃料不是休息）',scores:{卷王:2}},
+    {text:'趁机摸鱼半小时',sub:'（吃下午茶的时间=合法摸鱼时间）',scores:{摸鱼:2}},
+    {text:'边吃边装作在看文件',sub:'（吃东西也可以很忙）',scores:{装忙:2}},
+    {text:'吃了也开心不起来',sub:'（食物治愈不了打工的苦）',scores:{崩溃:2}}
+  ]},
+  {q:'领导夸你PPT做得好，你？',opts:[
+    {text:'以后PPT都归你做了',sub:'（你的奖励是更多的工作）',scores:{卷王:2}},
+    {text:'完了，以后PPT都是我的了',sub:'（能力越强责任越大）',scores:{摸鱼:2}},
+    {text:'微笑接受，内心毫无波澜',sub:'（夸奖听多了就免疫了）',scores:{装忙:2}},
+    {text:'做得好有什么用又不加薪',sub:'（精神鼓励不等于物质奖励）',scores:{崩溃:2}}
+  ]},
+  {q:'连续加班一周，你的状态？',opts:[
+    {text:'为了项目拼了',sub:'（燃烧自己照亮KPI）',scores:{卷王:2}},
+    {text:'摸鱼式加班，人在心不在',sub:'（加班但不加效率）',scores:{摸鱼:2}},
+    {text:'加班但准时打卡走人',sub:'（表演到打卡时间结束）',scores:{装忙:2}},
+    {text:'身体和精神都快撑不住了',sub:'（亚健康是打工人的标配）',scores:{崩溃:2}}
+  ]},
+  {q:'公司说要优化人员结构，你？',opts:[
+    {text:'不可能是我，我这么努力',sub:'（你的自信来自加班时长）',scores:{卷王:2}},
+    {text:'爱咋咋地，给赔偿就行',sub:'（N+1也是一种收获）',scores:{已读不回:2}},
+    {text:'表面淡定，暗中观察',sub:'（悄悄更新简历不告诉任何人）',scores:{装忙:2}},
+    {text:'焦虑到睡不着开始失眠',sub:'（饭碗不保的恐惧如影随形）',scores:{崩溃:2}}
+  ]},
+  {q:'你的桌面是什么样的？',opts:[
+    {text:'整洁有序，文件归档',sub:'（你的桌面比你的人生规划还清晰）',scores:{卷王:2}},
+    {text:'乱但我知道东西在哪',sub:'（混乱是一种秩序）',scores:{摸鱼:2}},
+    {text:'摆满了文件装作很忙',sub:'（桌面越乱看起来越忙）',scores:{装忙:2}},
+    {text:'堆满了没心情整理',sub:'（桌面反映了你的内心状态）',scores:{崩溃:2}}
+  ]},
+  {q:'年度体检报告出来了，你？',opts:[
+    {text:'没问题，继续冲',sub:'（你的身体和你的意志一样坚强）',scores:{卷王:2}},
+    {text:'不敢看',sub:'（眼不见为净）',scores:{已读不回:2}},
+    {text:'看了但不当回事',sub:'（年轻就是资本...吧？）',scores:{装忙:2}},
+    {text:'一身毛病，都是加班闹的',sub:'（职业病比职业发展来得快）',scores:{崩溃:2}}
+  ]},
+  {q:'发了年终奖，你第一反应？',opts:[
+    {text:'存起来，继续努力',sub:'（你的理财观念很成熟）',scores:{卷王:2}},
+    {text:'花了它！犒劳自己',sub:'（赚钱就是为了花钱）',scores:{摸鱼:2}},
+    {text:'先还花呗和信用卡',sub:'（年终奖还没捂热就没了）',scores:{装忙:2}},
+    {text:'比预期少，心凉了',sub:'（期望越大失望越大）',scores:{崩溃:2}}
+  ]},
+  {q:'下班后的你通常？',opts:[
+    {text:'回家继续学习提升自己',sub:'（你的竞争对手是昨天的自己）',scores:{卷王:2}},
+    {text:'躺着刷手机到睡觉',sub:'（下班后的灵魂才有归宿）',scores:{摸鱼:2}},
+    {text:'偶尔运动偶尔摆烂',sub:'（间歇性努力持续性摸鱼）',scores:{装忙:2}},
+    {text:'焦虑明天不想去上班',sub:'（周日恐惧症从下午就开始了）',scores:{崩溃:2}}
+  ]},
+  {q:'如果给你一个月带薪假，你会？',opts:[
+    {text:'学习新技能为升职做准备',sub:'（假期也不能浪费）',scores:{卷王:2}},
+    {text:'什么都不干，纯躺平',sub:'（躺着就是最好的休息）',scores:{摸鱼:2}},
+    {text:'出去玩但心里惦记工作',sub:'（人在景区心在工位）',scores:{装忙:2}},
+    {text:'回来还是不想上班',sub:'（假期越长越不想上班）',scores:{崩溃:2}}
+  ]},
+  {q:'你觉得上班最大的意义是？',opts:[
+    {text:'实现自我价值，创造社会贡献',sub:'（你的理想主义让人感动）',scores:{卷王:2}},
+    {text:'赚钱，仅此而已',sub:'（坦诚是打工人最后的美德）',scores:{摸鱼:2}},
+    {text:'有事做，不和社会脱节',sub:'（上班是社交的一种形式）',scores:{装忙:2}},
+    {text:'说实话，我还没找到意义',sub:'（每天都在寻找上班的理由）',scores:{崩溃:2}}
+  ]}
 ];
 
 const personalityTypes = {
@@ -1161,7 +1665,7 @@ function showResult(){
       ${barsHtml}
     </div>
     <div class="result-share-box">
-      <div class="result-share-text">📱 长按截图分享给同事，看看谁更惨</div>
+      <div class="result-share-text">📋 复制结果，看看同事是什么型</div>
       <div class="result-card">
         <div class="result-card-emoji">${type.emoji}</div>
         <div class="result-card-type">我是${type.name}打工人</div>
@@ -1204,7 +1708,7 @@ function fallbackCopy(text){
     document.execCommand('copy');
     showToast('📋 结果已复制，快去分享吧！', 2500);
   } catch(e){
-    showToast('😢 复制失败，请手动截图分享', 2500);
+    showToast('😢 复制失败，请手动复制分享', 2500);
   }
   document.body.removeChild(ta);
 }
